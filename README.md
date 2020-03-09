@@ -4,11 +4,15 @@
 
 ## 팀소개 및 페이지를 꾸며주세요.
 
-- readme.md 수정.
+- 프로젝트 소개
+  - 프로젝트 설치방법 및 데모, 사용방법, 프리뷰등을 readme.md에 작성.
+  - Api나 사용방법등 내용이 많을경우 wiki에 꾸미고 링크 추가.
 
-- index.md 예시보고 수정.
+- 팀페이지 꾸미기
+  - 프로젝트 소개 및 팀원 소개
+  - index.md 예시보고 수정.
 
-- 리파지토리 Settings > Options > GitHub Pages 
+- GitHub Pages 리파지토리 Settings > Options > GitHub Pages 
   - Source를 marster branch
   - Theme Chooser에서 태마선택
   - 수정후 팀페이지 확인하여 점검.
@@ -18,7 +22,7 @@
 **예시)** 2020년 0조  https://kookmin-sw.github.io/capstone-2020-0/
 
 
-## readme파일에 아래와 같은 내용들을 추가하세요.
+## 내용에 아래와 같은 내용들을 추가하세요.
 
 ### 1. 프로잭트 소개
 
