@@ -27,7 +27,7 @@ Professor : 한재일 교수님
 ```
 학번 : 20143033
 역할 : 
-E-mail : 
+E-mail : dh1202kim@gmail.com
 ```
 
 * 곽지훈  
