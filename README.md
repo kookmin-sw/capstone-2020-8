@@ -35,7 +35,7 @@ E-mail : dh1202kim@gmail.com
 ```
 학번 : 2014
 역할 : 
-E-mail : 
+E-mail : kkwakjh@naver.com
 ```
 
 * 김상원 
