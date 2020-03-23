@@ -33,7 +33,7 @@ E-mail : dh1202kim@gmail.com
 * 곽지훈  
 
 ```
-학번 : 2014
+학번 : 20143030
 역할 : 
 E-mail : kkwakjh@naver.com
 ```
