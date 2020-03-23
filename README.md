@@ -58,8 +58,8 @@ E-mail : miyu2095@gmail.com
 
 ```
 학번 : 2014  
-역할 : 
-E-mail : 
+역할 : 안드로이드 어플리케이션
+E-mail : ghdfudrl8@naver.com
 ```
 
 * 소가위 
