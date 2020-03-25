@@ -1,7 +1,7 @@
 <img align = "left" width="20%" height="20%" src="./Image/logo_transparent.png"> # 눈치보이조 (가명)
-
-
-
+<br>
+<br>
+<br>
 --------------
 ### 1. 프로젝트 소개
 -------------
