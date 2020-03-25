@@ -1,5 +1,7 @@
  # 눈치보이조
---------------
+<br/>
+
+
 ### 1. 프로젝트 소개
 --------------
 <center><img width="30%" height="30%" src="./Image/logo_transparent.png"></center>
@@ -20,78 +22,127 @@
 이며 추가로 이미 존재하는 지하철 빠른 환승, 엘리베이터 위치 등의 기존 지하철 정보를 제공하는 시스템과 통합하여 임산부가 편하게 지하철을 이용할 수 있도록 도움을 주는 것이 목표입니다.
 
 ### 2. 소개 영상
+------------------
 
 > (추가 예정)
 
 ### 3. 팀 소개
+-------------------
 
-* Professor : 한재일 교수님
+
 ```
+Professor : 한재일 교수님
+
 역할 : 프로젝트 검수
+
+
 E-mail :jhan@kookmin.ac.kr
-```
-
-* 김도훈(팀장)  
 
 ```
+
+
+```
+김도훈(팀장) 
+
 학번 : 20143033
+
 역할 : 서버 및 아두이노
+
+
+
 E-mail : dh1202kim@gmail.com
 ```
 
-* 곽지훈  
 
 ```
+곽지훈  
+
 학번 : 20143030
+
 역할 : 안드로이드 어플리케이션
+
+
+
 E-mail : kkwakjh@naver.com
 ```
 
-* 김상원 
+
 
 ```
+김상원 
+
 학번 : 20143037 
+
 역할 : 아두이노 및 서버 
+
+
+
+
 E-mail : gini0723@gmail.com
-```
-
-* 명석현  
 
 ```
+
+<img align="left" width="15%" height="15%" img src="./Image/Profile_SeokHyun.jpg" />
+
+```
+명석현 
+
 학번 : 20143056 
+
 역할 :  안드로이드 어플리케이션
+
+
+
+
 E-mail : miyu2095@gmail.com
 ```
 
-* 홍령기 
 
 ```
+홍령기 
+
 학번 : 20143116  
+
 역할 : 안드로이드 어플리케이션
+
+
+
+
 E-mail : ghdfudrl8@naver.com
 ```
 
-* 소가위 
-
 ```
+소가위 
+
 학번 : 20163653  
+
 역할 : 
+
+
+
+
 E-mail : superjovew@gmail.com
 ```
 
 사진 추가 예정
 
 ### 4. 사용법
+----------------------
 
 > 추가 예정
 
 ### 5. Abstract
+----------------------
 
 "Nunchiboyijo" is a pregnant woman care seat reservation application made for pregnant women to ride public transportation more conveniently and easily.
 
 Subway pregnant women currently operated by Korea Transportation Corporation are actually very inconvenient and inconvenient for pregnant women to use. In the case of the pregnant women's seat in the subway operated by the Seoul Transportation Corporation, four pregnant women's stones are in operation per square, but the end is marked with the pregnant women's seat on the chair. Due to this, the majority of other people are sitting on the stone of the pregnant woman, and in the case of the early pregnant woman, it may not be externally visible, so it may be noticeable when receiving concessions or sitting.
 
-'Nunchiboyijo' is trying to improve the seats more comfortably to solve these problems and to guarantee convenience, safety and accessibility to pregnant women. Furthermore, pregnant women do not feel uncomfortable when riding the subway, and they want to make it available when they want to use it at any time. The system to be implemented is roughly integrated with existing subway application functions such as 'system that checks whether a person is sitting in the seat', 'pregnant woman near the seat ', ' seat reservation system through an application ', and 'transfer fast subway, elevator location, etc. System 'can be divided into four parts.
+'Nunchiboyijo' is trying to improve the seats more comfortably to solve these problems and to guarantee convenience, safety and accessibility to pregnant women. Furthermore, pregnant women do not feel uncomfortable when riding the subway, and they want to make it available when they want to use it at any time. The system to be implemented is roughly integrated with existing subway application functions such as 
+- system that checks whether a person is sitting in the seat
+- pregnant woman near the seat
+- seat reservation system through an application
+- and 'transfer fast subway elevator location, etc. 
 
 ### 6. 기타
 
