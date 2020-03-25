@@ -5,11 +5,12 @@
 <br>
 <br>
 <br>
+
 --------------
 ### 1. 프로젝트 소개
--------------
+--------------
 
-현재 운영되고 있는 지하철 임산부석은 실제로 임산부들이 이용하기에 매우 불편하고, 제대로 양보받지 못하는 경우가 빈번합니다. 서울에서 운영 중인 지하철 임산부 배려석의 경우 칸마다 4개의 임산부석이 운영 중이지만, 의자에 임산부석이라고 표시된 것이 끝이며 산모가 배려석 앞에 와도 임산부 배지를 보여주며 직접 양보를 부탁하는 것 이외에 아무런 표시가 없습니다. 
+> 현재 운영되고 있는 지하철 임산부석은 실제로 임산부들이 이용하기에 매우 불편하고, 제대로 양보받지 못하는 경우가 빈번합니다. 서울에서 운영 중인 지하철 임산부 배려석의 경우 칸마다 4개의 임산부석이 운영 중이지만, 의자에 임산부석이라고 표시된 것이 끝이며 산모가 배려석 앞에 와도 임산부 배지를 보여주며 직접 양보를 부탁하는 것 이외에 아무런 표시가 없습니다. 
 
 이로 인해 임산부석에 다른 일반 시민들이 앉아 있는 경우가 대다수이며, 특히 임신 초기의 경우 외부적으로는 임신 여부가 티 나지 않아 임산부 배려석임에도 불구하고 좌석을 양보받지 못하거나 자리 양보를 부탁할 때 눈치를 보는 경우가 많습니다. 
 
@@ -24,20 +25,13 @@
 
 이며 추가로 이미 존재하는 지하철 빠른 환승, 엘리베이터 위치 등의 기존 지하철 정보를 제공하는 시스템과 통합하여 임산부가 편하게 지하철을 이용할 수 있도록 도움을 주는 것이 목표입니다.
 
-### 2. Abstract
+### 2. 소개 영상
 
-"Nunchiboyijo" is a pregnant woman care seat reservation application made for pregnant women to ride public transportation more conveniently and easily.
-Subway pregnant women currently operated by Korea Transportation Corporation are actually very inconvenient and inconvenient for pregnant women to use. In the case of the pregnant women's seat in the subway operated by the Seoul Transportation Corporation, four pregnant women's stones are in operation per square, but the end is marked with the pregnant women's seat on the chair. Due to this, the majority of other people are sitting on the stone of the pregnant woman, and in the case of the early pregnant woman, it may not be externally visible, so it may be noticeable when receiving concessions or sitting.
-'Nunchiboyijo(pseudonym)' is trying to improve the seats more comfortably to solve these problems and to guarantee convenience, safety and accessibility to pregnant women. Furthermore, pregnant women do not feel uncomfortable when riding the subway, and they want to make it available when they want to use it at any time. The system to be implemented is roughly integrated with existing subway application functions such as 'system that checks whether a person is sitting in the seat', 'pregnant woman near the seat ', ' seat reservation system through an application ', and 'transfer fast subway, elevator location, etc. System 'can be divided into four parts.
+> 추가 예정
 
+### 3. 팀 소개
 
-### 3. 소개 영상
-
-추가 예정
-
-### 4. 팀 소개
-
-*Professor : 한재일 교수님
+* Professor : 한재일 교수님
 ```
 역할 : 프로젝트 검수
 E-mail :jhan@kookmin.ac.kr
@@ -64,7 +58,7 @@ E-mail : kkwakjh@naver.com
 ```
 학번 : 20143037 
 역할 : 아두이노 및 서버 
-E-mail : dgw0913@gmail.com
+E-mail : gini0723@gmail.com
 ```
 
 * 명석현  
@@ -91,12 +85,17 @@ E-mail : ghdfudrl8@naver.com
 E-mail : superjovew@gmail.com
 ```
 
-
 사진 추가 예정
 
-### 5. 사용법
+### 4. 사용법
 
 > 추가 예정
+
+### 5. Abstract
+
+> "Nunchiboyijo" is a pregnant woman care seat reservation application made for pregnant women to ride public transportation more conveniently and easily.
+Subway pregnant women currently operated by Korea Transportation Corporation are actually very inconvenient and inconvenient for pregnant women to use. In the case of the pregnant women's seat in the subway operated by the Seoul Transportation Corporation, four pregnant women's stones are in operation per square, but the end is marked with the pregnant women's seat on the chair. Due to this, the majority of other people are sitting on the stone of the pregnant woman, and in the case of the early pregnant woman, it may not be externally visible, so it may be noticeable when receiving concessions or sitting.
+'Nunchiboyijo(pseudonym)' is trying to improve the seats more comfortably to solve these problems and to guarantee convenience, safety and accessibility to pregnant women. Furthermore, pregnant women do not feel uncomfortable when riding the subway, and they want to make it available when they want to use it at any time. The system to be implemented is roughly integrated with existing subway application functions such as 'system that checks whether a person is sitting in the seat', 'pregnant woman near the seat ', ' seat reservation system through an application ', and 'transfer fast subway, elevator location, etc. System 'can be divided into four parts.
 
 ### 6. 기타
 
