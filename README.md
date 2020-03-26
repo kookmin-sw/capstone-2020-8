@@ -27,24 +27,28 @@
 ### 3. 팀 소개
 -------------------
 
-<img align="left" width="15%" height="15%" img src="./Image/Profile_Han.gif" />
+<img align="left" width="150" height="200" img src="./Image/Profile_Han.gif" />
 
 ```
 Professor : 한재일 교수님
 
+
 역할 : 프로젝트 검수
+
+
 
 
 E-mail :jhan@kookmin.ac.kr
 
 ```
 
-<img align="left" width="15%" height="15%" img src="./Image/Profile_Dohoon.png" />
+<img align="left" width="150" height="200" img src="./Image/Profile_Dohoon.png" />
 
 ```
 김도훈(팀장) 
 
 학번 : 20143033
+
 
 역할 : 서버 및 아두이노
 
@@ -53,7 +57,7 @@ E-mail :jhan@kookmin.ac.kr
 E-mail : dh1202kim@gmail.com
 ```
 
-<img align="left" width="15%" height="15%" img src="./Image/Profile_Jihoon.jpg" />
+<img align="left" width="150" height="200" img src="./Image/Profile_Jihoon.jpg" />
 
 ```
 곽지훈  
@@ -67,7 +71,7 @@ E-mail : dh1202kim@gmail.com
 E-mail : kkwakjh@naver.com
 ```
 
-<img align="left" width="15%" height="15%" img src="./Image/Profile_SangWon.jpg" />
+<img align="left" width="150" height="210" img src="./Image/Profile_SangWon.jpg" />
 
 ```
 김상원 
@@ -80,10 +84,9 @@ E-mail : kkwakjh@naver.com
 
 
 E-mail : gini0723@gmail.com
-
 ```
 
-<img align="left" width="15%" height="15%" img src="./Image/Profile_SeokHyun.jpg" />
+<img align="left" width="150" height="200" img src="./Image/Profile_SeokHyun.jpg" />
 
 ```
 명석현 
@@ -98,7 +101,7 @@ E-mail : gini0723@gmail.com
 E-mail : miyu2095@gmail.com
 ```
 
-<img align="left" width="15%" height="15%" img src="./Image/Profile_RyoungKi.jpg" />
+<img align="left" width="150" height="200" img src="./Image/Profile_RyoungKi.jpg" />
 
 ```
 홍령기 
@@ -113,12 +116,14 @@ E-mail : miyu2095@gmail.com
 E-mail : ghdfudrl8@naver.com
 ```
 
+<img align="left" width="150" height="200" img src="./Image/Profile_SoGaWea.jpg" />
+
 ```
 소가위 
 
 학번 : 20163653  
 
-역할 : 
+역할 : 글로벌 현지화
 
 
 
