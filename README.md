@@ -39,7 +39,6 @@ Professor : 한재일 교수님
 
 
 E-mail :jhan@kookmin.ac.kr
-
 ```
 
 <img align="left" width="150" height="200" img src="./Image/Profile_Dohoon.png" />
