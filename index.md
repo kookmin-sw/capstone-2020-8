@@ -39,16 +39,14 @@ Professor : 한재일 교수님
 
 
 E-mail :jhan@kookmin.ac.kr
-
 ```
 
-<img align="left" width="150" height="200" img src="./Image/Profile_Dohoon.png" />
+<img align="left" width="150" height="210" img src="./Image/Profile_Dohoon.png" />
 
 ```
 김도훈(팀장) 
 
 학번 : 20143033
-
 
 역할 : 서버 및 아두이노
 
@@ -86,7 +84,7 @@ E-mail : kkwakjh@naver.com
 E-mail : gini0723@gmail.com
 ```
 
-<img align="left" width="150" height="200" img src="./Image/Profile_SeokHyun.jpg" />
+<img align="left" width="150" height="210" img src="./Image/Profile_SeokHyun.jpg" />
 
 ```
 명석현 
@@ -101,7 +99,7 @@ E-mail : gini0723@gmail.com
 E-mail : miyu2095@gmail.com
 ```
 
-<img align="left" width="150" height="200" img src="./Image/Profile_RyoungKi.jpg" />
+<img align="left" width="150" height="210" img src="./Image/Profile_RyoungKi.jpg" />
 
 ```
 홍령기 
@@ -116,7 +114,7 @@ E-mail : miyu2095@gmail.com
 E-mail : ghdfudrl8@naver.com
 ```
 
-<img align="left" width="150" height="200" img src="./Image/Profile_SoGaWea.jpg" />
+<img align="left" width="150" height="210" img src="./Image/Profile_SoGaWea.jpg" />
 
 ```
 소가위 
@@ -131,7 +129,6 @@ E-mail : ghdfudrl8@naver.com
 E-mail : superjovew@gmail.com
 ```
 
-사진 추가 예정
 
 ### 4. 사용법
 ----------------------
