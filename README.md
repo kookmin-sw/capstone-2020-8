@@ -53,7 +53,7 @@ E-mail :jhan@kookmin.ac.kr
 E-mail : dh1202kim@gmail.com
 ```
 
-<img align="left" width="15%" height="15%" img src="./Image/Profile_Jihoon.jpg" />
+
 ```
 곽지훈  
 
