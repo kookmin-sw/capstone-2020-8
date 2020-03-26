@@ -1,6 +1,7 @@
- # 눈치보이조
+ # :eyes:  눈치보이조:eye:
 <br/>
 
+Team Page : https://kookmin-sw.github.io/capstone-2020-8/
 
 ### 1. 프로젝트 소개
 --------------
@@ -22,7 +23,6 @@
 ### 2. 소개 영상
 ------------------
 
-> (추가 예정)
 
 ### 3. 팀 소개
 -------------------
@@ -41,7 +41,7 @@ Professor : 한재일 교수님
 E-mail :jhan@kookmin.ac.kr
 ```
 
-<img align="left" width="150" height="210" img src="./Image/Profile_Dohoon.png" />
+<img align="left" width="150" height="200" img src="./Image/Profile_Dohoon.png" />
 
 ```
 김도훈(팀장) 
