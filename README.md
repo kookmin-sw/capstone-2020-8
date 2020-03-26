@@ -97,6 +97,7 @@ E-mail : gini0723@gmail.com
 E-mail : miyu2095@gmail.com
 ```
 
+<img align="left" width="15%" height="15%" img src="./Image/Profile_RyoungKi.jpg" />
 
 ```
 홍령기 
