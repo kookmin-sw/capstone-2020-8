@@ -129,7 +129,6 @@ E-mail : ghdfudrl8@naver.com
 E-mail : superjovew@gmail.com
 ```
 
-사진 추가 예정
 
 ### 4. 사용법
 ----------------------
