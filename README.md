@@ -29,6 +29,7 @@
 ### 3. 팀 소개
 -------------------
 
+<img align="left" width="15%" height="15%" img src="./Image/Profile_Han.gif" />
 
 ```
 Professor : 한재일 교수님
@@ -40,6 +41,7 @@ E-mail :jhan@kookmin.ac.kr
 
 ```
 
+<img align="left" width="15%" height="15%" img src="./Image/Profile_Dohoon.png" />
 
 ```
 김도훈(팀장) 
