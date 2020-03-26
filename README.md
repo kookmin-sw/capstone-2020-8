@@ -67,7 +67,7 @@ E-mail : dh1202kim@gmail.com
 E-mail : kkwakjh@naver.com
 ```
 
-<img align="left" width="15%" height="17.5%" img src="./Image/Profile_SangWon.jpg" />
+<img align="left" width="15%" height="15%" img src="./Image/Profile_SangWon.jpg" />
 
 ```
 김상원 
