@@ -23,7 +23,7 @@ Team Page : https://kookmin-sw.github.io/capstone-2020-8/
 ### 2. 소개 영상
 ------------------
 
-[![Video Label](http://img.youtube.com/vi/P0_3al5UZEw/0.jpg)](https://youtu.be/P0_3al5UZEw=0s)
+[![눈치보이조](https://i.imgur.com/uAwDdfD.png)](https://youtu.be/P0_3al5UZEw=0s "눈치보이조")
 
 ### 3. 팀 소개
 -------------------
