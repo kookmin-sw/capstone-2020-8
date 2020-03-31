@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1066448612102",
+    "firebase_url": "https://nunchiboyijo.firebaseio.com",
+    "project_id": "nunchiboyijo",
+    "storage_bucket": "nunchiboyijo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066448612102:android:49fb00692fea85d7758c87",
+        "android_client_info": {
+          "package_name": "com.example.subway_for_pregnant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1066448612102-hsmdmpa70t61jghtn5ejb1ou70ilra35.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlwYaZBLePjgvrtt7_vFZ1iz3e8uUxJaw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1066448612102-hsmdmpa70t61jghtn5ejb1ou70ilra35.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
