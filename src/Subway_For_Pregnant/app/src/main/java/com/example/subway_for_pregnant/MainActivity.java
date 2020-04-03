@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if(user == null){
-            myStartActivity(RegisterActivity.class);
+            myStartActivity(LoginActivity.class);
         }else{
             /*myStartActivity(MemberInitActivity.class);
 
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             switch (v.getId()){
                 case R.id.logoutButton:
                     FirebaseAuth.getInstance().signOut();
-                    myStartActivity(RegisterActivity.class);
+                    myStartActivity(MainActivity.class);
                     break;
             }
         }

@@ -6,8 +6,35 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
 
+    <LinearLayout
+        android:id="@+id/pregnant_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/fregnant_registerNum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:ems="10"
+            android:hint="임산부 등록번호"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/google_sign_in_button"
+            android:text="등록"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="80dp" />
+    </LinearLayout>
+
     <Button
         android:id="@+id/logoutButton"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
