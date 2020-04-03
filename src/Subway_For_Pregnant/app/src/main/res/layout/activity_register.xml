@@ -46,6 +46,14 @@
             android:hint="비밀번호 확인"
             android:inputType="textPassword" />
 
+        <EditText
+            android:id="@+id/registernumberEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="등록번호"
+            android:inputType="textPassword" />
+
         <Button
             android:id="@+id/singUpButton"
             android:layout_width="match_parent"
