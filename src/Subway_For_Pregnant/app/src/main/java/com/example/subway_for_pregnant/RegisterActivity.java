@@ -27,7 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        findViewById(R.id.singUpButton).setOnClickListener(onClickListener);
+        findViewById(R.id.signUpButton).setOnClickListener(onClickListener);
     }
 
    /* @Override
@@ -48,7 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             switch (v.getId()){
-                case R.id.singUpButton:
+                case R.id.signUpButton:
                     signUp();
                     break;
             }

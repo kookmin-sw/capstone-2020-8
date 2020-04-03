@@ -26,13 +26,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         if(user == null){
             myStartActivity(LoginActivity.class);
-        }else{
-            /*myStartActivity(MemberInitActivity.class);
-
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
+        /* } else if { // 임산부 등록번호가 등록되지 않았다면
+            myStartActivity(PregnantInitActivity.class);
             DocumentReference docRef = db.collection("users").document(user.getUid());
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
@@ -58,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             ///
             /// 멤버 정보 등록 화면
             /// 미구현
-
+        // 임산부 등록까지 완료된 유저라면
         }
 
         findViewById(R.id.logoutButton).setOnClickListener(onClickListener);
