@@ -28,6 +28,7 @@ public class LoginActivity extends AppCompatActivity{
 
         findViewById(R.id.loginButton).setOnClickListener(onClickListener);
         findViewById(R.id.registerButton).setOnClickListener(onClickListener);
+        findViewById(R.id.subwayButton).setOnClickListener(onClickListener);
     }
 
 
@@ -41,6 +42,10 @@ public class LoginActivity extends AppCompatActivity{
                 case R.id.registerButton:
                     myStartActivity(RegisterActivity.class);
                     break;
+                case R.id.subwayButton:
+                    myStartActivity(SubwayActivity.class);
+                    break;
+
             }
 
         }

@@ -1,0 +1,7 @@
+#Internal package file, do not edit.
+#Sun Apr 05 17:09:25 KST 2020
+0.baseType=DIRECTORY
+0.base=C\:\\Users\\myu12\\Documents\\capstone-2020-8\\src\\ODsaySDKforAndroid_v2.0\\Sample_ODsaySDKforAndroid\\ODsayAndroidSDKSample\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
+0.path=classes.dex
+0.set=DEX
+count=1

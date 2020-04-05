@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="api">
+        <item>버스 노선 조회</item>
+        <item>버스노선 상세정보 조회</item>
+        <item>버스정류장 세부정보 조회</item>
+        <item>열차•KTX 운행정보 검색</item>
+        <item>고속버스 운행정보 검색</item>
+        <item>시외버스 운행정보 검색</item>
+        <item>항공 운행정보 검색</item>
+        <item>운수회사별 버스노선 조회</item>
+        <item>지하철역 세부 정보 조회</item>
+        <item>지하철역 전체 시간표 조회</item>
+        <item>노선 그래픽 데이터 검색</item>
+        <item>대중교통 정류장 검색</item>
+        <item>반경내 대중교통 POI 검색</item>
+        <item>지도 위 대중교통 POI 검색</item>
+        <item>지하철 경로검색 조회(지하철 노선도)</item>
+        <item>대중교통 길찾기</item>
+        <item>지하철역 환승 정보 조회</item>
+        <item>고속버스 터미널 조회</item>
+        <item>시외버스 터미널 조회</item>
+        <item>도시코드 조회</item>
+    </string-array>
+</resources>
