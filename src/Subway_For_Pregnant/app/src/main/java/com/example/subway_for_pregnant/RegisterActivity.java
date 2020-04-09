@@ -82,7 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     startToast("회원가입에 성공하였습니다.");
                                     dbSetUp(email, password);
-                                    myStartActivity(MainActivity.class);
+                                    myStartActivity(PregnantInitActivity.class);
                                 } else {
                                     if(task.getException() != null){
                                         startToast(task.getException().toString());
@@ -121,9 +121,10 @@ public class RegisterActivity extends AppCompatActivity {
         Map<String, Object> user = new HashMap<>();
         user.put("id", email);
         user.put("password", password);
+        user.put("isPregnant", false);
 
         Log.d(TAG, "user: " + user);
-        Log.d(TAG, "eamil: " + email);
+        Log.d(TAG, "email: " + email);
         Log.d(TAG, "password: " + password);
 
         db.collection("user").document(email)
