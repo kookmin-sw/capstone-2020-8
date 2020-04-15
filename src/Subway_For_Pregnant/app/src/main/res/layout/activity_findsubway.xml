@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/editText_startStat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText_endStat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_startStat" />
+
+    <Button
+        android:id="@+id/button_select_stat"
+        android:layout_width="52dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="8dp"
+        android:text="확인"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_endStat"
+        app:layout_constraintStart_toEndOf="@+id/editText_endStat"
+        app:layout_constraintTop_toTopOf="@+id/editText_startStat" />
+
+    <TextView
+        android:id="@+id/textView_startStat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="출발역"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_startStat"
+        app:layout_constraintEnd_toStartOf="@+id/editText_startStat"
+        app:layout_constraintTop_toTopOf="@+id/editText_startStat" />
+
+    <TextView
+        android:id="@+id/textView_endStat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="도착역"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_endStat"
+        app:layout_constraintEnd_toStartOf="@+id/editText_endStat"
+        app:layout_constraintTop_toTopOf="@+id/editText_endStat" />
+
+    <TextView
+        android:id="@+id/tv_data2"
+        android:layout_width="343dp"
+        android:layout_height="245dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_endStat" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

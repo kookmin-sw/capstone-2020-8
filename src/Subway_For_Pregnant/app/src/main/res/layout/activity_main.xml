@@ -72,6 +72,12 @@
             android:layout_height="wrap_content"
             android:text="지하철 TEST" />
 
+        <Button
+            android:id="@+id/subwayButton2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="지하철 TEST2" />
+
     </LinearLayout>
 
 </LinearLayout>
