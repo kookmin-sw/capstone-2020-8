@@ -81,7 +81,6 @@ public class LoginActivity extends AppCompatActivity{
 
 
     private void startToast(String msg){
-
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 

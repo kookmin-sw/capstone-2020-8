@@ -19,8 +19,11 @@ import com.odsay.odsayandroidsdk.ODsayData;
 import com.odsay.odsayandroidsdk.ODsayService;
 import com.odsay.odsayandroidsdk.OnResultCallbackListener;
 
-import org.json.JSONException;
+import org.json.simple.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONException;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.util.Map;
 
@@ -93,12 +96,27 @@ public class SubwayActivity extends AppCompatActivity {
     private OnResultCallbackListener onResultCallbackListener = new OnResultCallbackListener() {
         @Override
         public void onSuccess(ODsayData oDsayData, API api) {
+
             jsonObject = oDsayData.getJson();
+
             mapObject = oDsayData.getMap();
-            if (rg_object_type.getCheckedRadioButtonId() == rb_json.getId()) {
-                tv_data.setText(jsonObject.toString());
-            } else if (rg_object_type.getCheckedRadioButtonId() == rb_map.getId()) {
-                tv_data.setText(mapObject.toString());
+
+            try {
+
+                if (rg_object_type.getCheckedRadioButtonId() == rb_json.getId()) {
+
+
+                    tv_data.setText(jsonObject.toString());
+
+                    String StartStation = jsonObject.getJSONObject("result").getString("globalStartName");
+
+                    Log.d("globalStartName : %s", StartStation);
+                } else if (rg_object_type.getCheckedRadioButtonId() == rb_map.getId()) {
+                    tv_data.setText(mapObject.toString());
+                }
+            }
+            catch (JSONException e){
+                e.printStackTrace();
             }
         }
 
@@ -107,6 +125,10 @@ public class SubwayActivity extends AppCompatActivity {
             tv_data.setText("API : " + api.name() + "\n" + errorMessage);
         }
     };
+
+
+
+
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -155,7 +177,7 @@ public class SubwayActivity extends AppCompatActivity {
                     odsayService.requestBoundarySearch("127.045478316811:37.68882830829:127.055063420699:37.6370465749586", "127.045478316811:37.68882830829:127.055063420699:37.6370465749586", "1:2", onResultCallbackListener);
                     break;
                 case "지하철 경로검색 조회(지하철 노선도)":
-                    odsayService.requestSubwayPath("1000", "201", "222", "1", onResultCallbackListener);
+                    odsayService.requestSubwayPath("1000", "201", "202", "1", onResultCallbackListener);
                     break;
                 case "대중교통 길찾기":
                     odsayService.requestSearchPubTransPath("126.926493082645", "37.6134436427887", "127.126936754911", "37.5004198786564", "0", "0", "0", onResultCallbackListener);
