@@ -24,6 +24,7 @@ import java.util.Map;
 
 public class PregnantInitActivity extends AppCompatActivity {
     private static final String TAG = "myTag";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,44 +44,45 @@ public class PregnantInitActivity extends AppCompatActivity {
         }
     };
 
-    private void pregnant_register(){
+    private synchronized void pregnant_register() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         final String email = user.getEmail();
-        final String name = ((EditText)findViewById(R.id.pregnant_name)).getText().toString();
-        final String cardNum = ((EditText)findViewById(R.id.pregnant_cardNum)).getText().toString();
+        final String inputName = ((EditText) findViewById(R.id.pregnant_name)).getText().toString();
+        final String inputCardNum = ((EditText) findViewById(R.id.pregnant_cardNum)).getText().toString();
 
         final Map<String, Object> updateUser = new HashMap<>();
-        updateUser.put("name", name);
-        updateUser.put("cardNum", cardNum);
+        updateUser.put("name", inputName);
+        updateUser.put("cardNum", inputCardNum);
         updateUser.put("isPregnant", true);
 
-        CollectionReference initRef = db.collection("pregnant_init");
-
-        Query query = initRef.whereEqualTo("name", name).whereEqualTo("cardNum", cardNum);
-        query.get()
+        db.collection("pregnant_init").whereEqualTo("name", inputName).whereEqualTo("cardNum", inputCardNum)
+                .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        Log.d(TAG, String.valueOf(task.isSuccessful()));
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                // Log.d(TAG, document.getId() + " => " + document.getData().get("name"));
+                                Log.d(TAG, String.valueOf(updateUser));
+                                Log.d(TAG, String.valueOf(email));
+                                db.collection("user").document(email).update(updateUser);
+                                myStartActivity(MainActivity.class);
                             }
-                            db.collection("user").document(email)
-                                    .update(updateUser);
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
                 });
-
-        // setContentView(R.layout.activity_main2);
-        myStartActivity(MainActivity.class);
+        // 에러 팝업 메시지 추가
+        // 동기식으로 처리해야함. 아직 구현 X
+        myStartActivity(PregnantInitActivity.class);
     }
 
-    private void myStartActivity(Class c){
-        Intent intent=new Intent(this,c);
+    private void myStartActivity(Class c) {
+        Intent intent = new Intent(this, c);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
