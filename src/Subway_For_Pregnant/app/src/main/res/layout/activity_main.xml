@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:gravity="center"
-        android:text='"부제"'
+        android:text="눈치보이조"
         android:textSize="24sp"
         android:textStyle="bold" />
 
