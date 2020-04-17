@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         findViewById(R.id.logoutButton).setOnClickListener(onClickListener);
+        findViewById(R.id.trainbutton).setOnClickListener(onClickListener);
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -95,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
                     FirebaseAuth.getInstance().signOut();
                     myStartActivity(MainActivity.class);
                     break;
+                case R.id.trainbutton:
+                    myStartActivity(TrainActivity.class);
             }
         }
     };
