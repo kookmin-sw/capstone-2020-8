@@ -47,13 +47,13 @@ public class LoginActivity extends AppCompatActivity{
                     myStartActivity(SubwayActivity.class);
                     break;
                 case R.id.subwayButton2:
-                    myStartActivity(FindSubwayActivity.class);
+                    //myStartActivity(FindSubwayActivity.class);
+                    myStartActivity(ViewSeatsActivity.class);
                     break;
-
             }
-
         }
     };
+
     private void login() {
 
         String email = ((EditText) findViewById(R.id.emailEditText)).getText().toString();

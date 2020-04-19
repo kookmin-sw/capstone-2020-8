@@ -24,10 +24,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".FindSubwayActivity"></activity>
         <activity android:name=".RegisterActivity"></activity>
         <activity android:name=".PregnantInitActivity"></activity>
         <activity android:name=".SubwayActivity"></activity>
         <activity android:name=".TrainActivity"></activity>
+        <activity android:name=".ViewSeatsActivity"></activity>
     </application>
 
 </manifest>
