@@ -21,5 +21,15 @@
     <string name="menu_scan">Scan</string>
     <string name="menu_stop">Stop</string>
     <string name="menu_refresh">Refresh</string>
+    <string name="intro_message">
+        <![CDATA[
+
+
+            This sample demonstrates how to use the Bluetooth LE Generic Attribute Profile (GATT)
+            to transmit arbitrary data between devices.
+
+
+        ]]>
+    </string>
 
 </resources>

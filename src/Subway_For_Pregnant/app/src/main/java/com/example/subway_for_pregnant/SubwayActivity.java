@@ -106,11 +106,27 @@ public class SubwayActivity extends AppCompatActivity {
                 if (rg_object_type.getCheckedRadioButtonId() == rb_json.getId()) {
 
 
-                    tv_data.setText(jsonObject.toString());
+                    //tv_data.setText(jsonObject.toString());
 
-                    String StartStation = jsonObject.getJSONObject("result").getString("globalStartName");
 
-                    Log.d("globalStartName : %s", StartStation);
+                    tv_data.setText(
+                            "출발역 : " +jsonObject.getJSONObject("result").getString("globalStartName")
+                            +"\n"
+                            +"도착역 : " +jsonObject.getJSONObject("result").getString("globalEndName")
+                            +"\n"
+                            +"걸리는 시간 : " +jsonObject.getJSONObject("result").getInt("globalTravelTime") + "분"
+                            +"\n"
+                            +"총 거리: " +jsonObject.getJSONObject("result").getInt("globalDistance") + "km"
+                            +"\n"
+                            +"총 정거장 : " +jsonObject.getJSONObject("result").getInt("globalStationCount") + "정거장"
+                            +"\n"
+                            +"카드요금 : " +jsonObject.getJSONObject("result").getInt("fare") + "원"
+                            +"\n"
+                            +"현금 : " +jsonObject.getJSONObject("result").getInt("cashFare") + "원"
+                            );
+
+
+
                 } else if (rg_object_type.getCheckedRadioButtonId() == rb_map.getId()) {
                     tv_data.setText(mapObject.toString());
                 }
@@ -177,7 +193,7 @@ public class SubwayActivity extends AppCompatActivity {
                     odsayService.requestBoundarySearch("127.045478316811:37.68882830829:127.055063420699:37.6370465749586", "127.045478316811:37.68882830829:127.055063420699:37.6370465749586", "1:2", onResultCallbackListener);
                     break;
                 case "지하철 경로검색 조회(지하철 노선도)":
-                    odsayService.requestSubwayPath("1000", "201", "202", "1", onResultCallbackListener);
+                    odsayService.requestSubwayPath("1000", "201", "222", "1", onResultCallbackListener);
                     break;
                 case "대중교통 길찾기":
                     odsayService.requestSearchPubTransPath("126.926493082645", "37.6134436427887", "127.126936754911", "37.5004198786564", "0", "0", "0", onResultCallbackListener);
