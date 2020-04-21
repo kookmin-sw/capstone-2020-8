@@ -231,6 +231,7 @@ public class DeviceScanActivity extends ListActivity {
                 viewHolder.deviceName.setText(R.string.unknown_device);
             viewHolder.deviceAddress.setText(device.getAddress());
 
+
             return view;
         }
     }
@@ -254,5 +255,6 @@ public class DeviceScanActivity extends ListActivity {
     static class ViewHolder {
         TextView deviceName;
         TextView deviceAddress;
+        TextView deviceUUID;
     }
 }
