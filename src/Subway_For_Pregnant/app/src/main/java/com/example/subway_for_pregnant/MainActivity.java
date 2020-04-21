@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                     myStartActivity(MainActivity.class);
                     break;
                 case R.id.trainbutton:
-                    myStartActivity(TrainActivity.class);
+                    myStartActivity(FindSubwayActivity.class);
                 case R.id.bluetoothButton:
                     myStartActivity(DeviceScanActivity.class);
             }

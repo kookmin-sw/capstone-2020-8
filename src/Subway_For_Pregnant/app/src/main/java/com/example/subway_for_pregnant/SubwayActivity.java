@@ -29,6 +29,8 @@ import java.util.Map;
 
 public class SubwayActivity extends AppCompatActivity {
 
+    // 사용하지 않는 activity
+
     private Spinner sp_api;
     private RadioGroup rg_object_type;
     private RadioButton rb_json, rb_map;

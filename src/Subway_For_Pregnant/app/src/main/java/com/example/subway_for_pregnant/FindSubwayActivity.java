@@ -88,6 +88,9 @@ public class FindSubwayActivity extends AppCompatActivity {
                 tv_data.setText("ㅁㄴㅇㄻㄴㅇㄹ");
                 e.printStackTrace();
             } */
+
+// 혹시 모르니 파싱 데이터 내비둘것 2020.04.22
+
         }
 
         @Override
