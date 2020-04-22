@@ -40,6 +40,7 @@ public class PregnantInitActivity extends AppCompatActivity {
             switch (v.getId()) {
                 case R.id.pregnantRegisterButton:
                     pregnant_register();
+
                     break;
             }
         }
@@ -58,7 +59,8 @@ public class PregnantInitActivity extends AppCompatActivity {
             updateUser.put("cardNum", inputCardNum);
             updateUser.put("isPregnant", true);
 
-            synchronized (this) {
+
+        synchronized (this) {
             db.collection("pregnant_init").whereEqualTo("name", inputName).whereEqualTo("cardNum", inputCardNum)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
