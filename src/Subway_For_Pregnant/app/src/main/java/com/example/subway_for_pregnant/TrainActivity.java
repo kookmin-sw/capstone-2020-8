@@ -1,9 +1,11 @@
 package com.example.subway_for_pregnant;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,11 +13,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TrainActivity extends AppCompatActivity {
+
+    private static final String TAG = "TrainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,13 +75,38 @@ public class TrainActivity extends AppCompatActivity {
         tv_sample.setText(showResult);
 
         final ListView listView = findViewById(R.id.listView);
+
+
+        //DB 선언
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DocumentReference documentReference = db.collection("subway").document("static").collection("10car");
+
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+
+
         listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
-                new String[]{"4556번","4557번","4558번","4559번","4560번","4561번"}));
+                new String[] {"4998번","4999번","5000번"}));
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), position+" 번째 값 : " + parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), position+" 번째 값 : " + parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
                 myStartActivity(ViewSeatsActivity.class);
 
             }
