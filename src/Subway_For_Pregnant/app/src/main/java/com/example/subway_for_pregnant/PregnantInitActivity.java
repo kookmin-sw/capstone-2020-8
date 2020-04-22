@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,46 +45,54 @@ public class PregnantInitActivity extends AppCompatActivity {
         }
     };
 
-    private synchronized void pregnant_register() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private void pregnant_register() {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        final String email = user.getEmail();
-        final String inputName = ((EditText) findViewById(R.id.pregnant_name)).getText().toString();
-        final String inputCardNum = ((EditText) findViewById(R.id.pregnant_cardNum)).getText().toString();
+            final String email = user.getEmail();
+            final String inputName = ((EditText) findViewById(R.id.pregnant_name)).getText().toString();
+            final String inputCardNum = ((EditText) findViewById(R.id.pregnant_cardNum)).getText().toString();
 
-        final Map<String, Object> updateUser = new HashMap<>();
-        updateUser.put("name", inputName);
-        updateUser.put("cardNum", inputCardNum);
-        updateUser.put("isPregnant", true);
+            final Map<String, Object> updateUser = new HashMap<>();
+            updateUser.put("name", inputName);
+            updateUser.put("cardNum", inputCardNum);
+            updateUser.put("isPregnant", true);
 
-        db.collection("pregnant_init").whereEqualTo("name", inputName).whereEqualTo("cardNum", inputCardNum)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        Log.d(TAG, String.valueOf(task.isSuccessful()));
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                // Log.d(TAG, document.getId() + " => " + document.getData().get("name"));
-                                Log.d(TAG, String.valueOf(updateUser));
-                                Log.d(TAG, String.valueOf(email));
-                                db.collection("user").document(email).update(updateUser);
-                                myStartActivity(MainActivity.class);
+            synchronized (this) {
+            db.collection("pregnant_init").whereEqualTo("name", inputName).whereEqualTo("cardNum", inputCardNum)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            Log.d(TAG, String.valueOf(task.isSuccessful()));
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, String.valueOf(updateUser));
+                                    Log.d(TAG, String.valueOf(email));
+                                    db.collection("user").document(email).update(updateUser);
+                                    Log.d(TAG, document.getData().get("name") + " + " + inputName);
+                                    Log.d(TAG, document.getData().get("cardNum") + " + " + inputCardNum);
+                                    myStartActivity(MainActivity.class);
+                                    return;
+                                }
+                                startToast("이름 혹은 카드번호를 확인해주세요.");
+                                myStartActivity(PregnantInitActivity.class);
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
                             }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
+
                         }
-                    }
-                });
-        // 에러 팝업 메시지 추가
-        // 동기식으로 처리해야함. 아직 구현 X
-        myStartActivity(PregnantInitActivity.class);
+                    });
+        }
     }
 
     private void myStartActivity(Class c) {
         Intent intent = new Intent(this, c);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    private void startToast(String msg){
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }

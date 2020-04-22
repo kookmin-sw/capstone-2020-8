@@ -17,6 +17,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity{
     private FirebaseAuth mAuth;
+    private long backKeyPressedTime = 0;
+    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +80,6 @@ public class LoginActivity extends AppCompatActivity{
                         }
                     });
         } else {
-
             startToast("이메일 또는 비밀번호를 입력해 주세요.");
         }
     }
@@ -92,5 +93,22 @@ public class LoginActivity extends AppCompatActivity{
         Intent intent=new Intent(this,c);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+            backKeyPressedTime = System.currentTimeMillis();
+            toast = Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+            toast.cancel();
+
+            finishAffinity();
+            System.runFinalization();
+            System.exit(0);
+        }
     }
 }
