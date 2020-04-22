@@ -56,7 +56,6 @@
         </service>
         <activity android:name=".Ready2Activity">
         </activity>
-
     </application>
 
 </manifest>
