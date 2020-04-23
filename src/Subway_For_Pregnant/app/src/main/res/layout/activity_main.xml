@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:gravity="center"
-        android:text='"부제"'
+        android:text="눈치보이조"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -24,6 +24,7 @@
         android:paddingEnd="5dp">
 
         <androidx.cardview.widget.CardView
+            android:layout_gravity="center"
             android:layout_width="200dp"
             android:layout_height="200dp"
             app:cardCornerRadius="100dp" >
@@ -32,7 +33,7 @@
                 android:id="@+id/imageView2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:srcCompat="@tools:sample/backgrounds/scenic" />
+                app:srcCompat="@drawable/icon" />
         </androidx.cardview.widget.CardView>
 
         <EditText
@@ -64,6 +65,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="회원가입" />
+
+
+        <!--
+        <Button
+            android:id="@+id/subwayButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="지하철 TEST" />
+
+        <Button
+            android:id="@+id/subwayButton2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="지하철 TEST2" />
+            -->
+
     </LinearLayout>
 
 </LinearLayout>

@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':ODsayAndroidSDK'
 rootProject.name='Subway_For_Pregnant'

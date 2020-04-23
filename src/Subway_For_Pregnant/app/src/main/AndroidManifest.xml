@@ -2,19 +2,63 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.subway_for_pregnant">
 
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:targetSdkVersion="29"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".LoginActivity">
+
+        </activity>
+        <activity android:name=".RegisterActivity">
+
+        </activity>
+        <activity android:name=".PregnantInitActivity">
+
+        </activity>
+        <activity android:name=".SubwayActivity">
+
+        </activity>
+
+        <activity android:name=".FindSubwayActivity">
+
+        </activity>
+        <activity android:name=".TrainActivity">
+
+        </activity>
+
+        <activity android:name=".ViewSeatsActivity">
+
+        </activity>
+        <activity android:name=".DeviceScanActivity"
+            android:label="@string/app_name"
+            android:theme="@style/ActionBarTheme">
+        </activity>
+        <activity android:name=".DeviceControlActivity"
+            android:theme="@style/ActionBarTheme">
+        </activity>
+        <service android:name=".BluetoothLeService" android:enabled="true">
+
+        </service>
+        <activity android:name=".Ready2Activity">
+        </activity>
+        <activity android:name=".SampleBluetoothActivity">
+
         </activity>
     </application>
 

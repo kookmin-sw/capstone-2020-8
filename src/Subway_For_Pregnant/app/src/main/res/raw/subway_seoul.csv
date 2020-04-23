@@ -1,0 +1,728 @@
+전철역코드,전철역명,전철명명(영문),호선,외부코드
+1026,구룡,Guryong,분당선,k218
+1208,덕소,Deokso,경의선,K126
+1209,도심,Dosim,경의선,K127
+1210,팔당,Paldang,경의선,K128
+1211,운길산,Ungilsan,경의선,K129
+1212,양수,Yangsu,경의선,K130
+1213,신원,Sinwon,경의선,K131
+1214,국수,Guksu,경의선,K132
+1215,아신,Asin,경의선,K133
+1216,오빈,Obin,경의선,K134
+1217,양평,Yangpyeong,경의선,K135
+1219,용문,Yongmun,경의선,K137
+1220,지평,Jipyeong,경의선,K138
+1251,서울역,Seoul Station,경의선,P313
+1252,신촌,Sinchon,경의선,P312
+1266,디지털미디어시티,Digital Media City,경의선,K316
+1267,수색,Susaek,경의선,K317
+1269,강매,Gangmae,경의선,K319
+1270,행신,Haengsin,경의선,K320
+1271,능곡,Neunggok,경의선,K321
+1272,곡산,Goksan,경의선,K323
+1273,백마,Baengma,경의선,K324
+1275,일산,Ilsan,경의선,K326
+1276,탄현,Tanhyeon,경의선,K327
+1277,야당,Yadang,경의선,K328
+1279,금릉,Geumneung,경의선,K330
+1307,회기,Hoegi,경춘선,P118
+1317,평내호평,PyeongnaeHopyeong,경춘선,P128
+1318,천마산,Cheonmasan,경춘선,P129
+1319,마석,Maseok,경춘선,P130
+1320,대성리,Daeseong-ri,경춘선,P131
+1321,청평,Cheongpyeong,경춘선,P132
+1323,가평,Gapyeong,경춘선,P134
+1408,신창,Sinchang,01호선,P177
+1450,선바위,Seonbawi,04호선,435
+1451,경마공원,Seoul Racecourse Park,04호선,436
+1452,대공원,Seoul Grand Park,04호선,437
+1453,과천,Gwacheon,04호선,438
+1454,정부과천청사,Government Complex Gwacheon,04호선,439
+1457,범계,Beomgye,04호선,442
+1458,금정,Geumjeong,04호선,443
+1503,삼동,Samdong,경강선,K412
+1505,초월,Chowol,경강선,K414
+1506,곤지암,Gonjiam,경강선,K415
+1508,이천,Icheon,경강선,K417
+1510,세종대왕릉,Sejongdaewangneung,경강선,K419
+321,충무로,Chungmuro,03호선,331
+325,옥수,Oksu,03호선,335
+1030,수서,Suseo,분당선,K221
+1504,경기광주,GyeonggiGwangju,경강선,K413
+1702,가산디지털단지,Gasan Digital Complex,01호선,P142
+1703,금천구청,Geumcheon-Gu Office,01호선,P144
+1704,석수,Seoksu,01호선,P145
+1705,관악,Gwanak,01호선,P146
+1706,안양,Anyang,01호선,P147
+1707,명학,Myeonghak,01호선,P148
+1708,금정,Geumjeong,01호선,P149
+1710,의왕,Uiwang,01호선,P152
+1711,성균관대,Sungkyunkwan Univ.,01호선,P153
+1712,화서,Hwaseo,01호선,P154
+1714,독산,Doksan,01호선,P143
+1715,세류,Seryu,01호선,P156
+1716,병점,Byeongjeom,01호선,P157
+1717,세마,Sema,01호선,P158
+1718,오산대,Osan College,01호선,P159
+1719,오산,Osan,01호선,P160
+1721,송탄,Songtan,01호선,P162
+1722,서정리,Seojeong-ri,01호선,P163
+1724,평택,Pyeongtaek,01호선,P165
+1725,성환,Seonghwan,01호선,P166
+1726,직산,Jiksan,01호선,P167
+1728,천안,Cheonan,01호선,P169
+1749,서동탄,Seodongtan,01호선,P157-1
+1750,광명,Gwangmyeong,01호선,P144-1
+1751,산본,Sanbon,04호선,444
+1752,대야미,Daeyami,04호선,446
+1753,반월,Banwol,04호선,447
+1754,상록수,Sangnoksu,04호선,448
+1755,한대앞,Hanyang Univ. at Ansan,04호선,449
+1802,오류동,Oryu-dong,01호선,144
+1803,역곡,Yeokgok,01호선,146
+1805,송내,Songnae,01호선,150
+431,동작,Dongjak,04호선,431
+1031,복정,Bokjeong,분당선,K222
+1806,부평,Bupyeong,01호선,152
+1807,백운,Baegun,01호선,153
+1812,인천,Incheon,01호선,161
+1813,구일,Guil,01호선,142
+1814,소사,Sosa,01호선,147
+1815,부개,Bugae,01호선,151
+1816,간석,Ganseok,01호선,155
+1817,도원,Dowon,01호선,159
+1849,강남구청,Gangnam-gu Office,분당선,K213
+1851,가천대,Gachon Univ.,분당선,K223
+1859,오리,Ori,분당선,K232
+1860,이매,Imae,분당선,K227
+1861,보정,Bojeong,분당선,K234
+1862,죽전,Jukjeon,분당선,K233
+1864,신갈,Singal,분당선,K236
+1866,상갈,Sanggal,분당선,K238
+1869,망포,Mangpo,분당선,K241
+1870,매탄권선,MaetanGwonseon,분당선,K242
+1871,수원시청,Suwon City Hall,분당선,K243
+1878,달월,Dalwol,수인선,K251
+1879,월곶,Wolgot,수인선,K252
+1880,소래포구,Soraepogu,수인선,K253
+1881,인천논현,Incheon Nonhyeon,수인선,K254
+1882,호구포,Hogupo,수인선,K255
+1883,남동인더스파크,Namdong Induspark,수인선,K256
+1884,원인재,Woninjae,수인선,K257
+1885,연수,Yeonsu,수인선,K258
+1889,숭의,Sungui,수인선,K262
+1890,신포,Sinpo,수인선,K263
+1891,인천,Incheon,수인선,K264
+1901,방학,Banghak,01호선,115
+1912,지행,Jihaeng,01호선,104
+1913,동두천중앙,Dongducheon jungang,01호선,103
+1914,보산,Bosan,01호선,102
+1915,동두천,Dongducheon,01호선,101
+1916,소요산,Soyosan,01호선,100
+1948,원흥,Wonheung,03호선,317
+1950,삼송,Samsong,03호선,318
+432,총신대입구,Chongshin Univ.,04호선,432
+1009,서빙고,Seobinggo,경의선,K112
+1951,원당,Wondang,03호선,316
+1953,대곡,Daegok,03호선,314
+1954,백석,Baekseok,03호선,313
+1956,정발산,Jeongbalsan,03호선,311
+1957,주엽,Juyeop,03호선,310
+2512,개화산,Gaehwasan,05호선,511
+2513,김포공항,Gimpo Intl. Airport,05호선,512
+2514,송정,Songjeong,05호선,513
+2515,마곡,Magok,05호선,514
+2516,발산,Balsan,05호선,515
+2517,우장산,Ujangsan,05호선,516
+2522,오목교,Omokgyo,05호선,521
+2523,양평,Yangpyeong,05호선,522
+2524,영등포구청,Yeongdeungpo-gu Office,05호선,523
+2525,영등포시장,Yeongdeungpo Market,05호선,524
+2526,신길,Singil,05호선,525
+2527,여의도,Yeouido,05호선,526
+2528,여의나루,Yeouinaru,05호선,527
+2529,마포,Mapo,05호선,528
+2531,애오개,Aeogae,05호선,530
+2532,충정로,Chungjeongno,05호선,531
+2533,서대문,Seodaemun,05호선,532
+2534,광화문,Gwanghwamun,05호선,533
+2535,종로3가,Jongno 3(sam)-ga,05호선,534
+2536,을지로4가,Euljiro 4(sa)-ga,05호선,535
+2537,동대문역사문화공원,Dongdaemun History  Culture Park,05호선,536
+2538,청구,Cheonggu,05호선,537
+2539,신금호,Singeumho,05호선,538
+2544,장한평,Janghanpyeong,05호선,543
+2546,아차산,Achasan,05호선,545
+434,남태령,Namtaeryeong,04호선,434
+2547,광나루,Gwangnaru,05호선,546
+2548,천호,Cheonho,05호선,547
+2549,강동,Gangdong,05호선,548
+2550,길동,Gil-dong,05호선,549
+2551,굽은다리,Gubeundari,05호선,550
+2552,명일,Myeongil,05호선,551
+2553,고덕,Godeok,05호선,552
+2554,상일동,Sangil-dong,05호선,553
+2555,둔촌동,Dunchon-dong,05호선,P549
+2556,올림픽공원,Olympic Park,05호선,P550
+2557,방이,Bangi,05호선,P551
+2558,오금,Ogeum,05호선,P552
+2559,개롱,Gaerong,05호선,P553
+2560,거여,Geoyeo,05호선,P554
+2561,마천,Macheon,05호선,P555
+2611,응암,Eungam,06호선,610
+2612,역촌,Yeokchon,06호선,611
+2613,불광,Bulgwang,06호선,612
+2614,독바위,Dokbawi,06호선,613
+2618,증산,Jeungsan,06호선,617
+2619,디지털미디어시티,Digital Media City,06호선,618
+2620,월드컵경기장,World Cup Stadium,06호선,619
+2622,망원,Mangwon,06호선,621
+2625,광흥창,Gwangheungchang,06호선,624
+2626,대흥,Daeheung,06호선,625
+2627,공덕,Gongdeok,06호선,626
+2628,효창공원앞,Hyochang park,06호선,627
+2629,삼각지,Samgakji,06호선,628
+2630,녹사평,Noksapyeong,06호선,629
+2631,이태원,Itaewon,06호선,630
+2632,한강진,Hangangjin,06호선,631
+2634,약수,Yaksu,06호선,633
+414,수유,Suyu,04호선,414
+1025,도곡,Dogok,분당선,K217
+2635,청구,Cheonggu,06호선,634
+2636,신당,Sindang,06호선,635
+2637,동묘앞,Dongmyo,06호선,636
+2638,창신,Changsin,06호선,637
+2639,보문,Bomun,06호선,638
+2641,고려대,Korea Univ.,06호선,640
+2642,월곡,Wolgok,06호선,641
+2645,석계,Seokgye,06호선,644
+2646,태릉입구,Taereung,06호선,645
+2648,봉화산,Bonghwasan,06호선,647
+2649,신내,Sinnae,06호선,648
+2711,장암,Jangam,07호선,709
+2712,도봉산,Dobongsan,07호선,710
+2713,수락산,Suraksan,07호선,711
+2715,노원,Nowon,07호선,713
+2717,하계,Hagye,07호선,715
+2719,태릉입구,Taereung,07호선,717
+2720,먹골,Meokgol,07호선,718
+2721,중화,Junghwa,07호선,719
+2722,상봉,Sangbong,07호선,720
+2723,면목,Myeonmok,07호선,721
+2725,용마산,Yongmasan,07호선,723
+2726,중곡,Junggok,07호선,724
+2728,어린이대공원,Children`s  Grand Park,07호선,726
+2729,건대입구,Konkuk Univ.,07호선,727
+2730,뚝섬유원지,Ttukseom Park,07호선,728
+2731,청담,Cheongdam,07호선,729
+2732,강남구청,Gangnam-gu Office,07호선,730
+2733,학동,Hak-dong,07호선,731
+2734,논현,Nonhyeon,07호선,732
+2735,반포,Banpo,07호선,733
+326,압구정,Apgujeong,03호선,336
+2736,고속터미널,Express Bus Terminal,07호선,734
+2738,이수,Isu,07호선,736
+2739,남성,Namseong,07호선,737
+2740,숭실대입구,Soongsil Univ.,07호선,738
+2741,상도,Sangdo,07호선,739
+2742,장승배기,Jangseungbaegi,07호선,740
+2743,신대방삼거리,Sindaebangsamgeori,07호선,741
+2744,보라매,Boramae,07호선,742
+2745,신풍,Sinpung,07호선,743
+2746,대림,Daerim,07호선,744
+2747,남구로,Namguro,07호선,745
+2748,가산디지털단지,Gasan Digital Complex,07호선,746
+2749,철산,Cheolsan,07호선,747
+2750,광명사거리,Gwangmyeongsageori,07호선,748
+2751,천왕,Cheonwang,07호선,749
+2752,온수,Onsu,07호선,750
+2753,까치울,Kkachiul,07호선,751
+2754,부천종합운동장,Bucheon Stadium,07호선,752
+2755,춘의,Chunui,07호선,753
+2756,신중동,Sinjung-dong,07호선,754
+2757,부천시청,Bucheon City Hall,07호선,755
+2758,상동,Sang-dong,07호선,756
+2759,삼산체육관,Samsan Gymnasium,07호선,757
+2760,굴포천,Gulpocheon,07호선,758
+2761,부평구청,Bupyeong-gu Office,07호선,759
+2813,강동구청,Gangdong-gu Office,08호선,812
+2814,몽촌토성,Mongchontoseong,08호선,813
+2816,석촌,Seokchon,08호선,815
+2817,송파,Songpa,08호선,816
+2818,가락시장,Garak Market,08호선,817
+2819,문정,Munjeong,08호선,818
+2820,장지,Jangji,08호선,819
+2821,복정,Bokjeong,08호선,820
+316,독립문,Dongnimmun,03호선,326
+1032,신길,Singil,01호선,138
+1201,중랑,Jungnang,경의선,K119
+1202,상봉,Sangbong,경의선,K120
+1203,망우,Mangu,경의선,K121
+1204,양원,Yangwon,경의선,K122
+1205,구리,Guri,경의선,K123
+1206,도농,Donong,경의선,K124
+2822,산성,Sanseong,08호선,821
+2823,남한산성입구,Namhansanseong,08호선,822
+2824,단대오거리,Dandaeogeori,08호선,823
+2825,신흥,Sinheung,08호선,824
+2827,모란,Moran,08호선,826
+3110,계양,Gyeyang,인천선,I110
+3123,간석오거리,Ganseogogeori,인천선,I123
+3129,신연수,Sinyeonsu,인천선,I129
+3130,원인재,Woninjae,인천선,I130
+3133,캠퍼스타운,Campus Town,인천선,I133
+3134,테크노파크,Technopark,인천선,I134
+3214,서부여성회관,West Woman's Community Center,인천2호선,I214
+3215,인천가좌,Incheon Gajwa,인천2호선,I215
+3216,가재울,Gajaeul,인천2호선,I216
+4106,양천향교,Yangcheon Hyanggyo,09호선,906
+4107,가양,Gayang,09호선,907
+4108,증미,Jeungmi,09호선,908
+4112,선유도,Seonyudo,09호선,912
+4113,당산,Dangsan,09호선,913
+4114,국회의사당,National Assembly,09호선,914
+4118,노들,Nodeul,09호선,918
+4119,흑석,Heukseok,09호선,919
+4120,동작,Dongjak,09호선,920
+328,잠원,Jamwon,03호선,338
+329,고속터미널,Express Bus Terminal,03호선,339
+1002,남영,Namyeong,01호선,134
+1006,영등포,Yeongdeungpo,01호선,139
+1007,신도림,Sindorim,01호선,140
+1008,이촌,Ichon,경의선,K111
+1010,한남,Hannam,경의선,K113
+1011,옥수,Oksu,경의선,K114
+1013,왕십리,Wangsimni,경의선,K116
+1014,청량리,Cheongnyangni,경의선,K117
+1015,회기,Hoegi,01호선,123
+1016,외대앞,Hankuk Univ. of Foreign Studies,01호선,122
+1018,석계,Seokgye,01호선,120
+1020,월계,Wolgye,01호선,118
+1021,녹천,Nokcheon,01호선,117
+1022,창동,Chang-dong,01호선,116
+1024,한티,Hanti,분당선,k216
+1027,개포동,Gaepo-dong,분당선,k219
+1207,양정,Yangjeong,경의선,K125
+415,미아,Mia,04호선,415
+416,미아사거리,Miasamgeori,04호선,416
+417,길음,Gireum,04호선,417
+418,성신여대입구,Sungshin Women`s Univ.,04호선,418
+419,한성대입구,Hansung Univ.,04호선,419
+420,혜화,Hyehwa,04호선,420
+421,동대문,Dongdaemun,04호선,421
+422,동대문역사문화공원,Dongdaemun History  Culture Park,04호선,422
+423,충무로,Chungmuro,04호선,423
+424,명동,Myeong-dong,04호선,424
+425,회현,Hoehyeon,04호선,425
+426,서울역,Seoul Station,04호선,426
+427,숙대입구,Sookmyung Women`s Univ.,04호선,427
+428,삼각지,Samgakji,04호선,428
+429,신용산,Sinyongsan,04호선,429
+1019,광운대,Kwangwoon Univ.,01호선,119
+330,교대,Seoul Nat`l Univ. of Education,03호선,340
+331,남부터미널,Nambu Bus Terminal,03호선,341
+332,양재,Yangjae,03호선,342
+333,매봉,Maebong,03호선,343
+334,도곡,Dogok,03호선,344
+335,대치,Daechi,03호선,345
+336,학여울,Hangnyeoul,03호선,346
+337,대청,Daecheong,03호선,347
+338,일원,Irwon,03호선,348
+411,노원,Nowon,04호선,411
+412,창동,Chang-dong,04호선,412
+413,쌍문,Ssangmun,04호선,413
+317,경복궁,Gyeongbokgung,03호선,327
+318,안국,Anguk,03호선,328
+319,종로3가,Jongno 3(sam)-ga,03호선,329
+320,을지로3가,Euljiro 3(sam)-ga,03호선,330
+322,동대입구,Dongguk Univ.,03호선,332
+323,약수,Yaksu,03호선,333
+1012,응봉,Eungbong,경의선,K115
+1017,신이문,Sinimun,01호선,121
+223,교대,Seoul Nat`l Univ. of Education,02호선,223
+224,서초,Seocho,02호선,224
+226,사당,Sadang,02호선,226
+227,낙성대,Nakseongdae,02호선,227
+239,홍대입구,Hongik Univ.,02호선,239
+243,충정로,Chungjeongno,02호선,243
+245,신답,Sindap,02호선,211-2
+249,신정네거리,Sinjeongnegeori,02호선,234-3
+309,지축,Jichuk,03호선,319
+312,불광,Bulgwang,03호선,322
+313,녹번,Nokbeon,03호선,323
+314,홍제,Hongje,03호선,324
+315,무악재,Muakjae,03호선,325
+1316,금곡,Geumgok,경춘선,P127
+1324,굴봉산,Gulbongsan,경춘선,P135
+1501,판교,Pangyo,경강선,K410
+324,금호,Geumho,03호선,334
+1218,원덕,Wondeok,경의선,K136
+1268,화전,Hwajeon,경의선,K318
+1278,운정,Unjeong,경의선,K329
+1507,신둔도예촌,Sindundoyechon,경강선,K416
+1509,부발,Bubal,경강선,K418
+1310,망우,Mangu,경춘선,P121
+1801,개봉,Gaebong,01호선,143
+1804,부천,Bucheon,01호선,148
+1867,청명,Cheongmyeong,분당선,K239
+1886,송도,Songdo,수인선,K259
+1847,서울숲,Seoul-forest,분당선,K211
+2530,공덕,Gongdeok,05호선,529
+2633,버티고개,Beotigogae,06호선,632
+2640,안암,Anam,06호선,639
+2727,군자,Gunja,07호선,725
+1872,매교,Maegyo,분당선,K244
+2647,화랑대,Hwarangdae,06호선,646
+2714,마들,Madeul,07호선,712
+2724,사가정,Sagajeong,07호선,722
+2737,내방,Naebang,07호선,735
+1723,지제,Jije,01호선,P164
+2811,암사,Amsa,08호선,810
+2812,천호,Cheonho,08호선,811
+2815,잠실,Jamsil,08호선,814
+3213,석남,Seongnam,인천2호선,I213
+2826,수진,Sujin,08호선,825
+3124,인천시청,Incheon City Hall,인천선,I124
+3125,예술회관,Arts Center,인천선,I125
+3126,인천터미널,Incheon Bus Terminal,인천선,I126
+3131,동춘,Dongchun,인천선,I131
+3132,동막,Dongmak,인천선,I132
+3203,검단사거리,Geomdan Sageori,인천2호선,I203
+3217,주안국가산단,Juan National Industrial Complex,인천2호선,I217
+3218,주안,Juan,인천2호선,I218
+3219,시민공원,Citizens Park,인천2호선,I219
+3220,석바위시장,Seokbawi Market,인천2호선,I220
+3221,인천시청,Inchon City Hall,인천2호선,I221
+3222,석천사거리,Seokcheon Sageori,인천2호선,I222
+4109,등촌,Deungchon,09호선,909
+4110,염창,Yeomchang,09호선,910
+4111,신목동,Sinmokdong,09호선,911
+4115,여의도,Yeouido,09호선,915
+4116,샛강,Saetgang,09호선,916
+4117,노량진,Noryangjin,09호선,917
+3135,지식정보단지,BIT Zone,인천선,I135
+3136,인천대입구,Incheon Nat'l Univ.,인천선,I136
+3137,센트럴파크,Central Park,인천선,I137
+3138,국제업무지구,Intl. Business District,인천선,I138
+3204,마전,Majeon,인천2호선,I204
+3206,독정,Dokjeong,인천2호선,I206
+3207,검암,Geomam,인천2호선,I207
+3208,검바위,Geombawi,인천2호선,I208
+3210,서구청,Seo-gu Office,인천2호선,I210
+3211,가정,Gajeong,인천2호선,I211
+3212,가정중앙시장,Gajeong Jungang Market,인천2호선,I212
+4121,구반포,Gubanpo,09호선,921
+4122,신반포,Sinbanpo,09호선,922
+4124,사평,Sapyeong,09호선,924
+1023,선릉,Seolleung,분당선,K215
+1280,금촌,Geumchon,경의선,K331
+1282,월롱,Wollong,경의선,K333
+1283,파주,Paju,경의선,K334
+1284,문산,Munsan,경의선,K335
+1305,광운대,Kwangwoon Univ.,경춘선,P116
+1306,청량리,Cheongnyangni,경춘선,P117
+1309,상봉,Sangbong,경춘선,P120
+1312,갈매,Galmae,경춘선,P123
+1313,별내,Byeollae,경춘선,P124
+1314,퇴계원,Toegyewon,경춘선,P125
+1315,사릉,Sareung,경춘선,P126
+1709,군포,Gunpo,01호선,P150
+1848,압구정로데오,Apgujeongrodeo,분당선,K212
+153,종로3가,Jongno 3(sam)-ga,01호선,130
+204,을지로4가,Euljiro 4(sa)-ga,02호선,204
+205,동대문역사문화공원,Dongdaemun History  Culture Park,02호선,205
+206,신당,Sindang,02호선,206
+207,상왕십리,Sangwangsimni,02호선,207
+208,왕십리,Wangsimni,02호선,208
+212,건대입구,Konkuk Univ.,02호선,212
+213,구의,Guui,02호선,213
+214,강변,Gangbyeon,02호선,214
+215,잠실나루,Jamsillaru,02호선,215
+216,잠실,Jamsil,02호선,216
+217,잠실새내,Jamsilsaenae,02호선,217
+218,종합운동장,Sports Complex,02호선,218
+219,삼성,Samseong,02호선,219
+220,선릉,Seolleung,02호선,220
+1502,이매,Imae,경강선,K411
+154,종로5가,Jongno 5(o)-ga,01호선,129
+155,동대문,Dongdaemun,01호선,128
+156,신설동,Sinseol-dong,01호선,126
+157,제기동,Jegi-dong,01호선,125
+158,청량리,Cheongnyangni,01호선,124
+159,동묘앞,Dongmyo,01호선,127
+200,까치산,Kkachisan,02호선,234-4
+201,시청,City Hall,02호선,201
+202,을지로입구,Euljiro 1(il)-ga,02호선,202
+228,서울대입구,Seoul Nat`l Univ.,02호선,228
+229,봉천,Bongcheon,02호선,229
+230,신림,Sillim,02호선,230
+231,신대방,Sindaebang,02호선,231
+234,신도림,Sindorim,02호선,234
+235,문래,Mullae,02호선,235
+236,영등포구청,Yeongdeungpo-gu Office,02호선,236
+237,당산,Dangsan,02호선,237
+203,을지로3가,Euljiro 3(sam)-ga,02호선,203
+238,합정,Hapjeong,02호선,238
+1511,여주,Yeoju,경강선,K420
+1701,구로,Guro,01호선,141
+1729,당정,Dangjeong,01호선,P151
+221,역삼,Yeoksam,02호선,221
+310,구파발,Gupabal,03호선,320
+311,연신내,Yeonsinnae,03호선,321
+340,가락시장,Garak Market,03호선,350
+341,경찰병원,National Police Hospital,03호선,351
+342,오금,Ogeum,03호선,352
+1756,중앙,Jungang,04호선,450
+1759,안산,Ansan,04호선,453
+1760,신길온천,Singil oncheon,04호선,454
+1761,정왕,Jeongwang,04호선,455
+1762,오이도,Oido,04호선,456
+1763,수리산,Surisan,04호선,445
+1800,오이도,Oido,수인선,K250
+222,강남,Gangnam,02호선,222
+225,방배,Bangbae,02호선,225
+1004,노량진,Noryangjin,01호선,136
+1005,대방,Daebang,01호선,137
+1821,온수,Onsu,01호선,145
+1822,중동,Jung-dong,01호선,149
+1823,도화,Dohwa,01호선,157
+1845,청량리,Cheongnyangni,분당선,
+1850,선정릉,Seonjeongneung,분당선,K214
+209,한양대,Hanyang Univ.,02호선,209
+210,뚝섬,Ttukseom,02호선,210
+211,성수,Seongsu,02호선,211
+240,신촌,Sinchon,02호선,240
+241,이대,Ewha Womans Univ.,02호선,241
+242,아현,Ahyeon,02호선,242
+244,용답,Yongdap,02호선,211-1
+409,당고개,Danggogae,04호선,409
+410,상계,Sanggye,04호선,410
+1902,도봉,Dobong,01호선,114
+1903,도봉산,Dobongsan,01호선,113
+1904,망월사,Mangwolsa,01호선,112
+1905,회룡,Hoeryong,01호선,111
+1906,의정부,Uijeongbu,01호선,110
+1907,가능,Ganeung,01호선,109
+1908,녹양,Nogyang,01호선,108
+1909,양주,Yangju,01호선,107
+1910,덕계,Deokgye,01호선,106
+1911,덕정,Deokjeong,01호선,105
+232,구로디지털단지,Guro Digital Complex,02호선,232
+300,대곡,Daegok,경의선,K322
+339,수서,Suseo,03호선,349
+430,이촌,Ichon,04호선,430
+433,사당,Sadang,04호선,433
+2540,행당,Haengdang,05호선,539
+2541,왕십리,Wangsimni,05호선,540
+2542,마장,Majang,05호선,541
+2543,답십리,Dapsimni,05호선,542
+2545,군자,Gunja,05호선,544
+327,신사,Sinsa,03호선,337
+1003,용산,Yongsan,01호선,135
+1028,대모산입구,Daemosan,분당선,k220
+102C,왕십리,Wangsimni,분당선,K210
+1261,효창공원앞,Hyochang Park,경의선,K826
+1262,공덕,Gongdeok,경의선,K312
+1263,서강대,Sogang Univ.,경의선,K313
+1264,홍대입구,Hongik Univ.,경의선,K314
+1325,백양리,Baegyang-ri,경춘선,P136
+1326,강촌,Gangchon,경춘선,P137
+1327,김유정,Gimyujeong,경춘선,P138
+1328,남춘천,Namchuncheon,경춘선,P139
+1329,춘천,Chuncheon,경춘선,P140
+1401,봉명,Bongmyeong,01호선,P170
+1402,쌍용,Ssangyong,01호선,P171
+1403,아산,Asan,01호선,P172
+1405,배방,Baebang,01호선,P174
+1407,온양온천,Onyang oncheon,01호선,P176
+1274,풍산,Pungsan,경의선,K325
+1322,상천,Sangcheon,경춘선,P133
+1455,인덕원,Indeogwon,04호선,440
+1456,평촌,Pyeongchon,04호선,441
+2615,연신내,Yeonsinnae,06호선,614
+2616,구산,Gusan,06호선,615
+2617,새절,Saejeol,06호선,616
+2623,합정,Hapjeong,06호선,622
+4103,공항시장,Airport Market,09호선,903
+4104,신방화,Sinbanghwa,09호선,904
+4131,삼전,Samjeon,09호선,931
+1720,진위,Jinwi,01호선,P161
+1727,두정,Dujeong,01호선,P168
+2643,상월곡,Sangwolgok,06호선,642
+2644,돌곶이,Dolgoji,06호선,643
+1311,신내,Sinnae,경춘선,P122
+1713,수원,Suwon,01호선,P155
+1757,고잔,Gojan,04호선,451
+1758,초지,Choji,04호선,452
+1808,동암,Dongam,01호선,154
+1809,주안,Juan,01호선,156
+1810,제물포,Jemulpo,01호선,158
+1811,동인천,Dongincheon,01호선,160
+1852,태평,Taepyeong,분당선,K224
+1853,모란,Moran,분당선,K225
+1854,야탑,Yatap,분당선,K226
+1855,서현,Seohyeon,분당선,K228
+1856,수내,Sunae,분당선,K229
+1857,정자,Jeongja,분당선,K230
+1858,미금,Migeum,분당선,K231
+1863,구성,Guseong,분당선,K235
+1888,인하대,Inha Univ.,수인선,K261
+1955,마두,Madu,03호선,312
+1958,대화,Daehwa,03호선,309
+2511,방화,Banghwa,05호선,510
+2518,화곡,Hwagok,05호선,517
+2519,까치산,Kkachisan,05호선,518
+2520,신정,Sinjeong,05호선,519
+2521,목동,Mok-dong,05호선,520
+3111,귤현,Gyulhyeon,인천선,I111
+3112,박촌,Bakchon,인천선,I112
+3113,임학,Imhak,인천선,I113
+3114,계산,Gyesan,인천선,I114
+3115,경인교대입구,Gyeong-in Nat`l Univ. of Education,인천선,I115
+3116,작전,Jakjeon,인천선,I116
+3120,부평,Bupyeong,인천선,I120
+3121,동수,Dongsu,인천선,I121
+3122,부평삼거리,Bupyeongsamgeori,인천선,I122
+1868,영통,Yeongtong,분당선,K240
+3127,문학경기장,Munhak Sports Complex,인천선,I127
+2621,마포구청,Mapo-gu Office,06호선,620
+2624,상수,Sangsu,06호선,623
+4125,신논현,Sinnonhyeon,09호선,925
+4127,선정릉,Seonjeongneung,09호선,927
+4128,삼성중앙,Samseong Jungang,09호선,928
+4130,종합운동장,Sports Complex,09호선,930
+4509,시청.용인대,City Hall Yongin Univ.,용인경전철,Y117
+4513,고진,Gojin,용인경전철,Y121
+4514,보평,Bopyeong,용인경전철,Y123
+4515,둔전,Dunjeon,용인경전철,Y125
+2716,중계,Junggye,07호선,714
+2718,공릉,Gongneung,07호선,716
+3117,갈산,Galsan,인천선,I117
+3118,부평구청,Bupyeong-gu Office,인천선,I118
+3119,부평시장,Bupyeong Market,인천선,I119
+3202,왕길,Wanggil,인천2호선,I202
+3205,완정,Wanjeong,인천2호선,I205
+3223,모래내시장,Moraenae Market,인천2호선,I223
+3224,만수,Mansu,인천2호선,I224
+3225,남동구청,Namdong-gu Office,인천2호선,I225
+3226,인천대공원,Incheon Grand Park,인천2호선,I226
+3227,운연,Unyeon,인천2호선,I227
+4101,개화,Gaehwa,09호선,901
+4102,김포공항,Gimpo Intl. Airport,09호선,902
+4105,마곡나루,Magongnaru,09호선,905
+3128,선학,Seonhak,인천선,I128
+4123,고속터미널,Express Bus Terminal,09호선,923
+4132,석촌고분,Seokchon Gobun,09호선,932
+4133,석촌,Seokchon(Hansol Hospital),09호선,933
+4134,송파나루,Songpanaru,09호선,934
+4135,한성백제,Hanseong Baekje,09호선,935
+4136,올림픽공원,Olympic Park,09호선,936
+4137,둔촌오륜,Dunchon Oryun,09호선,937
+4138,중앙보훈병원,VHS Medical Center,09호선,938
+4201,서울역,Seoul Station,공항철도,A01
+4202,공덕,Gongdeok,공항철도,A02
+4203,홍대입구,Hongik Univ.,공항철도,A03
+4204,디지털미디어시티,Digital Media City,공항철도,A04
+4206,마곡나루,Magongnaru,공항철도,A042
+4207,김포공항,Gimpo Intl. Airport,공항철도,A05
+4208,계양,Gyeyang,공항철도,A06
+4209,검암,Geomam,공항철도,A07
+4210,청라국제도시,Cheongna Int’l City Station,공항철도,A071
+4503,지석,Jiseok,용인경전철,Y112
+4504,어정,Eojeong,용인경전철,Y113
+4505,동백,Dongbaek,용인경전철,Y114
+4506,초당,Chodang,용인경전철,Y115
+4508,삼가,Samga,용인경전철,Y116
+4129,봉은사,Bongeunsa,09호선,929
+4211,운서,Unseo,공항철도,A08
+4212,공항화물청사,Incheon Intl. Airport Cargo Terminal,공항철도,A09
+4213,인천공항1터미널,Incheon Intl. Airport,공항철도,A10
+4215,인천공항2터미널,Incheon Int’l Airport Terminal 2,공항철도,A11
+4217,영종,Yeongjong,공항철도,A072
+4307,강남,Gangnam,신분당선,D7
+4308,양재,Yangjae,신분당선,D8
+4310,청계산입구,Cheonggyesan,신분당선,D10
+4510,명지대,Myongji Univ.,용인경전철,Y118
+4511,김량장,Gimnyangjang,용인경전철,Y119
+4512,운동장.송담대,Stadium Songdam College,용인경전철,Y120
+4517,전대.에버랜드,Jeondae Everland,용인경전철,Y126
+4601,발곡,Balgok,의정부경전철,U110
+4602,회룡,Hoeryong,의정부경전철,U111
+4603,범골,Beomgol,의정부경전철,U112
+4604,경전철의정부,Lrt Uijeongbu,의정부경전철,U113
+4605,의정부시청,Uijeongbu City Hall,의정부경전철,U114
+4606,흥선,Heungseon,의정부경전철,U115
+4607,의정부중앙,Uijeongbu Jung-ang,의정부경전철,U117
+4608,동오,Dong-o,의정부경전철,U118
+4309,양재시민의숲,Yangjae Citizen's Forest,신분당선,D9
+4311,판교,Pangyo,신분당선,D11
+4312,정자,Jeongja,신분당선,D12
+4313,미금,Migeum,신분당선,D13
+4314,동천,Dongcheon,신분당선,D14
+4315,수지구청,Suji-gu office,신분당선,D15
+4316,성복,Seongbok,신분당선,D16
+4317,상현,Sanghyeon,신분당선,D17
+4318,광교중앙,GwanggyoJungang,신분당선,D18
+4319,광교,Gwanggyo,신분당선,D19
+4502,강남대,Kangnam Univ.,용인경전철,Y111
+4609,새말,sae-mal,의정부경전철,U119
+4610,경기도청북부청사,Gyeonggi Provincial Government Northern Office,의정부경전철,U120
+4611,효자,hyoja,의정부경전철,U121
+4612,곤제,gonjae,의정부경전철,U122
+4613,어룡,eoryong,의정부경전철,U123
+4614,송산,Songsan,의정부경전철,U124
+4615,탑석,Tapseok,의정부경전철,U125
+4701,북한산우이,Bukhansan Ui,우이신설경전철,941
+4702,솔밭공원,Solbat Park,우이신설경전철,942
+4703,4?19민주묘지,April 19th National Cemetery,우이신설경전철,943
+4704,가오리,Gaori,우이신설경전철,944
+4707,삼양사거리,Samyang Sageori,우이신설경전철,947
+4708,솔샘,Solsaem,우이신설경전철,948
+4709,북한산보국문,Bukhansan Bogungmun,우이신설경전철,949
+4710,정릉,Jeongneung,우이신설경전철,950
+4711,성신여대입구,Sungshin Women`s Univ.,우이신설경전철,951
+4712,보문,Bomun,우이신설경전철,952
+4713,신설동,Sinseol-dong,우이신설경전철,953
+4804,소사,Sosa,서해선,841
+4805,소새울,Sosaeul,서해선,842
+4806,시흥대야,Siheung Daeya,서해선,843
+4807,신천,Sincheon,서해선,844
+4808,신현,Sinhyeon,서해선,845
+4809,시흥시청,Siheung City Hall,서해선,846
+4810,시흥능곡,Siheung Neunggok,서해선,847
+4811,달미,Dalmi,서해선,848
+4812,선부,Seonbu,서해선,849
+4813,초지,Choji,서해선,850
+4814,원곡,Wongok,서해선,701
+4815,원시,Wonsi,서해선,702
+4920,양촌,Yangchon,김포도시철도,690
+4921,구래,Gurae,김포도시철도,691
+4922,마산,Masan,김포도시철도,692
+4923,장기,Janggi,김포도시철도,693
+4924,운양,Unyang,김포도시철도,694
+4925,걸포북변,Geolpo Bukbyeon,김포도시철도,695
+4926,사우,Sau,김포도시철도,696
+4927,풍무,Pungmu,김포도시철도,697
+4928,고촌,Gochon,김포도시철도,698
+4929,김포공항,Gimpo Int’l Airport,김포도시철도,699
+233,대림,Daerim,02호선,233
+3209,아시아드경기장,Asiad Stadium,인천2호선,I209
+246,신설동,Sinseol-dong,02호선,211-4
+247,도림천,Dorimcheon,02호선,234-1
+248,양천구청,Yangcheon-gu Office,02호선,234-2
+250,용두,Yongdu,02호선,211-3
+1308,중랑,Jungnang,경춘선,P119
+1865,기흥,Giheung,분당선,K237
+3201,검단오류,Geomdan Oryu,인천2호선,I201
+100C,용산,Yongsan,경의선,K110
+1846,수원,Suwon,분당선,K245
+1952,화정,Hwajeong,03호선,315
+4126,언주,Eonju,09호선,926
+4501,기흥,Giheung,용인경전철,Y110
+150,서울역,Seoul Station,01호선,133
+151,시청,City Hall,01호선,132
+152,종각,Jonggak,01호선,131
+4705,화계,Hwagye,우이신설경전철,945
+4706,삼양,Samyang,우이신설경전철,946
+101C,회기,Hoegi,경의선,K118
+1265,가좌,Gajwa,경의선,K315

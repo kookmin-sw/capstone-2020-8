@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ODsayAndroidSDKSample/ODsayAndroidSDKSample.iml" filepath="$PROJECT_DIR$/ODsayAndroidSDKSample/ODsayAndroidSDKSample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SDK_release_v2.0.0/SDK_release_v2.0.0.iml" filepath="$PROJECT_DIR$/SDK_release_v2.0.0/SDK_release_v2.0.0.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Sample_ODsaySDKforAndroid.iml" filepath="$PROJECT_DIR$/Sample_ODsaySDKforAndroid.iml" />
+    </modules>
+  </component>
+</project>

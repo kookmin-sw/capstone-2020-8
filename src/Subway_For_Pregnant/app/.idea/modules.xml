@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../ODsayAndroidSDK/ODsayAndroidSDK.iml" filepath="$PROJECT_DIR$/../ODsayAndroidSDK/ODsayAndroidSDK.iml" group="Subway_For_Pregnant/ODsayAndroidSDK" />
+      <module fileurl="file://$PROJECT_DIR$/../Subway_For_Pregnant.iml" filepath="$PROJECT_DIR$/../Subway_For_Pregnant.iml" group="Subway_For_Pregnant" />
+      <module fileurl="file://$PROJECT_DIR$/app.iml" filepath="$PROJECT_DIR$/app.iml" group="Subway_For_Pregnant/app" />
+    </modules>
+  </component>
+</project>
