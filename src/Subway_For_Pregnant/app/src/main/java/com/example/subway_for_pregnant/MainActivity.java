@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.trainbutton:
                     myStartActivity(FindSubwayActivity.class);
                 case R.id.bluetoothButton:
-                    myStartActivity(DeviceScanActivity.class);
+                    myStartActivity(SampleBluetoothActivity.class);
             }
         }
     };

@@ -1,14 +1,16 @@
 package com.example.subway_for_pregnant;
 
-import android.app.ActionBar;
+import android.Manifest;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -20,28 +22,46 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.RemoteException;
+
+import org.altbeacon.beacon.Beacon;
+import org.altbeacon.beacon.BeaconConsumer;
+import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.BeaconParser;
+import org.altbeacon.beacon.RangeNotifier;
+import org.altbeacon.beacon.Region;
+
+import androidx.appcompat.app.AlertDialog;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Activity for scanning and displaying available Bluetooth LE devices.
  */
-public class DeviceScanActivity extends ListActivity {
+public class DeviceScanActivity extends ListActivity implements BeaconConsumer{
     private LeDeviceListAdapter mLeDeviceListAdapter;
     private BluetoothAdapter mBluetoothAdapter;
     private boolean mScanning;
     private Handler mHandler;
+    private String mDeviceName;
+    private String mDeviceAddress;
+    private String mDeviceUUID;
+    private int mDeviceMajor;
+    private int mDeviceMinor;
+    private BeaconManager beaconManager;
 
     private static final int REQUEST_ENABLE_BT = 1;
     // Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 10000;
+    private static int PERMISSION_REQUEST_COARSE_LOCATION = 1;
 
-    private static int REQUEST_ACCESS_FINE_LOCATION = 1000;
+    private List<Beacon> beaconList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
 
         getActionBar().setTitle(R.string.title_devices);
@@ -66,6 +86,56 @@ public class DeviceScanActivity extends ListActivity {
             finish();
             return;
         }
+
+
+        beaconManager = BeaconManager.getInstanceForApplication(this);
+
+        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
+
+        beaconManager.bind(this);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if(this.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)!=PackageManager.PERMISSION_GRANTED){
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("This app needs location access" );
+                builder.setMessage("Please grant location access so this app can detect beacons.");
+                builder.setPositiveButton(android.R.string.ok,null);
+                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},PERMISSION_REQUEST_COARSE_LOCATION);
+                    }
+                });
+                builder.show();
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        beaconManager.unbind(this);
+    }
+
+    @Override
+    public void onBeaconServiceConnect() {
+        beaconManager.addRangeNotifier(new RangeNotifier() {
+            @Override
+            // 비콘이 감지되면 해당 함수가 호출된다. Collection<Beacon> beacons에는 감지된 비콘의 리스트가,
+            // region에는 비콘들에 대응하는 Region 객체가 들어온다.
+            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+                if (beacons.size() > 0) {
+                    beaconList.clear();
+                    for (Beacon beacon : beacons) {
+                        beaconList.add(beacon);
+                    }
+                }
+            }
+
+        });
+        try {
+            beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
+        } catch (RemoteException e) {   }
     }
 
     @Override
@@ -137,10 +207,13 @@ public class DeviceScanActivity extends ListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         final BluetoothDevice device = mLeDeviceListAdapter.getDevice(position);
+
         if (device == null) return;
         final Intent intent = new Intent(this, DeviceControlActivity.class);
         intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_NAME, device.getName());
         intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_ADDRESS, device.getAddress());
+        intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_UUID, device.getUuids());
+
         if (mScanning) {
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
             mScanning = false;
@@ -181,7 +254,7 @@ public class DeviceScanActivity extends ListActivity {
         }
 
         public void addDevice(BluetoothDevice device) {
-            if(!mLeDevices.contains(device)) {
+            if (!mLeDevices.contains(device)) {
                 mLeDevices.add(device);
             }
         }
@@ -217,13 +290,35 @@ public class DeviceScanActivity extends ListActivity {
                 view = mInflator.inflate(R.layout.listitem_device, null);
                 viewHolder = new ViewHolder();
                 viewHolder.deviceAddress = (TextView) view.findViewById(R.id.device_address);
+                viewHolder.deviceUUID = (TextView) view.findViewById(R.id.device_uuid);
                 viewHolder.deviceName = (TextView) view.findViewById(R.id.device_name);
+                viewHolder.deviceMajor = (TextView) view.findViewById(R.id.device_major);
+                viewHolder.deviceMinor = (TextView) view.findViewById(R.id.device_minor);
+
                 view.setTag(viewHolder);
+
             } else {
                 viewHolder = (ViewHolder) view.getTag();
             }
 
             BluetoothDevice device = mLeDevices.get(i);
+
+            for(Beacon beacon : beaconList){
+                mDeviceUUID = beacon.getId1().toString();
+                mDeviceMajor = beacon.getId2().toInt();
+                mDeviceMinor = beacon.getId3().toInt();
+                mDeviceAddress = beacon.getBluetoothAddress();
+
+                if(mDeviceMajor == 1){
+                    viewHolder.deviceUUID.setText(mDeviceUUID);
+                    viewHolder.deviceMajor.setText(mDeviceMajor);
+                    viewHolder.deviceMinor.setText(mDeviceMinor);
+                    viewHolder.deviceName.setText(mDeviceName);
+
+                }
+                mHandler.sendEmptyMessageDelayed(0,1000);
+            }
+
             final String deviceName = device.getName();
             if (deviceName != null && deviceName.length() > 0)
                 viewHolder.deviceName.setText(deviceName);
@@ -251,10 +346,11 @@ public class DeviceScanActivity extends ListActivity {
                     });
                 }
             };
-
     static class ViewHolder {
         TextView deviceName;
         TextView deviceAddress;
         TextView deviceUUID;
+        TextView deviceMajor;
+        TextView deviceMinor;
     }
 }

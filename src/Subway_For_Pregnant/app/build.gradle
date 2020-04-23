@@ -47,6 +47,7 @@ dependencies {
     implementation project(path: ':ODsayAndroidSDK')
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.0.0'
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
+    implementation 'org.altbeacon:android-beacon-library:2+'
 }
 
 configurations {

@@ -36,11 +36,17 @@ public class DeviceControlActivity extends Activity {
 
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
+    public static final String EXTRAS_DEVICE_UUID = "DEVICE_UUID";
+    public static final String EXTRAS_DEVICE_MAJOR = "DEVICE_MAJOR";
+    public static final String EXTRAS_DEVICE_MINOR = "DEVICE_MINOR";
 
     private TextView mConnectionState;
     private TextView mDataField;
     private String mDeviceName;
     private String mDeviceAddress;
+    private String mDeviceUUID;
+    private String mDeviceMajor;
+    private String mDeviceMinor;
     private ExpandableListView mGattServicesList;
     private BluetoothLeService mBluetoothLeService;
     private ArrayList<ArrayList<BluetoothGattCharacteristic>> mGattCharacteristics =
@@ -146,6 +152,9 @@ public class DeviceControlActivity extends Activity {
         final Intent intent = getIntent();
         mDeviceName = intent.getStringExtra(EXTRAS_DEVICE_NAME);
         mDeviceAddress = intent.getStringExtra(EXTRAS_DEVICE_ADDRESS);
+        mDeviceUUID = intent.getStringExtra(EXTRAS_DEVICE_UUID);
+        mDeviceMajor = intent.getStringExtra(EXTRAS_DEVICE_MAJOR);
+        mDeviceMinor = intent.getStringExtra(EXTRAS_DEVICE_MINOR);
 
         // Sets up UI references.
         ((TextView) findViewById(R.id.device_address)).setText(mDeviceAddress);
