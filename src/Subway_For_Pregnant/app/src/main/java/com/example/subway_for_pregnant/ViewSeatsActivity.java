@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,18 @@ public class ViewSeatsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_seats);
+
+        //인텐트 호출
+        Intent intent = getIntent();
+        int stationsLength = intent.getExtras().getInt("stationsLength");   //역 개수. 즉 stations 라고 앞에 붙은 데이터들의 Length.
+        String[] stationsStartName = new String[stationsLength];    //구간마다 현재역 이름
+        int[] stationsStartID = new int[stationsLength];            //구간마다 현재역 코드
+        String[] stationsEndName = new String[stationsLength];      //구간마다 다음역 이름
+        int[] stationsEndSID = new int[stationsLength];             //구간마다 다음역 코드
+
+        String globalStartName = intent.getExtras().getString("globalStartName");
+        TextView station = findViewById(R.id.textView_Station);  //인텐트 값 잘 받아오는지 확인하기 위한 임시 TextView.
+        station.setText(globalStartName);
 
         findViewById(R.id.button_StateLeft).setOnClickListener(onClickListener);
         findViewById(R.id.button_State5).setOnClickListener(onClickListener);

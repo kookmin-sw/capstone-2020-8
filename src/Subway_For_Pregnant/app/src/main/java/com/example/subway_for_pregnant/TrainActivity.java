@@ -33,7 +33,9 @@ public class TrainActivity extends AppCompatActivity {
         String[] driveInfoLaneName = new String[driveInfoLength];
         int stationsLength = intent.getExtras().getInt("stationsLength");
         String[] stationsStartName = new String[stationsLength];
+        int[] stationsStartID = new int[stationsLength];
         String[] stationsEndName = new String[stationsLength];
+        int[] stationsEndSID = new int[stationsLength];
         int[] stationsTravelTime = new int[stationsLength];
 
         for (int i = 0; i < driveInfoLength; i++) {
@@ -43,7 +45,9 @@ public class TrainActivity extends AppCompatActivity {
 
         for (int i = 0; i < stationsLength; i++) {
             stationsStartName[i] = intent.getExtras().getString("stationsStartName" + i);
+            stationsStartID[i] = intent.getExtras().getInt("stationsStartID" + i);
             stationsEndName[i] = intent.getExtras().getString("stationsEndName" + i);
+            stationsEndSID[i] = intent.getExtras().getInt("stationsEndSID" + i);
             stationsTravelTime[i] = intent.getExtras().getInt("stationsTravelTime" + i);
         }
 
@@ -53,11 +57,13 @@ public class TrainActivity extends AppCompatActivity {
         for (int i = 0; i < driveInfoLength; i++) {
             showResult += ("<" + driveInfoLaneName[i] + ">\n");
             showResult += (driveInfoStationCount[i] + "개 역 이동\n");
+            showResult += (stationsStartName[count] + "[" + stationsStartID[count] + "]");  //현재역 [현재역코드]
             for (int j = count; j < driveInfoStationCount[i] + count; j++) {
-                showResult += (stationsStartName[j] + " -> ");
+                showResult += (" -> " + stationsEndName[j] + "[" + stationsEndSID[j] + "] " + "(" + stationsTravelTime[j] + "분)");
+                // -> 다음역 [다음역코드] (현 구간 소요 시간)
             }
-            showResult += (stationsEndName[driveInfoStationCount[i] + count - 1] + "\n\n");
-            count = driveInfoStationCount[i];
+            showResult += ("\n\n");
+            count += driveInfoStationCount[i];
         }
 
         tv_sample.setText(showResult);
@@ -77,8 +83,11 @@ public class TrainActivity extends AppCompatActivity {
     }
 
     private void myStartActivity(Class c) {
-        Intent intent = new Intent(this, c);
-        startActivity(intent);
+        Intent intent = getIntent();
+        intent.getExtras();
+        Intent intent2 = new Intent(this, c);
+        intent2.putExtras(intent);
+        startActivity(intent2);
     }
 
 }
