@@ -28,9 +28,16 @@ public class ViewSeatsActivity extends AppCompatActivity {
         String[] stationsEndName = new String[stationsLength];      //구간마다 다음역 이름
         int[] stationsEndSID = new int[stationsLength];             //구간마다 다음역 코드
 
-        String globalStartName = intent.getExtras().getString("globalStartName");
+        for (int i = 0; i < stationsLength; i++) {
+            stationsStartName[i] = intent.getExtras().getString("stationsStartName" + i);
+            stationsStartID[i] = intent.getExtras().getInt("stationsStartID" + i);
+            stationsEndName[i] = intent.getExtras().getString("stationsEndName" + i);
+            stationsEndSID[i] = intent.getExtras().getInt("stationsEndSID" + i);
+            //stationsTravelTime[i] = intent.getExtras().getInt("stationsTravelTime" + i);
+        }
+
         TextView station = findViewById(R.id.textView_Station);  //인텐트 값 잘 받아오는지 확인하기 위한 임시 TextView.
-        station.setText(globalStartName);
+        station.setText(stationsStartName[0]);
 
         findViewById(R.id.button_StateLeft).setOnClickListener(onClickListener);
         findViewById(R.id.button_State5).setOnClickListener(onClickListener);
