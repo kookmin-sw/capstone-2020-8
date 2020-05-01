@@ -35,7 +35,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
 
     int driveInfoLength;        //노선 개수. 환승 없으면 1, 1번 환승은 2. 이런식으로.
     int[] driveInfoWayCode;     //방면 코드 (1:상행, 2:하행)
-    String[] diveInfoLaneName;  //노선 이름. 예: "8호선", "분당선".
+    String[] driveInfoLaneName;  //노선 이름. 예: "8호선", "분당선".
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
 
         driveInfoLength = intent.getExtras().getInt("driveInfoLength");     //노선 개수. 환승 없으면 1, 1번 환승은 2. 이런식으로.
         driveInfoWayCode = new int[driveInfoLength];      //방면 코드 (1:상행, 2:하행)
-        diveInfoLaneName = new String[driveInfoLength];
+        driveInfoLaneName = new String[driveInfoLength];
 
 
         for (int i = 0; i < stationsLength; i++) {
@@ -64,8 +64,8 @@ public class ViewSeatsActivity extends AppCompatActivity {
         }
 
         for (int i = 0; i < driveInfoLength; i++) {
-            diveInfoLaneName[i] = intent.getExtras().getString("driveInfoLaneName");
-            driveInfoWayCode[i] = intent.getExtras().getInt("driveInfoWayCode");
+            driveInfoLaneName[i] = intent.getExtras().getString("driveInfoLaneName" + i);
+            driveInfoWayCode[i] = intent.getExtras().getInt("driveInfoWayCode" + i);
         }
 
         TextView station = findViewById(R.id.textView_Station);  //인텐트 값 잘 받아오는지 확인하기 위한 임시 TextView.
@@ -84,16 +84,18 @@ public class ViewSeatsActivity extends AppCompatActivity {
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View v) {
+        public void onClick(final View v) {
             final FirebaseFirestore db = FirebaseFirestore.getInstance();
             TextView tv_State;
             String numOfCars;
-            String diveInfo = "";
-            String laneInfo = "";
+            String driveInfo = "1";
+            String laneInfo = "1";
+            Log.d(TAG, "driveInfoWayCode : " + driveInfoWayCode[0] + ", driveInfoLaneName : " + driveInfoLaneName[0]);
 
-            if (driveInfoWayCode[0] == 1) diveInfo = "Up";
-            else diveInfo = "Down";
-            switch (diveInfoLaneName[0]) {
+            if (driveInfoWayCode[0] == 1) driveInfo = "Up";
+            else driveInfo = "Down";
+
+            switch (driveInfoLaneName[0]) {
                 case "2호선":
                     laneInfo = "line2";
                     break;
@@ -101,8 +103,8 @@ public class ViewSeatsActivity extends AppCompatActivity {
                     laneInfo = "line8";
                     break;
             }
-            Log.d(TAG, "diveInfo : " + diveInfo + ", laneInfo : " + laneInfo);
-            CollectionReference colRef = db.collection("Demo_subway").document(laneInfo).collection(diveInfo).document("2101").collection("car");
+            Log.d(TAG, "diveInfo : " + driveInfo + ", laneInfo : " + laneInfo);
+            CollectionReference colRef = db.collection("Demo_subway").document(laneInfo).collection(driveInfo).document("2101").collection("car");
 
             switch (v.getId()) {
                 //button_State들은 열차 칸 선택 버튼.
@@ -142,7 +144,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
                     tv_State = findViewById(R.id.textView_StateRight);
                     numOfCars = (String) tv_State.getText();
 
-                    colRef.document(numOfCars)
+                    db.collection("Demo_subway").document(laneInfo).collection(driveInfo).document("2101").collection("car").document(numOfCars)
                             .get()
                             .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                 @Override
@@ -155,20 +157,21 @@ public class ViewSeatsActivity extends AppCompatActivity {
                                         boolean s2_isSit = (Boolean) document.getData().get("s2_isSit");
                                         boolean s2_isPregnant = (Boolean) document.getData().get("s2_isPregnant");
                                         boolean s2_isReservation = (Boolean) document.getData().get("s2_isReservation");
-                                        Log.d(TAG, String.valueOf(s1_isSit));
-                                        Log.d(TAG, String.valueOf(s1_isPregnant));
-                                        Log.d(TAG, String.valueOf(s1_isReservation));
-                                        Log.d(TAG, String.valueOf(s2_isSit));
-                                        Log.d(TAG, String.valueOf(s2_isPregnant));
-                                        Log.d(TAG, String.valueOf(s2_isReservation));
+                                        Log.d(TAG, String.valueOf(s1_isSit) + "1");
+                                        Log.d(TAG, String.valueOf(s1_isPregnant) + "2");
+                                        Log.d(TAG, String.valueOf(s1_isReservation) + "3");
+                                        Log.d(TAG, String.valueOf(s2_isSit) + "4");
+                                        Log.d(TAG, String.valueOf(s2_isPregnant) + "5");
+                                        Log.d(TAG, String.valueOf(s2_isReservation) + "6");
+
+
+                                        checkSeats(v);
                                     } else {
                                         Log.d(TAG, "Error getting documents: ", task.getException());
                                     }
 
                                 }
                             });
-
-                    checkSeats(v);
                     break;
 
                 //button_Seat1~2 는 좌석 선택 버튼.
