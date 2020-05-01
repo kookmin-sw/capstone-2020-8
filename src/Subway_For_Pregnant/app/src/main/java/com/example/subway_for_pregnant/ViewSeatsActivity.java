@@ -13,20 +13,32 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 public class ViewSeatsActivity extends AppCompatActivity {
-    int seat1_State = -1, seat2_State = -1;  //0 = 예약가능, 1 = 일반인 사용중, 2 = 예약 불가.
+    int seat1_State = -1, seat2_State = -1;  //지금은 임시로 지정해둠. 0 = 예약가능, 1 = 일반인 사용중, 2 = 예약 불가.
+
+    int stationsLength;         //역 개수. 즉 stations 라고 앞에 붙은 데이터들의 Length.
+    String[] stationsStartName; //구간마다 현재역 이름
+    int[] stationsStartID;      //구간마다 현재역 코드
+    String[] stationsEndName;   //구간마다 다음역 이름
+    int[] stationsEndSID;       //구간마다 다음역 코드
+
+    int driveInfoLength;        //노선 개수. 환승 없으면 1, 1번 환승은 2. 이런식으로.
+    int[] driveInfoWayCode;     //방면 코드 (1:상행, 2:하행)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_seats);
 
-        //인텐트 호출
         Intent intent = getIntent();
-        int stationsLength = intent.getExtras().getInt("stationsLength");   //역 개수. 즉 stations 라고 앞에 붙은 데이터들의 Length.
-        String[] stationsStartName = new String[stationsLength];    //구간마다 현재역 이름
-        int[] stationsStartID = new int[stationsLength];            //구간마다 현재역 코드
-        String[] stationsEndName = new String[stationsLength];      //구간마다 다음역 이름
-        int[] stationsEndSID = new int[stationsLength];             //구간마다 다음역 코드
+        //인텐트 호출
+        stationsLength = intent.getExtras().getInt("stationsLength");   //역 개수. 즉 stations 라고 앞에 붙은 데이터들의 Length.
+        stationsStartName = new String[stationsLength];    //구간마다 현재역 이름
+        stationsStartID = new int[stationsLength];            //구간마다 현재역 코드
+        stationsEndName = new String[stationsLength];      //구간마다 다음역 이름
+        stationsEndSID = new int[stationsLength];             //구간마다 다음역 코드
+
+        driveInfoLength = intent.getExtras().getInt("driveInfoLength");     //노선 개수. 환승 없으면 1, 1번 환승은 2. 이런식으로.
+        driveInfoWayCode = new int[driveInfoLength];      //방면 코드 (1:상행, 2:하행)
 
         for (int i = 0; i < stationsLength; i++) {
             stationsStartName[i] = intent.getExtras().getString("stationsStartName" + i);
@@ -34,6 +46,10 @@ public class ViewSeatsActivity extends AppCompatActivity {
             stationsEndName[i] = intent.getExtras().getString("stationsEndName" + i);
             stationsEndSID[i] = intent.getExtras().getInt("stationsEndSID" + i);
             //stationsTravelTime[i] = intent.getExtras().getInt("stationsTravelTime" + i);
+        }
+
+        for (int i = 0; i < driveInfoLength; i++) {
+            driveInfoWayCode[i] = intent.getExtras().getInt("driveInfoWayCode");
         }
 
         TextView station = findViewById(R.id.textView_Station);  //인텐트 값 잘 받아오는지 확인하기 위한 임시 TextView.
@@ -53,27 +69,53 @@ public class ViewSeatsActivity extends AppCompatActivity {
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            TextView tv_State;
+            int numOfCars;
+
             switch (v.getId()){
+                //button_State들은 열차 칸 선택 버튼.
                 case R.id.button_StateLeft:
-                    //나중에 DB에서 좌석 현황 불러올 것.
-                    checkSeats(v);  //불러온 데이터로 좌석 버튼 2개 색상 변경. 현재는 색상 변경 임의로 지정.
+                    tv_State = findViewById(R.id.textView_StateLeft);
+                    numOfCars = Integer.parseInt((String) tv_State.getText());  //열차 칸 번호. int형 변수.
+
+                    //여기에 나중에 DB에서 좌석 현황 불러올 것.
+
+                    checkSeats(v);
+                    //불러온 데이터로 좌석 버튼 2개 색상 변경. 현재는 색상 변경 임의로 지정.
+                    //DB에서 값을 받아올 수 있게 되면 v.getId()가 아니라 DB값으로 바꿀 예정. checkSeats() 함수도 수정 예정.
                     break;
                 case R.id.button_State5:
+                    tv_State = findViewById(R.id.textView_State5);
+                    numOfCars = Integer.parseInt((String) tv_State.getText());
+
                     checkSeats(v);
                     break;
                 case R.id.button_State4:
+                    tv_State = findViewById(R.id.textView_State4);
+                    numOfCars = Integer.parseInt((String) tv_State.getText());
+
                     checkSeats(v);
                     break;
                 case R.id.button_State3:
+                    tv_State = findViewById(R.id.textView_State3);
+                    numOfCars = Integer.parseInt((String) tv_State.getText());
+
                     checkSeats(v);
                     break;
                 case R.id.button_State2:
+                    tv_State = findViewById(R.id.textView_State2);
+                    numOfCars = Integer.parseInt((String) tv_State.getText());
+
                     checkSeats(v);
                     break;
                 case R.id.button_StateRight:
+                    tv_State = findViewById(R.id.textView_StateRight);
+                    numOfCars = Integer.parseInt((String) tv_State.getText());
+
                     checkSeats(v);
                     break;
 
+                //button_Seat1~2 는 좌석 선택 버튼.
                 case R.id.button_Seat1:
                     if (seat1_State == 0) {
                         myStartActivity(Ready2Activity.class);
