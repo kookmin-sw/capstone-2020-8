@@ -695,6 +695,34 @@ public class ViewSeatsActivity extends AppCompatActivity {
                                 }
                             });
                     break;
+                case R.id.button_Seat1:
+                    Button bt_Seat1 = findViewById(R.id.button_Seat1);
+
+                    if (bt_Seat1.getText().equals("0") || bt_Seat1.getText().equals("1")) {
+                        myStartActivity(Ready2Activity.class);
+                    }
+                    else if (bt_Seat1.getText().equals("2")) {
+                        startToast("현재 예약이 불가능한 좌석입니다.");
+                    }
+                    else {
+                        startToast("데이터를 불러오기 전입니다.");
+                    }
+
+                    break;
+                case R.id.button_Seat2:
+                    Button bt_Seat2 = findViewById(R.id.button_Seat2);
+
+                    if (bt_Seat2.getText().equals("0") || bt_Seat2.getText().equals("1")) {
+                        myStartActivity(Ready2Activity.class);
+                    }
+                    else if (bt_Seat2.getText().equals("2")) {
+                        startToast("현재 예약이 불가능한 좌석입니다.");
+                    }
+                    else {
+                        startToast("데이터를 불러오기 전입니다.");
+                    }
+
+                    break;
             }
 /*
             if (driveInfoWayCode[0] == 1) driveInfo = "Up";
@@ -819,20 +847,32 @@ public class ViewSeatsActivity extends AppCompatActivity {
     }
 
     private void setBtnColor(int btnId, int check) {
+        Button btn = findViewById(btnId);
         if (check == 0) {
-            findViewById(btnId).setBackgroundColor(Color.parseColor("#008000")); //Green
+            btn.setBackgroundColor(Color.parseColor("#008000")); //Green
+            btn.setText("0");
+            btn.setTextColor(Color.parseColor("#008000"));
         } else if (check == 1) {
-            findViewById(btnId).setBackgroundColor(Color.parseColor("#FFA500")); //Gold
+            btn.setBackgroundColor(Color.parseColor("#FFA500")); //Gold
+            btn.setText("1");
+            btn.setTextColor(Color.parseColor("#FFA500"));
         } else if (check == 2) {
-            findViewById(btnId).setBackgroundColor(Color.parseColor("#FF0000")); //Red
+            btn.setBackgroundColor(Color.parseColor("#FF0000")); //Red
+            btn.setText("2");
+            btn.setTextColor(Color.parseColor("#FF0000"));
         } else {
-            findViewById(btnId).setBackgroundColor(Color.parseColor("#545454")); //Dark Gray
+            btn.setBackgroundColor(Color.parseColor("#545454")); //Dark Gray
+            btn.setText("3");
+            btn.setTextColor(Color.parseColor("#545454"));
         }
     }
 
     private void myStartActivity(Class c) {
-        Intent intent = new Intent(this, c);
-        startActivity(intent);
+        Intent intent = getIntent();
+        intent.getExtras();
+        Intent intent2 = new Intent(this, c);
+        intent2.putExtras(intent);
+        startActivity(intent2);
     }
 
     private void startToast(String msg) {
