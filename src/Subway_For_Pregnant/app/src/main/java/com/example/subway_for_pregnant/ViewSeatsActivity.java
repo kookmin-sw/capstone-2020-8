@@ -20,6 +20,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -742,6 +743,11 @@ public class ViewSeatsActivity extends AppCompatActivity {
                     if (bt_Seat2.getText().equals("0") || bt_Seat2.getText().equals("1")) {
                         showCarNum = tv_carNum.getText().toString();
                         nowCarNum = showCarNum.charAt(0);
+
+                        final String carNum = Character.toString(nowCarNum);
+                        CollectionReference colref = db.collection("Demo_subway").document(laneInfo).collection(driveInfo).document("2101").collection("car").document(carNum).collection("section");
+                        Query startQuery = colref.whereEqualTo("start" = )
+
                         startToast(nowCarNum + "");
                         myStartActivity(Ready2Activity.class);
                     }
