@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.List;
 
 public class ViewSeatsActivity extends AppCompatActivity {
     private static final String TAG = "ViewSeatsActivity";
@@ -49,8 +52,12 @@ public class ViewSeatsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_seats);
 
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
         Intent intent = getIntent();
+
+        Log.d(TAG,intent.getExtras().getString("train_number"));
+
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         //인텐트 호출
         stationsLength = intent.getExtras().getInt("stationsLength");   //역 개수. 즉 stations 라고 앞에 붙은 데이터들의 Length.
         stationsStartName = new String[stationsLength];    //구간마다 현재역 이름

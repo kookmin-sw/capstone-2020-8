@@ -1,9 +1,11 @@
 package com.example.subway_for_pregnant;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,18 +13,31 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TrainActivity extends AppCompatActivity {
 
+    private static final String TAG = "TrainActivity";
+    final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.sample);
 
         TextView tv_sample = findViewById(R.id.textView_sample);
+        final ListView listView = findViewById(R.id.listView);
 
         Intent intent = getIntent();
 
@@ -68,25 +83,44 @@ public class TrainActivity extends AppCompatActivity {
 
         tv_sample.setText(showResult);
 
-        final ListView listView = findViewById(R.id.listView);
-        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
-                new String[]{"4556번","4557번","4558번","4559번","4560번","4561번"}));
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), position+" 번째 값 : " + parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
-                myStartActivity(ViewSeatsActivity.class);
+            db.collection("Demo_subway").document("line8").collection("Up")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            List<String> train = new ArrayList<String>();
 
-            }
-        });
-    }
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
+                                    train.add(queryDocumentSnapshot.getId());
+                                    Log.d(TAG, queryDocumentSnapshot.getId() + " => " + queryDocumentSnapshot.getData());
 
-    private void myStartActivity(Class c) {
+                                }
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
+                            }
+
+                            listView.setAdapter(new ArrayAdapter<String>(TrainActivity.this, android.R.layout.simple_list_item_1, train));
+
+                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    Toast.makeText(getApplicationContext(), position + " 번째 값 : " + parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
+                                    myStartActivity(ViewSeatsActivity.class, parent.getItemAtPosition(position).toString());
+                                }
+                            });
+                        }
+                    });
+        }
+
+    private void myStartActivity(Class c, String position) {
+
         Intent intent = getIntent();
         intent.getExtras();
         Intent intent2 = new Intent(this, c);
         intent2.putExtras(intent);
+        intent2.putExtra("train_number",position);
         startActivity(intent2);
     }
 
