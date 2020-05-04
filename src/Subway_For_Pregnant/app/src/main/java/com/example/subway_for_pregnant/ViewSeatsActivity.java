@@ -228,7 +228,9 @@ public class ViewSeatsActivity extends AppCompatActivity {
             String driveInfo = "1";
             String laneInfo = "1";
 
-
+            TextView tv_carNum = findViewById(R.id.textView_carNum);
+            char nowCarNum = '9';
+            String showCarNum = "";
 
             if (driveInfoWayCode[0] == 1) driveInfo = "Up";
             else driveInfo = "Down";
@@ -291,6 +293,8 @@ public class ViewSeatsActivity extends AppCompatActivity {
                                             }
                                         }
 
+                                        TextView tv_carNum = findViewById(R.id.textView_carNum);
+                                        tv_carNum.setText(tv_State[0] + "번째 칸");
                                         doSetBtnColor(R.id.button_Seat1, seat1_State, R.id.button_Seat2, seat2_State);
                                         /*
                                         if (seat1_State == 0) {
@@ -368,6 +372,8 @@ public class ViewSeatsActivity extends AppCompatActivity {
                                             }
                                         }
 
+                                        TextView tv_carNum = findViewById(R.id.textView_carNum);
+                                        tv_carNum.setText(tv_State[1].getText().toString() + "번째 칸");
                                         doSetBtnColor(R.id.button_Seat1, seat1_State, R.id.button_Seat2, seat2_State);
                                         /*
                                         if (seat1_State == 0) {
@@ -445,6 +451,8 @@ public class ViewSeatsActivity extends AppCompatActivity {
                                             }
                                         }
 
+                                        TextView tv_carNum = findViewById(R.id.textView_carNum);
+                                        tv_carNum.setText(tv_State[2].getText().toString() + "번째 칸");
                                         doSetBtnColor(R.id.button_Seat1, seat1_State, R.id.button_Seat2, seat2_State);
                                         /*
                                         if (seat1_State == 0) {
@@ -522,6 +530,8 @@ public class ViewSeatsActivity extends AppCompatActivity {
                                             }
                                         }
 
+                                        TextView tv_carNum = findViewById(R.id.textView_carNum);
+                                        tv_carNum.setText(tv_State[3].getText().toString() + "번째 칸");
                                         doSetBtnColor(R.id.button_Seat1, seat1_State, R.id.button_Seat2, seat2_State);
                                         /*
                                         if (seat1_State == 0) {
@@ -599,6 +609,8 @@ public class ViewSeatsActivity extends AppCompatActivity {
                                             }
                                         }
 
+                                        TextView tv_carNum = findViewById(R.id.textView_carNum);
+                                        tv_carNum.setText(tv_State[4].getText().toString() + "번째 칸");
                                         doSetBtnColor(R.id.button_Seat1, seat1_State, R.id.button_Seat2, seat2_State);
                                         /*
                                         if (seat1_State == 0) {
@@ -676,6 +688,8 @@ public class ViewSeatsActivity extends AppCompatActivity {
                                             }
                                         }
 
+                                        TextView tv_carNum = findViewById(R.id.textView_carNum);
+                                        tv_carNum.setText(tv_State[5].getText().toString() + "번째 칸");
                                         doSetBtnColor(R.id.button_Seat1, seat1_State, R.id.button_Seat2, seat2_State);
                                         /*
                                         if (seat1_State == 0) {
@@ -709,6 +723,9 @@ public class ViewSeatsActivity extends AppCompatActivity {
                     Button bt_Seat1 = findViewById(R.id.button_Seat1);
 
                     if (bt_Seat1.getText().equals("0") || bt_Seat1.getText().equals("1")) {
+                        showCarNum = tv_carNum.getText().toString();
+                        nowCarNum = showCarNum.charAt(0);
+                        startToast(nowCarNum + "");
                         myStartActivity(Ready2Activity.class);
                     }
                     else if (bt_Seat1.getText().equals("2")) {
@@ -723,6 +740,9 @@ public class ViewSeatsActivity extends AppCompatActivity {
                     Button bt_Seat2 = findViewById(R.id.button_Seat2);
 
                     if (bt_Seat2.getText().equals("0") || bt_Seat2.getText().equals("1")) {
+                        showCarNum = tv_carNum.getText().toString();
+                        nowCarNum = showCarNum.charAt(0);
+                        startToast(nowCarNum + "");
                         myStartActivity(Ready2Activity.class);
                     }
                     else if (bt_Seat2.getText().equals("2")) {

@@ -249,11 +249,12 @@
             android:background="#545454" />
 
         <TextView
-            android:id="@+id/textView2"
-            android:layout_width="100dp"
+            android:id="@+id/textView_carNum"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/button_Seat2"
@@ -299,15 +300,5 @@
             android:textColor="#FF0000"
             android:textSize="18sp" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView_Station"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
