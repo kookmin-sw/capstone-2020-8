@@ -29,6 +29,10 @@ public class ViewSeatsActivity extends AppCompatActivity {
     int carNum;
     int now = 0;
 
+    String globalStartName;     //출발역
+    String globalEndName;       //도착역
+    int globalStationCount;     //정차역 수
+
     int stationsLength;         //역 개수. 즉 stations 라고 앞에 붙은 데이터들의 Length.
     String[] stationsStartName; //구간마다 현재역 이름
     int[] stationsStartID;      //구간마다 현재역 코드
@@ -52,6 +56,10 @@ public class ViewSeatsActivity extends AppCompatActivity {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         Intent intent = getIntent();
         //인텐트 호출
+        globalStartName = intent.getExtras().getString("globalStartName");
+        globalEndName = intent.getExtras().getString("globalEndName");
+        globalStationCount = intent.getExtras().getInt("globalStationCount");
+
         stationsLength = intent.getExtras().getInt("stationsLength");   //역 개수. 즉 stations 라고 앞에 붙은 데이터들의 Length.
         stationsStartName = new String[stationsLength];    //구간마다 현재역 이름
         stationsStartID = new int[stationsLength];            //구간마다 현재역 코드
@@ -219,6 +227,8 @@ public class ViewSeatsActivity extends AppCompatActivity {
             final FirebaseFirestore db = FirebaseFirestore.getInstance();
             String driveInfo = "1";
             String laneInfo = "1";
+
+
 
             if (driveInfoWayCode[0] == 1) driveInfo = "Up";
             else driveInfo = "Down";
