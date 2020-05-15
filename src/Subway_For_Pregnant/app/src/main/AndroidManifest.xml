@@ -60,6 +60,9 @@
         <activity android:name=".SampleBluetoothActivity">
 
         </activity>
+        <activity android:name=".NodeTestActivity">
+
+        </activity>
     </application>
 
 </manifest>
