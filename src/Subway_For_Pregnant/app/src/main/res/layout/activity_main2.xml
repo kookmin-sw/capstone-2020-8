@@ -21,6 +21,12 @@
         android:text="블루투스 TEST" />
 
     <Button
+        android:id="@+id/socketButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Socket TEST" />
+
+    <Button
         android:id="@+id/logoutButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

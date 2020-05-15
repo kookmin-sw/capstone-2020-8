@@ -11,7 +11,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.net.URISyntaxException
 
-class MainActivity : AppCompatActivity() {
+class NodeTestActivity : AppCompatActivity() {
 
     val Tag = "NodeTestActivity"
     lateinit var mSocket: Socket
