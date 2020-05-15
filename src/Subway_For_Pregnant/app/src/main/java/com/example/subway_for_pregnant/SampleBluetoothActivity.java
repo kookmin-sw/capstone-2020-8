@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,7 +14,6 @@ import android.os.Message;
 import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import org.altbeacon.beacon.Beacon;
@@ -30,6 +30,7 @@ import java.util.List;
 public class SampleBluetoothActivity extends AppCompatActivity implements BeaconConsumer {
 
     private static final String TAG = "Beacontest";
+
     private BeaconManager beaconManager;
 
     private List<Beacon> beaconList = new ArrayList<>();
@@ -111,12 +112,12 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
         public void handleMessage(Message msg) {
             textView.setText("test");
 
-
             // 비콘의 아이디와 거리를 측정하여 textView에 넣는다.
             for(Beacon beacon : beaconList){
                 String uuid=beacon.getId1().toString(); //beacon uuid
                 int major = beacon.getId2().toInt(); //beacon major
                 int minor = beacon.getId3().toInt();// beacon minor
+                myStartActivity(NodeTestActivity.class,minor);
                 //int txpower = beacon.getTxPower();
                 String address = beacon.getBluetoothAddress();
                 if(major==1){
@@ -130,17 +131,21 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
                 textView.append("Beacon MINOR : "+minor+"\n");
                 //textView.append("Beacon TXPOWER : "+txpower+"\n");
 
+
                   }else{
                 //나머지 비콘검색
                 textView.append("ID 2: " + beacon.getId2() + " / " + "Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())) + "m\n");
-            }
+                }
 
             }
-
             // 자기 자신을 1초마다 호출
-            handler.sendEmptyMessageDelayed(0, 500);
+            handler.sendEmptyMessageDelayed(0, 5000000);
         }
+
+
     };
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -167,4 +172,14 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
             }
         }
     }
+
+    private void myStartActivity(Class c, int minor) {
+        Intent intent = getIntent();
+        intent.getExtras();
+        Intent intent2 = new Intent(this, c);
+        intent2.putExtras(intent);
+        intent2.putExtra("minor",minor);
+        startActivity(intent2);
+    }
 }
+

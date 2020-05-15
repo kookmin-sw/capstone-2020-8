@@ -69,9 +69,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.bluetoothButton:
                     myStartActivity(SampleBluetoothActivity.class);
                     break;
-                case R.id.socketButton:
+                /*case R.id.socketButton:
                     myStartActivity(NodeTestActivity.class);
-                    break;
+                    break;*/
             }
         }
     };
