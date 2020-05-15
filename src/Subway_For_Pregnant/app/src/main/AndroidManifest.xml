@@ -19,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:targetSdkVersion="29"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -64,7 +65,6 @@
         <activity android:name=".SampleBluetoothActivity">
 
         </activity>
-
         <activity android:name=".NodeTestActivity">
 
         </activity>
