@@ -23,7 +23,7 @@ class NodeTestActivity : AppCompatActivity() {
         setContentView(R.layout.activity_server)
         try {
             //IO.socket 메소드는 은 저 URL 을 토대로 클라이언트 객체를 Return 합니다.
-            mSocket = IO.socket("http://172.30.1.20:3000")
+            mSocket = IO.socket("http://172.30.1.20:8000/")
         } catch (e: URISyntaxException) {
             Log.e("NodeTestActivity", e.reason)
         }
@@ -38,6 +38,7 @@ class NodeTestActivity : AppCompatActivity() {
         // server 측의 io.on('connection',function (socket){-} 을 트리깅합니다.
         // 다시말하자면 mSocket.emit('connection',socket)을 한 것 과 동일하다고 할 수 있습니다.
         mSocket.connect()
+        Log.d(Tag, "connect 지남")
 
         // 이제 연결이 성공적으로 되게 되면, server측에서 "connect" event 를 발생시키고
         // 아래코드가 그 event 를 핸들링 합니다. onConnect는 65번째 줄로 가서 살펴 보도록 합니다.
