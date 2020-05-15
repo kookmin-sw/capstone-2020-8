@@ -28,9 +28,8 @@ import java.util.List;
 
 public class ViewSeatsActivity extends AppCompatActivity {
     private static final String TAG = "ViewSeatsActivity";
-    int[] seat1_State, seat2_State;  //지금은 임시로 지정해둠. 0 = 예약가능, 1 = 일반인 사용중, 2 = 예약 불가.
-    int carNum;
-    int now = 0;
+    int[] seat1, seat2;  //지금은 임시로 지정해둠. 0 = 예약가능, 1 = 일반인 사용중, 2 = 예약 불가.
+    int trainLength = 6;  //해당 열차의 길이. 열차 칸의 총 개수.
 
     String globalStartName;     //출발역
     String globalEndName;       //도착역
@@ -48,8 +47,6 @@ public class ViewSeatsActivity extends AppCompatActivity {
 
     Button[] bt_State;
     TextView[] tv_State;
-
-    //final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,14 +90,8 @@ public class ViewSeatsActivity extends AppCompatActivity {
         String driveInfo = "1";
         String laneInfo = "1";
 
-        int trainLength = 6;
-        seat1_State = new int[trainLength];
-        seat2_State = new int[trainLength];
-
-        for (int i = 0; i < trainLength; i++) {
-            seat1_State[i] = -1;
-            seat2_State[i] = -1;
-        }
+        seat1 = new int[trainLength];
+        seat2 = new int[trainLength];
 
         bt_State = new Button[trainLength];
         bt_State[0] = findViewById(R.id.button_StateRight);
@@ -130,6 +121,8 @@ public class ViewSeatsActivity extends AppCompatActivity {
                 break;
         }
 
+        initSeatStateBtn();
+
         for (int i = 1; i <= 6; i++) {
             final int carNum = i;
             final String laneInfoDB = laneInfo;     //출발역
@@ -153,7 +146,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
                                                 if (task.isSuccessful()) {
                                                     for (final QueryDocumentSnapshot document2 : task.getResult()) {
 
-                                                        final String sectionStart = document2.getId();
+                                                        final int sectionStart = Integer.parseInt(document2.getId());
 
                                                         db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document("2101").collection("car").document(Integer.toString(carNum)).collection("section").whereEqualTo("end", globalEndNameDB)
                                                                 .get()
@@ -164,7 +157,9 @@ public class ViewSeatsActivity extends AppCompatActivity {
                                                                         if (task.isSuccessful()) {
                                                                             for (final QueryDocumentSnapshot document3 : task.getResult()) {
 
-                                                                                final String sectionEnd = document3.getId();
+                                                                                final int sectionEnd = Integer.parseInt(document3.getId());
+
+                                                                                getSeatState(sectionStart, sectionEnd, laneInfoDB, driveInfoDB, carNum);
 
                                                                                 boolean s1_isSit = (Boolean) document1.getData().get("s1_isSit");
                                                                                 boolean s1_isPregnant = (Boolean) document1.getData().get("s1_isPregnant");
@@ -173,94 +168,24 @@ public class ViewSeatsActivity extends AppCompatActivity {
                                                                                 boolean s2_isPregnant = (Boolean) document1.getData().get("s2_isPregnant");
                                                                                 boolean s2_isReservation = (Boolean) document1.getData().get("s2_isReservation");
 
-                                                                                Log.d(TAG, sectionStart);
-                                                                                Log.d(TAG, sectionEnd);
+                                                                                Log.d(TAG, "" + sectionStart);
+                                                                                Log.d(TAG, "" + sectionEnd);
                                                                                 Log.d(TAG, String.valueOf(s1_isSit) + '1');
                                                                                 Log.d(TAG, String.valueOf(s1_isPregnant) + '2');
                                                                                 Log.d(TAG, String.valueOf(s1_isReservation) + '3');
                                                                                 Log.d(TAG, String.valueOf(s2_isSit) + '4');
                                                                                 Log.d(TAG, String.valueOf(s2_isPregnant) + '5');
                                                                                 Log.d(TAG, String.valueOf(s2_isReservation) + '6');
-
-
-                                                                                int seat1_State = -1;
-                                                                                int seat2_State = -1;
-                                                                                Button bt_State = findViewById(R.id.button_StateRight);
-
-                                                                                switch (carNum) {
-                                                                                    case 1:
-                                                                                        bt_State = findViewById(R.id.button_StateRight);
-                                                                                        break;
-                                                                                    case 2:
-                                                                                        bt_State = findViewById(R.id.button_State2);
-                                                                                        break;
-                                                                                    case 3:
-                                                                                        bt_State = findViewById(R.id.button_State3);
-                                                                                        break;
-                                                                                    case 4:
-                                                                                        bt_State = findViewById(R.id.button_State4);
-                                                                                        break;
-                                                                                    case 5:
-                                                                                        bt_State = findViewById(R.id.button_State5);
-                                                                                        break;
-                                                                                    case 6:
-                                                                                        bt_State = findViewById(R.id.button_StateLeft);
-                                                                                        break;
-                                                                                }
-
-                                                                                //첫 번째 좌석 상태.
-                                                                                if (s1_isSit == false) {
-                                                                                    if (s1_isReservation == false) {
-                                                                                        seat1_State = 0;
-                                                                                    } else {
-                                                                                        seat1_State = 2;
-                                                                                    }
-                                                                                } else {
-                                                                                    if (s1_isPregnant == false && s1_isReservation == false) {
-                                                                                        seat1_State = 1;
-                                                                                    } else {
-                                                                                        seat1_State = 2;
-                                                                                    }
-                                                                                }
-
-                                                                                //두 번째 좌석 상태.
-                                                                                if (s2_isSit == false) {
-                                                                                    if (s2_isReservation == false) {
-                                                                                        seat2_State = 0;
-                                                                                    } else {
-                                                                                        seat2_State = 2;
-                                                                                    }
-                                                                                } else {
-                                                                                    if (s2_isPregnant == false && s2_isReservation == false) {
-                                                                                        seat2_State = 1;
-                                                                                    } else {
-                                                                                        seat2_State = 2;
-                                                                                    }
-                                                                                }
-
-                                                                                // tv_State[carNum].setText("" + carNum);
-
-                                                                                if (seat1_State < 2 && seat2_State < 2) {
-                                                                                    bt_State.setText("2");
-                                                                                } else if (seat1_State < 2 || seat2_State < 2) {
-                                                                                    bt_State.setText("1");
-                                                                                } else {
-                                                                                    bt_State.setText("0");
-                                                                                }
-
                                                                             }
                                                                         } else {
                                                                             Log.d(TAG, "Error getting documents: ", task.getException());
                                                                         }
-
                                                                     }
                                                                 });
-
                                                     }
                                                 } else {
                                                     Log.d(TAG, "Error getting documents: ", task.getException());
                                                 }
-
                                             }
                                         });
                             } else {
@@ -288,8 +213,6 @@ public class ViewSeatsActivity extends AppCompatActivity {
             String driveInfo = "1";
             String laneInfo = "1";
 
-
-
             if (driveInfoWayCode[0] == 1) driveInfo = "Up";
             else driveInfo = "Down";
 
@@ -302,468 +225,27 @@ public class ViewSeatsActivity extends AppCompatActivity {
                     break;
             }
 
+            final String laneInfoDB = laneInfo;
+            final String driveInfoDB = driveInfo;
+
             switch (v.getId()) {
                 case R.id.button_StateRight:
-                    db.collection("Demo_subway").document(laneInfo).collection(driveInfo).document("2101").collection("car").document("1")
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        DocumentSnapshot document = task.getResult();
-                                        boolean s1_isSit = (Boolean) document.getData().get("s1_isSit");
-                                        boolean s1_isPregnant = (Boolean) document.getData().get("s1_isPregnant");
-                                        boolean s1_isReservation = (Boolean) document.getData().get("s1_isReservation");
-                                        boolean s2_isSit = (Boolean) document.getData().get("s2_isSit");
-                                        boolean s2_isPregnant = (Boolean) document.getData().get("s2_isPregnant");
-                                        boolean s2_isReservation = (Boolean) document.getData().get("s2_isReservation");
-
-                                        int seat1_State;
-                                        int seat2_State;
-
-                                        //첫 번째 좌석 상태.
-                                        if (s1_isSit == false) {
-                                            if (s1_isReservation == false) {
-                                                seat1_State = 0;
-                                            } else {
-                                                seat1_State = 2;
-                                            }
-                                        } else {
-                                            if (s1_isPregnant == false && s1_isReservation == false) {
-                                                seat1_State = 1;
-                                            } else {
-                                                seat1_State = 2;
-                                            }
-                                        }
-
-                                        //두 번째 좌석 상태.
-                                        if (s2_isSit == false) {
-                                            if (s2_isReservation == false) {
-                                                seat2_State = 0;
-                                            } else {
-                                                seat2_State = 2;
-                                            }
-                                        } else {
-                                            if (s2_isPregnant == false && s2_isReservation == false) {
-                                                seat2_State = 1;
-                                            } else {
-                                                seat2_State = 2;
-                                            }
-                                        }
-
-                                        doSetBtnColor(R.id.button_Seat1, seat1_State, R.id.button_Seat2, seat2_State);
-                                        /*
-                                        if (seat1_State == 0) {
-                                            findViewById(R.id.button_Seat1).setBackgroundColor(Color.parseColor("#008000")); //Green
-                                        } else if (seat1_State == 1) {
-                                            findViewById(R.id.button_Seat1).setBackgroundColor(Color.parseColor("#FFA500")); //Gold
-                                        } else if (seat1_State == 2) {
-                                            findViewById(R.id.button_Seat1).setBackgroundColor(Color.parseColor("#FF0000")); //Red
-                                        } else {
-                                            findViewById(R.id.button_Seat1).setBackgroundColor(Color.parseColor("#545454")); //Dark Gray
-                                        }
-
-                                        if (seat2_State == 0) {
-                                            findViewById(R.id.button_Seat2).setBackgroundColor(Color.parseColor("#008000")); //Green
-                                        } else if (seat2_State == 1) {
-                                            findViewById(R.id.button_Seat2).setBackgroundColor(Color.parseColor("#FFA500")); //Gold
-                                        } else if (seat2_State == 2) {
-                                            findViewById(R.id.button_Seat2).setBackgroundColor(Color.parseColor("#FF0000")); //Red
-                                        } else {
-                                            findViewById(R.id.button_Seat2).setBackgroundColor(Color.parseColor("#545454")); //Dark Gray
-                                        }
-
-                                         */
-                                    } else {
-                                        Log.d(TAG, "Error getting documents: ", task.getException());
-                                    }
-                                }
-                            });
+                    doSetBtnColor(1, laneInfoDB, driveInfoDB);
                     break;
                 case R.id.button_State2:
-                    db.collection("Demo_subway").document(laneInfo).collection(driveInfo).document("2101").collection("car").document("2")
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        DocumentSnapshot document = task.getResult();
-                                        boolean s1_isSit = (Boolean) document.getData().get("s1_isSit");
-                                        boolean s1_isPregnant = (Boolean) document.getData().get("s1_isPregnant");
-                                        boolean s1_isReservation = (Boolean) document.getData().get("s1_isReservation");
-                                        boolean s2_isSit = (Boolean) document.getData().get("s2_isSit");
-                                        boolean s2_isPregnant = (Boolean) document.getData().get("s2_isPregnant");
-                                        boolean s2_isReservation = (Boolean) document.getData().get("s2_isReservation");
-
-                                        int seat1_State;
-                                        int seat2_State;
-
-                                        //첫 번째 좌석 상태.
-                                        if (s1_isSit == false) {
-                                            if (s1_isReservation == false) {
-                                                seat1_State = 0;
-                                            } else {
-                                                seat1_State = 2;
-                                            }
-                                        } else {
-                                            if (s1_isPregnant == false && s1_isReservation == false) {
-                                                seat1_State = 1;
-                                            } else {
-                                                seat1_State = 2;
-                                            }
-                                        }
-
-                                        //두 번째 좌석 상태.
-                                        if (s2_isSit == false) {
-                                            if (s2_isReservation == false) {
-                                                seat2_State = 0;
-                                            } else {
-                                                seat2_State = 2;
-                                            }
-                                        } else {
-                                            if (s2_isPregnant == false && s2_isReservation == false) {
-                                                seat2_State = 1;
-                                            } else {
-                                                seat2_State = 2;
-                                            }
-                                        }
-
-                                        doSetBtnColor(R.id.button_Seat1, seat1_State, R.id.button_Seat2, seat2_State);
-                                        /*
-                                        if (seat1_State == 0) {
-                                            findViewById(R.id.button_Seat1).setBackgroundColor(Color.parseColor("#008000")); //Green
-                                        } else if (seat1_State == 1) {
-                                            findViewById(R.id.button_Seat1).setBackgroundColor(Color.parseColor("#FFA500")); //Gold
-                                        } else if (seat1_State == 2) {
-                                            findViewById(R.id.button_Seat1).setBackgroundColor(Color.parseColor("#FF0000")); //Red
-                                        } else {
-                                            findViewById(R.id.button_Seat1).setBackgroundColor(Color.parseColor("#545454")); //Dark Gray
-                                        }
-
-                                        if (seat2_State == 0) {
-                                            findViewById(R.id.button_Seat2).setBackgroundColor(Color.parseColor("#008000")); //Green
-                                        } else if (seat2_State == 1) {
-                                            findViewById(R.id.button_Seat2).setBackgroundColor(Color.parseColor("#FFA500")); //Gold
-                                        } else if (seat2_State == 2) {
-                                            findViewById(R.id.button_Seat2).setBackgroundColor(Color.parseColor("#FF0000")); //Red
-                                        } else {
-                                            findViewById(R.id.button_Seat2).setBackgroundColor(Color.parseColor("#545454")); //Dark Gray
-                                        }
-
-                                         */
-                                    } else {
-                                        Log.d(TAG, "Error getting documents: ", task.getException());
-                                    }
-                                }
-                            });
+                    doSetBtnColor(2, laneInfoDB, driveInfoDB);
                     break;
                 case R.id.button_State3:
-                    db.collection("Demo_subway").document(laneInfo).collection(driveInfo).document("2101").collection("car").document("3")
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        DocumentSnapshot document = task.getResult();
-                                        boolean s1_isSit = (Boolean) document.getData().get("s1_isSit");
-                                        boolean s1_isPregnant = (Boolean) document.getData().get("s1_isPregnant");
-                                        boolean s1_isReservation = (Boolean) document.getData().get("s1_isReservation");
-                                        boolean s2_isSit = (Boolean) document.getData().get("s2_isSit");
-                                        boolean s2_isPregnant = (Boolean) document.getData().get("s2_isPregnant");
-                                        boolean s2_isReservation = (Boolean) document.getData().get("s2_isReservation");
-
-                                        int seat1_State;
-                                        int seat2_State;
-
-                                        //첫 번째 좌석 상태.
-                                        if (s1_isSit == false) {
-                                            if (s1_isReservation == false) {
-                                                seat1_State = 0;
-                                            } else {
-                                                seat1_State = 2;
-                                            }
-                                        } else {
-                                            if (s1_isPregnant == false && s1_isReservation == false) {
-                                                seat1_State = 1;
-                                            } else {
-                                                seat1_State = 2;
-                                            }
-                                        }
-
-                                        //두 번째 좌석 상태.
-                                        if (s2_isSit == false) {
-                                            if (s2_isReservation == false) {
-                                                seat2_State = 0;
-                                            } else {
-                                                seat2_State = 2;
-                                            }
-                                        } else {
-                                            if (s2_isPregnant == false && s2_isReservation == false) {
-                                                seat2_State = 1;
-                                            } else {
-                                                seat2_State = 2;
-                                            }
-                                        }
-
-                                        doSetBtnColor(R.id.button_Seat1, seat1_State, R.id.button_Seat2, seat2_State);
-                                        /*
-                                        if (seat1_State == 0) {
-                                            findViewById(R.id.button_Seat1).setBackgroundColor(Color.parseColor("#008000")); //Green
-                                        } else if (seat1_State == 1) {
-                                            findViewById(R.id.button_Seat1).setBackgroundColor(Color.parseColor("#FFA500")); //Gold
-                                        } else if (seat1_State == 2) {
-                                            findViewById(R.id.button_Seat1).setBackgroundColor(Color.parseColor("#FF0000")); //Red
-                                        } else {
-                                            findViewById(R.id.button_Seat1).setBackgroundColor(Color.parseColor("#545454")); //Dark Gray
-                                        }
-
-                                        if (seat2_State == 0) {
-                                            findViewById(R.id.button_Seat2).setBackgroundColor(Color.parseColor("#008000")); //Green
-                                        } else if (seat2_State == 1) {
-                                            findViewById(R.id.button_Seat2).setBackgroundColor(Color.parseColor("#FFA500")); //Gold
-                                        } else if (seat2_State == 2) {
-                                            findViewById(R.id.button_Seat2).setBackgroundColor(Color.parseColor("#FF0000")); //Red
-                                        } else {
-                                            findViewById(R.id.button_Seat2).setBackgroundColor(Color.parseColor("#545454")); //Dark Gray
-                                        }
-
-                                         */
-                                    } else {
-                                        Log.d(TAG, "Error getting documents: ", task.getException());
-                                    }
-                                }
-                            });
+                    doSetBtnColor(3, laneInfoDB, driveInfoDB);
                     break;
                 case R.id.button_State4:
-                    db.collection("Demo_subway").document(laneInfo).collection(driveInfo).document("2101").collection("car").document("4")
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        DocumentSnapshot document = task.getResult();
-                                        boolean s1_isSit = (Boolean) document.getData().get("s1_isSit");
-                                        boolean s1_isPregnant = (Boolean) document.getData().get("s1_isPregnant");
-                                        boolean s1_isReservation = (Boolean) document.getData().get("s1_isReservation");
-                                        boolean s2_isSit = (Boolean) document.getData().get("s2_isSit");
-                                        boolean s2_isPregnant = (Boolean) document.getData().get("s2_isPregnant");
-                                        boolean s2_isReservation = (Boolean) document.getData().get("s2_isReservation");
-
-                                        int seat1_State;
-                                        int seat2_State;
-
-                                        //첫 번째 좌석 상태.
-                                        if (s1_isSit == false) {
-                                            if (s1_isReservation == false) {
-                                                seat1_State = 0;
-                                            } else {
-                                                seat1_State = 2;
-                                            }
-                                        } else {
-                                            if (s1_isPregnant == false && s1_isReservation == false) {
-                                                seat1_State = 1;
-                                            } else {
-                                                seat1_State = 2;
-                                            }
-                                        }
-
-                                        //두 번째 좌석 상태.
-                                        if (s2_isSit == false) {
-                                            if (s2_isReservation == false) {
-                                                seat2_State = 0;
-                                            } else {
-                                                seat2_State = 2;
-                                            }
-                                        } else {
-                                            if (s2_isPregnant == false && s2_isReservation == false) {
-                                                seat2_State = 1;
-                                            } else {
-                                                seat2_State = 2;
-                                            }
-                                        }
-
-                                        doSetBtnColor(R.id.button_Seat1, seat1_State, R.id.button_Seat2, seat2_State);
-                                        /*
-                                        if (seat1_State == 0) {
-                                            findViewById(R.id.button_Seat1).setBackgroundColor(Color.parseColor("#008000")); //Green
-                                        } else if (seat1_State == 1) {
-                                            findViewById(R.id.button_Seat1).setBackgroundColor(Color.parseColor("#FFA500")); //Gold
-                                        } else if (seat1_State == 2) {
-                                            findViewById(R.id.button_Seat1).setBackgroundColor(Color.parseColor("#FF0000")); //Red
-                                        } else {
-                                            findViewById(R.id.button_Seat1).setBackgroundColor(Color.parseColor("#545454")); //Dark Gray
-                                        }
-
-                                        if (seat2_State == 0) {
-                                            findViewById(R.id.button_Seat2).setBackgroundColor(Color.parseColor("#008000")); //Green
-                                        } else if (seat2_State == 1) {
-                                            findViewById(R.id.button_Seat2).setBackgroundColor(Color.parseColor("#FFA500")); //Gold
-                                        } else if (seat2_State == 2) {
-                                            findViewById(R.id.button_Seat2).setBackgroundColor(Color.parseColor("#FF0000")); //Red
-                                        } else {
-                                            findViewById(R.id.button_Seat2).setBackgroundColor(Color.parseColor("#545454")); //Dark Gray
-                                        }
-
-                                         */
-                                    } else {
-                                        Log.d(TAG, "Error getting documents: ", task.getException());
-                                    }
-                                }
-                            });
+                    doSetBtnColor(4, laneInfoDB, driveInfoDB);
                     break;
                 case R.id.button_State5:
-                    db.collection("Demo_subway").document(laneInfo).collection(driveInfo).document("2101").collection("car").document("5")
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        DocumentSnapshot document = task.getResult();
-                                        boolean s1_isSit = (Boolean) document.getData().get("s1_isSit");
-                                        boolean s1_isPregnant = (Boolean) document.getData().get("s1_isPregnant");
-                                        boolean s1_isReservation = (Boolean) document.getData().get("s1_isReservation");
-                                        boolean s2_isSit = (Boolean) document.getData().get("s2_isSit");
-                                        boolean s2_isPregnant = (Boolean) document.getData().get("s2_isPregnant");
-                                        boolean s2_isReservation = (Boolean) document.getData().get("s2_isReservation");
-
-                                        int seat1_State;
-                                        int seat2_State;
-
-                                        //첫 번째 좌석 상태.
-                                        if (s1_isSit == false) {
-                                            if (s1_isReservation == false) {
-                                                seat1_State = 0;
-                                            } else {
-                                                seat1_State = 2;
-                                            }
-                                        } else {
-                                            if (s1_isPregnant == false && s1_isReservation == false) {
-                                                seat1_State = 1;
-                                            } else {
-                                                seat1_State = 2;
-                                            }
-                                        }
-
-                                        //두 번째 좌석 상태.
-                                        if (s2_isSit == false) {
-                                            if (s2_isReservation == false) {
-                                                seat2_State = 0;
-                                            } else {
-                                                seat2_State = 2;
-                                            }
-                                        } else {
-                                            if (s2_isPregnant == false && s2_isReservation == false) {
-                                                seat2_State = 1;
-                                            } else {
-                                                seat2_State = 2;
-                                            }
-                                        }
-
-                                        doSetBtnColor(R.id.button_Seat1, seat1_State, R.id.button_Seat2, seat2_State);
-                                        /*
-                                        if (seat1_State == 0) {
-                                            findViewById(R.id.button_Seat1).setBackgroundColor(Color.parseColor("#008000")); //Green
-                                        } else if (seat1_State == 1) {
-                                            findViewById(R.id.button_Seat1).setBackgroundColor(Color.parseColor("#FFA500")); //Gold
-                                        } else if (seat1_State == 2) {
-                                            findViewById(R.id.button_Seat1).setBackgroundColor(Color.parseColor("#FF0000")); //Red
-                                        } else {
-                                            findViewById(R.id.button_Seat1).setBackgroundColor(Color.parseColor("#545454")); //Dark Gray
-                                        }
-
-                                        if (seat2_State == 0) {
-                                            findViewById(R.id.button_Seat2).setBackgroundColor(Color.parseColor("#008000")); //Green
-                                        } else if (seat2_State == 1) {
-                                            findViewById(R.id.button_Seat2).setBackgroundColor(Color.parseColor("#FFA500")); //Gold
-                                        } else if (seat2_State == 2) {
-                                            findViewById(R.id.button_Seat2).setBackgroundColor(Color.parseColor("#FF0000")); //Red
-                                        } else {
-                                            findViewById(R.id.button_Seat2).setBackgroundColor(Color.parseColor("#545454")); //Dark Gray
-                                        }
-
-                                         */
-                                    } else {
-                                        Log.d(TAG, "Error getting documents: ", task.getException());
-                                    }
-                                }
-                            });
+                    doSetBtnColor(5, laneInfoDB, driveInfoDB);
                     break;
                 case R.id.button_StateLeft:
-                    db.collection("Demo_subway").document(laneInfo).collection(driveInfo).document("2101").collection("car").document("6")
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        DocumentSnapshot document = task.getResult();
-                                        boolean s1_isSit = (Boolean) document.getData().get("s1_isSit");
-                                        boolean s1_isPregnant = (Boolean) document.getData().get("s1_isPregnant");
-                                        boolean s1_isReservation = (Boolean) document.getData().get("s1_isReservation");
-                                        boolean s2_isSit = (Boolean) document.getData().get("s2_isSit");
-                                        boolean s2_isPregnant = (Boolean) document.getData().get("s2_isPregnant");
-                                        boolean s2_isReservation = (Boolean) document.getData().get("s2_isReservation");
-
-                                        int seat1_State;
-                                        int seat2_State;
-
-                                        //첫 번째 좌석 상태.
-                                        if (s1_isSit == false) {
-                                            if (s1_isReservation == false) {
-                                                seat1_State = 0;
-                                            } else {
-                                                seat1_State = 2;
-                                            }
-                                        } else {
-                                            if (s1_isPregnant == false && s1_isReservation == false) {
-                                                seat1_State = 1;
-                                            } else {
-                                                seat1_State = 2;
-                                            }
-                                        }
-
-                                        //두 번째 좌석 상태.
-                                        if (s2_isSit == false) {
-                                            if (s2_isReservation == false) {
-                                                seat2_State = 0;
-                                            } else {
-                                                seat2_State = 2;
-                                            }
-                                        } else {
-                                            if (s2_isPregnant == false && s2_isReservation == false) {
-                                                seat2_State = 1;
-                                            } else {
-                                                seat2_State = 2;
-                                            }
-                                        }
-
-                                        doSetBtnColor(R.id.button_Seat1, seat1_State, R.id.button_Seat2, seat2_State);
-                                        /*
-                                        if (seat1_State == 0) {
-                                            findViewById(R.id.button_Seat1).setBackgroundColor(Color.parseColor("#008000")); //Green
-                                        } else if (seat1_State == 1) {
-                                            findViewById(R.id.button_Seat1).setBackgroundColor(Color.parseColor("#FFA500")); //Gold
-                                        } else if (seat1_State == 2) {
-                                            findViewById(R.id.button_Seat1).setBackgroundColor(Color.parseColor("#FF0000")); //Red
-                                        } else {
-                                            findViewById(R.id.button_Seat1).setBackgroundColor(Color.parseColor("#545454")); //Dark Gray
-                                        }
-
-                                        if (seat2_State == 0) {
-                                            findViewById(R.id.button_Seat2).setBackgroundColor(Color.parseColor("#008000")); //Green
-                                        } else if (seat2_State == 1) {
-                                            findViewById(R.id.button_Seat2).setBackgroundColor(Color.parseColor("#FFA500")); //Gold
-                                        } else if (seat2_State == 2) {
-                                            findViewById(R.id.button_Seat2).setBackgroundColor(Color.parseColor("#FF0000")); //Red
-                                        } else {
-                                            findViewById(R.id.button_Seat2).setBackgroundColor(Color.parseColor("#545454")); //Dark Gray
-                                        }
-
-                                         */
-                                    } else {
-                                        Log.d(TAG, "Error getting documents: ", task.getException());
-                                    }
-                                }
-                            });
+                    doSetBtnColor(6, laneInfoDB, driveInfoDB);
                     break;
                 case R.id.button_Seat1:
                     Button bt_Seat1 = findViewById(R.id.button_Seat1);
@@ -777,7 +259,6 @@ public class ViewSeatsActivity extends AppCompatActivity {
                     else {
                         startToast("데이터를 불러오기 전입니다.");
                     }
-
                     break;
                 case R.id.button_Seat2:
                     Button bt_Seat2 = findViewById(R.id.button_Seat2);
@@ -791,141 +272,183 @@ public class ViewSeatsActivity extends AppCompatActivity {
                     else {
                         startToast("데이터를 불러오기 전입니다.");
                     }
-
+                    break;
+                default:
                     break;
             }
-/*
-            if (driveInfoWayCode[0] == 1) driveInfo = "Up";
-            else driveInfo = "Down";
-
-            switch (driveInfoLaneName[0]) {
-                case "2호선":
-                    laneInfo = "line2";
-                    break;
-                case "8호선":
-                    laneInfo = "line8";
-                    break;
-            }
- */
             //CollectionReference colRef = db.collection("Demo_subway").document(laneInfo).collection(driveInfo).document("2101").collection("car");
-/*
-            switch (v.getId()) {
-                //button_Seat1~2 는 좌석 선택 버튼.
-                case R.id.button_Seat1:
-                    if (seat1_State[now] == 0) {
-                        myStartActivity(Ready2Activity.class);
-                    } else if (seat1_State[now] == 1) {
-                        startToast("앉아있는 일반인이 있습니다.");
-                    } else if (seat1_State[now] == 2) {
-                        startToast("이미 예약되거나 다른 산모가 사용 중인 좌석입니다.");
-                    } else {
-                        startToast("에러입니다.");
-                    }
-                    break;
-                case R.id.button_Seat2:
-                    if (seat2_State[now] == 0) {
-                        myStartActivity(Ready2Activity.class);
-                    } else if (seat2_State[now] == 1) {
-                        startToast("앉아있는 일반인이 있습니다.");
-                    } else if (seat2_State[now] == 2) {
-                        startToast("이미 예약되거나 다른 산모가 사용 중인 좌석입니다.");
-                    } else {
-                        startToast("에러입니다.");
-                    }
-                    break;
-
-                //button_State들은 열차 칸 선택 버튼.
-                case R.id.button_StateRight:
-                    //tv_State = findViewById(R.id.textView_StateRight);
-                    //numOfCars = (String) tv_State.getText();
-                    now = 0;
-
-                    /*
-                    db.collection("Demo_subway").document(laneInfo).collection(driveInfo).document("2101").collection("car").document(numOfCars)
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        DocumentSnapshot document = task.getResult();
-                                        s1_isSit = (Boolean) document.getData().get("s1_isSit");
-                                        s1_isPregnant = (Boolean) document.getData().get("s1_isPregnant");
-                                        s1_isReservation = (Boolean) document.getData().get("s1_isReservation");
-                                        s2_isSit = (Boolean) document.getData().get("s2_isSit");
-                                        s2_isPregnant = (Boolean) document.getData().get("s2_isPregnant");
-                                        s2_isReservation = (Boolean) document.getData().get("s2_isReservation");
-                                        Log.d(TAG, String.valueOf(s1_isSit) + "1");
-                                        Log.d(TAG, String.valueOf(s1_isPregnant) + "2");
-                                        Log.d(TAG, String.valueOf(s1_isReservation) + "3");
-                                        Log.d(TAG, String.valueOf(s2_isSit) + "4");
-                                        Log.d(TAG, String.valueOf(s2_isPregnant) + "5");
-                                        Log.d(TAG, String.valueOf(s2_isReservation) + "6");
-
-                                        checkSeats(v);
-                                    } else {
-                                        Log.d(TAG, "Error getting documents: ", task.getException());
-                                    }
-
-                                }
-                            });
-
-                     */
-/*
-                    doSetBtnColor();
-                    break;
-                case R.id.button_State2:
-                    //tv_State = findViewById(R.id.textView_State2);
-                    //numOfCars = (String) tv_State.getText();
-                    now = 1;
-                    doSetBtnColor();
-                    break;
-                case R.id.button_State3:
-                    //tv_State = findViewById(R.id.textView_State3);
-                    //numOfCars = (String) tv_State.getText();
-                    now = 2;
-                    doSetBtnColor();
-                    break;
-                case R.id.button_State4:
-                    //tv_State = findViewById(R.id.textView_State4);
-                    //numOfCars = (String) tv_State.getText();
-                    now = 3;
-                    doSetBtnColor();
-                    break;
-                case R.id.button_State5:
-                    //tv_State = findViewById(R.id.textView_State5);
-                    //numOfCars = (String) tv_State.getText();
-                    now = 4;
-                    seat1_State[now] = 0;
-                    seat2_State[now] = 0;
-                    doSetBtnColor();
-                    break;
-                case R.id.button_StateLeft:
-                    //tv_State = findViewById(R.id.textView_StateLeft);
-                    //numOfCars = (String) tv_State.getText();  //열차 칸 번호.
-                    now = 5;
-                    doSetBtnColor();
-                    break;
-            }
-
- */
         }
     };
 
-    private void doSetBtnColor(int btnId1, int seat1_State, int btnId2, int seat2_State) {
-        setBtnColor(btnId1, seat1_State);
-        setBtnColor(btnId2, seat2_State);
+    private synchronized void getSeatState(final int sectionStart, final int sectionEnd, final String laneInfoDB, final String driveInfoDB, final int carNum) {
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        for (int i = sectionStart; i <= sectionEnd; i++) {
+            final int section = i;
+            db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document("2101").collection("car").document(Integer.toString(carNum)).collection("section").document(Integer.toString(section))
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            Log.d(TAG, String.valueOf(task.isSuccessful()));
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document4 = task.getResult();
+                                boolean s1_isReservation_section = (Boolean) document4.getData().get("s1_isReservation");
+                                boolean s2_isReservation_section = (Boolean) document4.getData().get("s2_isReservation");
+
+                                int bt_State_num = 0;  // 홀수면 1번 자리에 예약 있음, 짝수면 2번 자리에 예약 있음.
+                                int bt_State_setNum = 0;
+                                int bt_State_length = 0;
+                                Button bt_State = findViewById(R.id.button_StateRight);
+
+                                switch (carNum) {
+                                    case 1:
+                                        bt_State = findViewById(R.id.button_StateRight);
+                                        break;
+                                    case 2:
+                                        bt_State = findViewById(R.id.button_State2);
+                                        break;
+                                    case 3:
+                                        bt_State = findViewById(R.id.button_State3);
+                                        break;
+                                    case 4:
+                                        bt_State = findViewById(R.id.button_State4);
+                                        break;
+                                    case 5:
+                                        bt_State = findViewById(R.id.button_State5);
+                                        break;
+                                    case 6:
+                                        bt_State = findViewById(R.id.button_StateLeft);
+                                        break;
+                                }
+
+                                //첫 번째 좌석에 예약이 있을 때.
+                                if (s1_isReservation_section == true) {
+                                    bt_State_num = Integer.parseInt(bt_State.getText().toString().substring(0, 1));
+                                    if (bt_State_num % 2 == 0) {
+                                        bt_State_setNum = bt_State_num + 1;
+                                        bt_State.setText("" + bt_State_setNum + bt_State.getText().toString().substring(1));
+                                    }
+                                }
+
+                                //두 번째 좌석에 예약이 있을 때.
+                                if (s2_isReservation_section == true) {
+                                    bt_State_num = Integer.parseInt(bt_State.getText().toString().substring(0, 1));
+                                    if (bt_State_num < 2) {
+                                        bt_State_setNum = bt_State_num + 1;
+                                        bt_State.setText("" + bt_State_setNum + bt_State.getText().toString().substring(1));
+                                    }
+                                }
+                                bt_State.setText(bt_State.getText().toString() + "0");
+
+                                bt_State_length = bt_State.getText().toString().length() - 1;
+                                if (bt_State_length - 1 == sectionEnd - sectionStart) {// 하행 기준 sectionStart - sectionEnd로 바꿔야 함.
+                                    chooseSeatStateBtn(carNum);
+                                }
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+        }
     }
 
-    private void setBtnColor(int btnId, int check) {
+    private void initSeatStateBtn() {
+        Button bt_StateRight = findViewById(R.id.button_StateRight);
+        Button bt_State2 = findViewById(R.id.button_State2);
+        Button bt_State3 = findViewById(R.id.button_State3);
+        Button bt_State4 = findViewById(R.id.button_State4);
+        Button bt_State5 = findViewById(R.id.button_State5);
+        Button bt_StateLeft = findViewById(R.id.button_StateLeft);
+
+        bt_StateRight.setText("0");
+        bt_State2.setText("0");
+        bt_State3.setText("0");
+        bt_State4.setText("0");
+        bt_State5.setText("0");
+        bt_StateLeft.setText("0");
+    }
+
+    private void chooseSeatStateBtn(final int carNum) {
+        switch (carNum) {
+            case 1:
+                setSeatStateBtn(R.id.button_StateRight, carNum);
+                break;
+            case 2:
+                setSeatStateBtn(R.id.button_State2, carNum);
+                break;
+            case 3:
+                setSeatStateBtn(R.id.button_State3, carNum);
+                break;
+            case 4:
+                setSeatStateBtn(R.id.button_State4, carNum);
+                break;
+            case 5:
+                setSeatStateBtn(R.id.button_State5, carNum);
+                break;
+            case 6:
+                setSeatStateBtn(R.id.button_StateLeft, carNum);
+                break;
+        }
+    }
+
+    private void setSeatStateBtn(int btnId, final int carNum) {
+        Button bt_State = findViewById(btnId);
+        int bt_State_num = Integer.parseInt(bt_State.getText().toString().substring(0, 1));
+
+        if (bt_State_num == 0) {
+            bt_State.setText("2");  // 해당 열차칸의 빈자리 2개.
+            seat1[carNum - 1] = 0;
+            seat2[carNum - 1] = 0;
+        }
+        else if (bt_State_num == 1) {
+            bt_State.setText("1");  // 해당 열차칸의 빈자리 1개, 2번 자리가 비어있음.
+            seat1[carNum - 1] = 2;
+            seat2[carNum - 1] = 0;
+        }
+        else if (bt_State_num == 2) {
+            bt_State.setText("1");  // 해당 열차칸의 빈자리 1개, 1번 자리가 비어있음.
+            seat1[carNum - 1] = 0;
+            seat2[carNum - 1] = 2;
+        }
+        else {
+            bt_State.setText("0");  // 해당 열차칸의 빈자리 0개.
+            seat1[carNum - 1] = 2;
+            seat2[carNum - 1] = 2;
+        }
+    }
+
+    private void doSetBtnColor(final int carNum, final String laneInfoDB, final String driveInfoDB) {
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document("2101").collection("car").document(Integer.toString(carNum))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            final DocumentSnapshot document1 = task.getResult();
+                            boolean s1_isSit = (Boolean) document1.getData().get("s1_isSit");
+                            boolean s2_isSit = (Boolean) document1.getData().get("s2_isSit");
+
+                            setBtnColor(R.id.button_Seat1, seat1[carNum - 1], s1_isSit);
+                            setBtnColor(R.id.button_Seat2, seat2[carNum - 1], s2_isSit);
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+    private void setBtnColor(int btnId, int check, boolean isSit) {
         Button btn = findViewById(btnId);
-        if (check == 0) {
-            btn.setBackgroundColor(Color.parseColor("#008000")); //Green
-            btn.setText("0");
-            btn.setTextColor(Color.parseColor("#008000"));
-        } else if (check == 1) {
+        if (check == 0 && isSit == true) {
             btn.setBackgroundColor(Color.parseColor("#FFA500")); //Gold
             btn.setText("1");
             btn.setTextColor(Color.parseColor("#FFA500"));
+        } else if (check == 0) {
+            btn.setBackgroundColor(Color.parseColor("#008000")); //Green
+            btn.setText("0");
+            btn.setTextColor(Color.parseColor("#008000"));
         } else if (check == 2) {
             btn.setBackgroundColor(Color.parseColor("#FF0000")); //Red
             btn.setText("2");
@@ -935,6 +458,11 @@ public class ViewSeatsActivity extends AppCompatActivity {
             btn.setText("3");
             btn.setTextColor(Color.parseColor("#545454"));
         }
+    }
+
+    private void reservation(int btnId) {
+        Button btn = findViewById(btnId);
+        int seat_State = Integer.parseInt(btn.getText().toString());
     }
 
     private void myStartActivity(Class c) {
