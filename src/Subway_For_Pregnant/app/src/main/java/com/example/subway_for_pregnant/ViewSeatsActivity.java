@@ -32,6 +32,10 @@ public class ViewSeatsActivity extends AppCompatActivity {
     int carNum;
     int now = 0;
 
+    String globalStartName;     //출발역
+    String globalEndName;       //도착역
+    int globalStationCount;     //정차역 수
+
     int stationsLength;         //역 개수. 즉 stations 라고 앞에 붙은 데이터들의 Length.
     String[] stationsStartName; //구간마다 현재역 이름
     int[] stationsStartID;      //구간마다 현재역 코드
@@ -59,6 +63,10 @@ public class ViewSeatsActivity extends AppCompatActivity {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         //인텐트 호출
+        globalStartName = intent.getExtras().getString("globalStartName");
+        globalEndName = intent.getExtras().getString("globalEndName");
+        globalStationCount = intent.getExtras().getInt("globalStationCount");
+
         stationsLength = intent.getExtras().getInt("stationsLength");   //역 개수. 즉 stations 라고 앞에 붙은 데이터들의 Length.
         stationsStartName = new String[stationsLength];    //구간마다 현재역 이름
         stationsStartID = new int[stationsLength];            //구간마다 현재역 코드
@@ -124,84 +132,137 @@ public class ViewSeatsActivity extends AppCompatActivity {
 
         for (int i = 1; i <= 6; i++) {
             final int carNum = i;
-            db.collection("Demo_subway").document(laneInfo).collection(driveInfo).document("2101").collection("car").document(Integer.toString(carNum))
+            final String laneInfoDB = laneInfo;     //출발역
+            final String driveInfoDB = driveInfo;       //도착역
+            final String globalStartNameDB = globalStartName;     //출발역
+            final String globalEndNameDB = globalEndName;       //도착역
+            db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document("2101").collection("car").document(Integer.toString(carNum))
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                boolean s1_isSit = (Boolean) document.getData().get("s1_isSit");
-                                boolean s1_isPregnant = (Boolean) document.getData().get("s1_isPregnant");
-                                boolean s1_isReservation = (Boolean) document.getData().get("s1_isReservation");
-                                boolean s2_isSit = (Boolean) document.getData().get("s2_isSit");
-                                boolean s2_isPregnant = (Boolean) document.getData().get("s2_isPregnant");
-                                boolean s2_isReservation = (Boolean) document.getData().get("s2_isReservation");
+                                final DocumentSnapshot document1 = task.getResult();
 
-                                int seat1_State = -1;
-                                int seat2_State = -1;
-                                Button bt_State = findViewById(R.id.button_StateRight);
+                                db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document("2101").collection("car").document(Integer.toString(carNum)).collection("section").whereEqualTo("start", globalStartNameDB)
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                Log.d(TAG, String.valueOf(task.isSuccessful()));
+                                                if (task.isSuccessful()) {
+                                                    for (final QueryDocumentSnapshot document2 : task.getResult()) {
 
-                                switch (carNum) {
-                                    case 1:
-                                        bt_State = findViewById(R.id.button_StateRight);
-                                        break;
-                                    case 2:
-                                        bt_State = findViewById(R.id.button_State2);
-                                        break;
-                                    case 3:
-                                        bt_State = findViewById(R.id.button_State3);
-                                        break;
-                                    case 4:
-                                        bt_State = findViewById(R.id.button_State4);
-                                        break;
-                                    case 5:
-                                        bt_State = findViewById(R.id.button_State5);
-                                        break;
-                                    case 6:
-                                        bt_State = findViewById(R.id.button_StateLeft);
-                                        break;
-                                }
+                                                        final String sectionStart = document2.getId();
 
-                                //첫 번째 좌석 상태.
-                                if (s1_isSit == false) {
-                                    if (s1_isReservation == false) {
-                                        seat1_State = 0;
-                                    } else {
-                                        seat1_State = 2;
-                                    }
-                                } else {
-                                    if (s1_isPregnant == false && s1_isReservation == false) {
-                                        seat1_State = 1;
-                                    } else {
-                                        seat1_State = 2;
-                                    }
-                                }
+                                                        db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document("2101").collection("car").document(Integer.toString(carNum)).collection("section").whereEqualTo("end", globalEndNameDB)
+                                                                .get()
+                                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                        Log.d(TAG, String.valueOf(task.isSuccessful()));
+                                                                        if (task.isSuccessful()) {
+                                                                            for (final QueryDocumentSnapshot document3 : task.getResult()) {
 
-                                //두 번째 좌석 상태.
-                                if (s2_isSit == false) {
-                                    if (s2_isReservation == false) {
-                                        seat2_State = 0;
-                                    } else {
-                                        seat2_State = 2;
-                                    }
-                                } else {
-                                    if (s2_isPregnant == false && s2_isReservation == false) {
-                                        seat2_State = 1;
-                                    } else {
-                                        seat2_State = 2;
-                                    }
-                                }
+                                                                                final String sectionEnd = document3.getId();
 
-                                // tv_State[carNum].setText("" + carNum);
+                                                                                boolean s1_isSit = (Boolean) document1.getData().get("s1_isSit");
+                                                                                boolean s1_isPregnant = (Boolean) document1.getData().get("s1_isPregnant");
+                                                                                boolean s1_isReservation = (Boolean) document1.getData().get("s1_isReservation");
+                                                                                boolean s2_isSit = (Boolean) document1.getData().get("s2_isSit");
+                                                                                boolean s2_isPregnant = (Boolean) document1.getData().get("s2_isPregnant");
+                                                                                boolean s2_isReservation = (Boolean) document1.getData().get("s2_isReservation");
 
-                                if (seat1_State < 2 && seat2_State < 2) {
-                                    bt_State.setText("2");
-                                } else if (seat1_State < 2 || seat2_State < 2) {
-                                    bt_State.setText("1");
-                                } else {
-                                    bt_State.setText("0");
-                                }
+                                                                                Log.d(TAG, sectionStart);
+                                                                                Log.d(TAG, sectionEnd);
+                                                                                Log.d(TAG, String.valueOf(s1_isSit) + '1');
+                                                                                Log.d(TAG, String.valueOf(s1_isPregnant) + '2');
+                                                                                Log.d(TAG, String.valueOf(s1_isReservation) + '3');
+                                                                                Log.d(TAG, String.valueOf(s2_isSit) + '4');
+                                                                                Log.d(TAG, String.valueOf(s2_isPregnant) + '5');
+                                                                                Log.d(TAG, String.valueOf(s2_isReservation) + '6');
+
+
+                                                                                int seat1_State = -1;
+                                                                                int seat2_State = -1;
+                                                                                Button bt_State = findViewById(R.id.button_StateRight);
+
+                                                                                switch (carNum) {
+                                                                                    case 1:
+                                                                                        bt_State = findViewById(R.id.button_StateRight);
+                                                                                        break;
+                                                                                    case 2:
+                                                                                        bt_State = findViewById(R.id.button_State2);
+                                                                                        break;
+                                                                                    case 3:
+                                                                                        bt_State = findViewById(R.id.button_State3);
+                                                                                        break;
+                                                                                    case 4:
+                                                                                        bt_State = findViewById(R.id.button_State4);
+                                                                                        break;
+                                                                                    case 5:
+                                                                                        bt_State = findViewById(R.id.button_State5);
+                                                                                        break;
+                                                                                    case 6:
+                                                                                        bt_State = findViewById(R.id.button_StateLeft);
+                                                                                        break;
+                                                                                }
+
+                                                                                //첫 번째 좌석 상태.
+                                                                                if (s1_isSit == false) {
+                                                                                    if (s1_isReservation == false) {
+                                                                                        seat1_State = 0;
+                                                                                    } else {
+                                                                                        seat1_State = 2;
+                                                                                    }
+                                                                                } else {
+                                                                                    if (s1_isPregnant == false && s1_isReservation == false) {
+                                                                                        seat1_State = 1;
+                                                                                    } else {
+                                                                                        seat1_State = 2;
+                                                                                    }
+                                                                                }
+
+                                                                                //두 번째 좌석 상태.
+                                                                                if (s2_isSit == false) {
+                                                                                    if (s2_isReservation == false) {
+                                                                                        seat2_State = 0;
+                                                                                    } else {
+                                                                                        seat2_State = 2;
+                                                                                    }
+                                                                                } else {
+                                                                                    if (s2_isPregnant == false && s2_isReservation == false) {
+                                                                                        seat2_State = 1;
+                                                                                    } else {
+                                                                                        seat2_State = 2;
+                                                                                    }
+                                                                                }
+
+                                                                                // tv_State[carNum].setText("" + carNum);
+
+                                                                                if (seat1_State < 2 && seat2_State < 2) {
+                                                                                    bt_State.setText("2");
+                                                                                } else if (seat1_State < 2 || seat2_State < 2) {
+                                                                                    bt_State.setText("1");
+                                                                                } else {
+                                                                                    bt_State.setText("0");
+                                                                                }
+
+                                                                            }
+                                                                        } else {
+                                                                            Log.d(TAG, "Error getting documents: ", task.getException());
+                                                                        }
+
+                                                                    }
+                                                                });
+
+                                                    }
+                                                } else {
+                                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                                }
+
+                                            }
+                                        });
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
                             }
@@ -226,6 +287,8 @@ public class ViewSeatsActivity extends AppCompatActivity {
             final FirebaseFirestore db = FirebaseFirestore.getInstance();
             String driveInfo = "1";
             String laneInfo = "1";
+
+
 
             if (driveInfoWayCode[0] == 1) driveInfo = "Up";
             else driveInfo = "Down";
