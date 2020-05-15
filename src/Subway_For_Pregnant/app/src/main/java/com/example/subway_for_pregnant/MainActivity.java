@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void myStartActivity(Class c) {
         Intent intent = new Intent(this, c);
+        intent.putExtra("username","Person");
         startActivity(intent);
     }
 }
