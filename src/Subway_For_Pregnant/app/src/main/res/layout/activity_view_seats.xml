@@ -50,7 +50,7 @@
                     android:layout_gravity="right"
                     android:layout_weight="1"
                     android:background="#FFFFFF"
-                    android:text="1"
+                    android:text="-1"
                     android:textSize="20sp" />
 
             </LinearLayout>
@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="#FFFFFF"
-                    android:text="2"
+                    android:text="-1"
                     android:textSize="20sp" />
 
             </LinearLayout>
@@ -304,10 +304,21 @@
         android:id="@+id/textView_Station"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
         android:text="TextView"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_Refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="열차상태 새로고침"
+        app:layout_constraintBottom_toTopOf="@+id/textView_Station"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
