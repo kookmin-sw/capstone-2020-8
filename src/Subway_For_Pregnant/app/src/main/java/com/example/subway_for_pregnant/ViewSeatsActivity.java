@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -23,12 +25,19 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ViewSeatsActivity extends AppCompatActivity {
     private static final String TAG = "ViewSeatsActivity";
     int[] seat1, seat2;  //지금은 임시로 지정해둠. 0 = 예약가능, 1 = 일반인 사용중, 2 = 예약 불가.
+    int sectionStartGlobal;
+    int sectionEndGlobal;
+    int btnNumGlobal;
+    int carNumGlobal;
     int trainLength = 6;  //해당 열차의 길이. 열차 칸의 총 개수.
 
     String globalStartName;     //출발역
@@ -154,30 +163,40 @@ public class ViewSeatsActivity extends AppCompatActivity {
 
             final String laneInfoDB = laneInfo;
             final String driveInfoDB = driveInfo;
+            final int carNum;
 
             switch (v.getId()) {
                 case R.id.button_StateRight:
+                    carNumGlobal = 1;
                     doSetBtnColor(1, laneInfoDB, driveInfoDB);
                     break;
                 case R.id.button_State2:
+                    carNumGlobal = 2;
                     doSetBtnColor(2, laneInfoDB, driveInfoDB);
                     break;
                 case R.id.button_State3:
+                    carNumGlobal = 3;
                     doSetBtnColor(3, laneInfoDB, driveInfoDB);
                     break;
                 case R.id.button_State4:
+                    carNumGlobal = 4;
                     doSetBtnColor(4, laneInfoDB, driveInfoDB);
                     break;
                 case R.id.button_State5:
+                    carNumGlobal = 5;
                     doSetBtnColor(5, laneInfoDB, driveInfoDB);
                     break;
                 case R.id.button_StateLeft:
+                    carNumGlobal = 6;
                     doSetBtnColor(6, laneInfoDB, driveInfoDB);
                     break;
                 case R.id.button_Seat1:
                     Button bt_Seat1 = findViewById(R.id.button_Seat1);
+                    btnNumGlobal = 1;
+                    carNum = carNumGlobal;
 
                     if (bt_Seat1.getText().equals("0") || bt_Seat1.getText().equals("1")) {
+                        startReservation(laneInfoDB, driveInfoDB, carNum);
                         myStartActivity(Ready2Activity.class);
                     }
                     else if (bt_Seat1.getText().equals("2")) {
@@ -189,8 +208,11 @@ public class ViewSeatsActivity extends AppCompatActivity {
                     break;
                 case R.id.button_Seat2:
                     Button bt_Seat2 = findViewById(R.id.button_Seat2);
+                    btnNumGlobal = 2;
+                    carNum = carNumGlobal;
 
                     if (bt_Seat2.getText().equals("0") || bt_Seat2.getText().equals("1")) {
+                        startReservation(laneInfoDB, driveInfoDB, carNum);
                         myStartActivity(Ready2Activity.class);
                     }
                     else if (bt_Seat2.getText().equals("2")) {
@@ -210,6 +232,37 @@ public class ViewSeatsActivity extends AppCompatActivity {
             //CollectionReference colRef = db.collection("Demo_subway").document(laneInfo).collection(driveInfo).document("2101").collection("car");
         }
     };
+
+    private void initSeatStateBtn() {
+        Button bt_StateRight = findViewById(R.id.button_StateRight);
+        Button bt_State2 = findViewById(R.id.button_State2);
+        Button bt_State3 = findViewById(R.id.button_State3);
+        Button bt_State4 = findViewById(R.id.button_State4);
+        Button bt_State5 = findViewById(R.id.button_State5);
+        Button bt_StateLeft = findViewById(R.id.button_StateLeft);
+        Button bt_Seat1 = findViewById(R.id.button_Seat1);
+        Button bt_Seat2 = findViewById(R.id.button_Seat2);
+
+        bt_StateRight.setText("0");
+        bt_State2.setText("0");
+        bt_State3.setText("0");
+        bt_State4.setText("0");
+        bt_State5.setText("0");
+        bt_StateLeft.setText("0");
+
+        bt_Seat1.setBackgroundColor(Color.parseColor("#545454")); //Dark Gray
+        bt_Seat1.setText("3");
+        bt_Seat1.setTextColor(Color.parseColor("#545454"));
+
+        bt_Seat2.setBackgroundColor(Color.parseColor("#545454")); //Dark Gray
+        bt_Seat2.setText("3");
+        bt_Seat2.setTextColor(Color.parseColor("#545454"));
+
+        for (int i = 0; i < trainLength; i++) {
+            seat1[i] = 2;
+            seat2[i] = 2;
+        }
+    }
 
     private void getCarState(String laneInfo, String driveInfo) {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -237,6 +290,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
                                                     for (final QueryDocumentSnapshot document2 : task.getResult()) {
 
                                                         final int sectionStart = Integer.parseInt(document2.getId());
+                                                        sectionStartGlobal = sectionStart;
 
                                                         db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document("2101").collection("car").document(Integer.toString(carNum)).collection("section").whereEqualTo("end", globalEndNameDB)
                                                                 .get()
@@ -248,8 +302,9 @@ public class ViewSeatsActivity extends AppCompatActivity {
                                                                             for (final QueryDocumentSnapshot document3 : task.getResult()) {
 
                                                                                 final int sectionEnd = Integer.parseInt(document3.getId());
+                                                                                sectionEndGlobal = sectionEnd;
 
-                                                                                getSeatState(sectionStart, sectionEnd, laneInfoDB, driveInfoDB, carNum);
+                                                                                getSeatState(sectionStart, sectionEnd, laneInfoDB, driveInfoDB, carNum, 0);
 
                                                                                 boolean s1_isSit = (Boolean) document1.getData().get("s1_isSit");
                                                                                 //boolean s1_isPregnant = (Boolean) document1.getData().get("s1_isPregnant");
@@ -286,10 +341,10 @@ public class ViewSeatsActivity extends AppCompatActivity {
         }
     }
 
-    private void getSeatState(final int sectionStart, final int sectionEnd, final String laneInfoDB, final String driveInfoDB, final int carNum) {
+    private void getSeatState(final int sectionStart, final int sectionEnd, final String laneInfoDB, final String driveInfoDB, final int carNum, final int select) {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        for (int i = sectionStart; i <= sectionEnd; i++) {
+        for (int i = sectionLower(sectionStart, sectionEnd); i <= sectionHigher(sectionStart, sectionEnd); i++) {
             final int section = i;
             db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document("2101").collection("car").document(Integer.toString(carNum)).collection("section").document(Integer.toString(section))
                     .get()
@@ -347,9 +402,13 @@ public class ViewSeatsActivity extends AppCompatActivity {
                                 }
                                 bt_State.setText(bt_State.getText().toString() + "0");
 
-                                bt_State_length = bt_State.getText().toString().length() - 1;
-                                if (bt_State_length - 1 == sectionEnd - sectionStart) {// 하행 기준 sectionStart - sectionEnd로 바꿔야 함.
+                                bt_State_length = bt_State.getText().toString().length() - 1;  //300000 이런 식으로 설정해줌. 맨 첫자리는 예약 상태, 그 후의 0의 개수는 확인한 구간 개수.
+                                if (bt_State_length - 1 == sectionHigher(sectionStart, sectionEnd) - sectionLower(sectionStart, sectionEnd)) {
                                     chooseSeatStateBtn(carNum);
+
+                                    if (select == 1) {
+                                        doReservation(laneInfoDB, driveInfoDB, carNum);
+                                    }
                                 }
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
@@ -357,32 +416,6 @@ public class ViewSeatsActivity extends AppCompatActivity {
                         }
                     });
         }
-    }
-
-    private void initSeatStateBtn() {
-        Button bt_StateRight = findViewById(R.id.button_StateRight);
-        Button bt_State2 = findViewById(R.id.button_State2);
-        Button bt_State3 = findViewById(R.id.button_State3);
-        Button bt_State4 = findViewById(R.id.button_State4);
-        Button bt_State5 = findViewById(R.id.button_State5);
-        Button bt_StateLeft = findViewById(R.id.button_StateLeft);
-        Button bt_Seat1 = findViewById(R.id.button_Seat1);
-        Button bt_Seat2 = findViewById(R.id.button_Seat2);
-
-        bt_StateRight.setText("0");
-        bt_State2.setText("0");
-        bt_State3.setText("0");
-        bt_State4.setText("0");
-        bt_State5.setText("0");
-        bt_StateLeft.setText("0");
-
-        bt_Seat1.setBackgroundColor(Color.parseColor("#545454")); //Dark Gray
-        bt_Seat1.setText("3");
-        bt_Seat1.setTextColor(Color.parseColor("#545454"));
-
-        bt_Seat2.setBackgroundColor(Color.parseColor("#545454")); //Dark Gray
-        bt_Seat2.setText("3");
-        bt_Seat2.setTextColor(Color.parseColor("#545454"));
     }
 
     private void chooseSeatStateBtn(final int carNum) {
@@ -478,10 +511,51 @@ public class ViewSeatsActivity extends AppCompatActivity {
         }
     }
 
-    private void reservation(int btnId) {
+    private void startReservation(final String laneInfoDB, final String driveInfoDB, final int carNum) {
+        final int sectionStart = sectionStartGlobal;
+        final int sectionEnd = sectionEndGlobal;
+
+        getSeatState(sectionStart, sectionEnd, laneInfoDB, driveInfoDB, carNum, 1);
+    }
+
+    private void doReservation(final String laneInfoDB, final String driveInfoDB, final int carNum) {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Button btn = findViewById(btnId);
-        int seat_State = Integer.parseInt(btn.getText().toString());
+        Map<String, Object> data = new HashMap<>();
+        if (btnNumGlobal == 1) {
+            data.put("s1_isReservation", true);
+            //data.put("s1_isReservationID", 아이디);
+        } else {
+            data.put("s2_isReservation", true);
+            //data.put("s2_isReservationID", 아이디);
+        }
+
+        for (int i = sectionLower(sectionStartGlobal, sectionEndGlobal); i <= sectionHigher(sectionStartGlobal, sectionEndGlobal); i++) {
+            final int section = i;
+            db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document("2101").collection("car").document(Integer.toString(carNum)).collection("section").document(Integer.toString(section))
+                    .set(data, SetOptions.merge())
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+        }
+    }
+
+    private int sectionLower(int sectionStart, int sectionEnd) {
+        if (sectionStart < sectionEnd) return sectionStart;
+        else return sectionEnd;
+    }
+
+    private int sectionHigher(int sectionStart, int sectionEnd) {
+        if (sectionStart > sectionEnd) return sectionStart;
+        else return sectionEnd;
     }
 
     private void myStartActivity(Class c) {
