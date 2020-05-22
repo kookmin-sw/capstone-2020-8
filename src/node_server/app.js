@@ -23,9 +23,6 @@ firebase.initializeApp(firebaseConfig);
 // express
 var app = express();
 
-
-
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -107,4 +104,27 @@ app.io.on('connection', function(socket) {
 });
 
 console.log("끝")
+
+// MQTT Server 접속. 센서 데이터 읽기
+var mqtt = require("mqtt") // mqtt 모듈 불러오기
+var client = mqtt.connect("mqtt://192.168.137.1") // mqtt 접속 프로토콜
+
+client.on("connect", () => {
+  client.subscribe("IoT") // 구독할 토픽
+});
+
+client.on("message", (topic, message) => {
+  var obj = JSON.parse(message); // 객체화
+  obj.create_at = new Date(); // 날짜 정보fun
+  console.log(obj);
+})
+
+function pubMinor(){
+  client.publish("Minor", "1")
+}
+
+setInterval(function() {
+  pubMinor();
+}, 5000);
+
 module.exports = app;
