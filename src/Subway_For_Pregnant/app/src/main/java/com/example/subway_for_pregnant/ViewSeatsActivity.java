@@ -57,6 +57,8 @@ public class ViewSeatsActivity extends AppCompatActivity {
     Button[] bt_State;
     TextView[] tv_State;
 
+    String userID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +82,10 @@ public class ViewSeatsActivity extends AppCompatActivity {
         driveInfoLength = intent.getExtras().getInt("driveInfoLength");     //노선 개수. 환승 없으면 1, 1번 환승은 2. 이런식으로.
         driveInfoWayCode = new int[driveInfoLength];      //방면 코드 (1:상행, 2:하행)
         driveInfoLaneName = new String[driveInfoLength];
+
+        userID = intent.getExtras().getString("user");
+
+        Log.d(TAG, "UserID: " + userID);
 
         for (int i = 0; i < stationsLength; i++) {
             stationsStartName[i] = intent.getExtras().getString("stationsStartName" + i);
@@ -396,7 +402,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
                                 if (s2_isReservation_section == true) {
                                     bt_State_num = Integer.parseInt(bt_State.getText().toString().substring(0, 1));
                                     if (bt_State_num < 2) {
-                                        bt_State_setNum = bt_State_num + 1;
+                                        bt_State_setNum = bt_State_num + 2;
                                         bt_State.setText("" + bt_State_setNum + bt_State.getText().toString().substring(1));
                                     }
                                 }
@@ -523,10 +529,10 @@ public class ViewSeatsActivity extends AppCompatActivity {
         Map<String, Object> data = new HashMap<>();
         if (btnNumGlobal == 1) {
             data.put("s1_isReservation", true);
-            //data.put("s1_isReservationID", 아이디);
+            data.put("s1_User", userID);
         } else {
             data.put("s2_isReservation", true);
-            //data.put("s2_isReservationID", 아이디);
+            data.put("s2_User", userID);
         }
 
         for (int i = sectionLower(sectionStartGlobal, sectionEndGlobal); i <= sectionHigher(sectionStartGlobal, sectionEndGlobal); i++) {
@@ -563,6 +569,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
         intent.getExtras();
         Intent intent2 = new Intent(this, c);
         intent2.putExtras(intent);
+
         startActivity(intent2);
     }
 
