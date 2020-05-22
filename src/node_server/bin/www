@@ -21,13 +21,9 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
-<<<<<<< Updated upstream
 // socket.io
 app.io.attach(server);
 
-/*
-=======
->>>>>>> Stashed changes
 // MQTT Server 접속. 센서 데이터 읽기
 var mqtt = require("mqtt") // mqtt 모듈 불러오기
 var client = mqtt.connect("mqtt://192.168.137.1") // mqtt 접속 프로토콜
