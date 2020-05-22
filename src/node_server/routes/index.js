@@ -3,9 +3,9 @@ var router = express.Router();
 const firebase = require("firebase");
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', (req, res, next) => {
   var db = firebase.firestore();
-
+/*
   db.collection('user').get()
     .then((snapshot) => {
         snapshot.forEach((doc) => {
@@ -15,6 +15,8 @@ router.get('/', function(req, res, next) {
     .catch((err) => {
         console.log('Error getting documents', err)
     });
+*/
+  console.log("대기중");
   res.render('index', { title: 'Express' });
 });
 
