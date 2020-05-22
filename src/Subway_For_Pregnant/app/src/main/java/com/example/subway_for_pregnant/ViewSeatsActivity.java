@@ -147,6 +147,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
         findViewById(R.id.button_Seat1).setOnClickListener(onClickListener);
         findViewById(R.id.button_Seat2).setOnClickListener(onClickListener);
         findViewById(R.id.button_Refresh).setOnClickListener(onClickListener);
+        findViewById(R.id.button_toNext).setOnClickListener(onClickListener);
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -203,7 +204,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
 
                     if (bt_Seat1.getText().equals("0") || bt_Seat1.getText().equals("1")) {
                         startReservation(laneInfoDB, driveInfoDB, carNum);
-                        myStartActivity(Ready2Activity.class);
+                        //myStartActivity(Ready2Activity.class);
                     }
                     else if (bt_Seat1.getText().equals("2")) {
                         startToast("현재 예약이 불가능한 좌석입니다.");
@@ -219,7 +220,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
 
                     if (bt_Seat2.getText().equals("0") || bt_Seat2.getText().equals("1")) {
                         startReservation(laneInfoDB, driveInfoDB, carNum);
-                        myStartActivity(Ready2Activity.class);
+                        //myStartActivity(Ready2Activity.class);
                     }
                     else if (bt_Seat2.getText().equals("2")) {
                         startToast("현재 예약이 불가능한 좌석입니다.");
@@ -231,6 +232,9 @@ public class ViewSeatsActivity extends AppCompatActivity {
                 case R.id.button_Refresh:
                     initSeatStateBtn();
                     getCarState(laneInfo, driveInfo);
+                    break;
+                case R.id.button_toNext:
+                    myStartActivity(Ready2Activity.class);
                     break;
                 default:
                     break;
@@ -264,10 +268,12 @@ public class ViewSeatsActivity extends AppCompatActivity {
         bt_Seat2.setText("3");
         bt_Seat2.setTextColor(Color.parseColor("#545454"));
 
+        /*
         for (int i = 0; i < trainLength; i++) {
             seat1[i] = 2;
             seat2[i] = 2;
         }
+         */
     }
 
     private void getCarState(String laneInfo, String driveInfo) {
@@ -311,22 +317,6 @@ public class ViewSeatsActivity extends AppCompatActivity {
                                                                                 sectionEndGlobal = sectionEnd;
 
                                                                                 getSeatState(sectionStart, sectionEnd, laneInfoDB, driveInfoDB, carNum, 0);
-
-                                                                                boolean s1_isSit = (Boolean) document1.getData().get("s1_isSit");
-                                                                                //boolean s1_isPregnant = (Boolean) document1.getData().get("s1_isPregnant");
-                                                                                //boolean s1_isReservation = (Boolean) document1.getData().get("s1_isReservation");
-                                                                                boolean s2_isSit = (Boolean) document1.getData().get("s2_isSit");
-                                                                                //boolean s2_isPregnant = (Boolean) document1.getData().get("s2_isPregnant");
-                                                                                //boolean s2_isReservation = (Boolean) document1.getData().get("s2_isReservation");
-
-                                                                                Log.d(TAG, "" + sectionStart);
-                                                                                Log.d(TAG, "" + sectionEnd);
-                                                                                Log.d(TAG, String.valueOf(s1_isSit) + '1');
-                                                                                //Log.d(TAG, String.valueOf(s1_isPregnant) + '2');
-                                                                                //Log.d(TAG, String.valueOf(s1_isReservation) + '3');
-                                                                                Log.d(TAG, String.valueOf(s2_isSit) + '4');
-                                                                                //Log.d(TAG, String.valueOf(s2_isPregnant) + '5');
-                                                                                //Log.d(TAG, String.valueOf(s2_isReservation) + '6');
                                                                             }
                                                                         } else {
                                                                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -527,12 +517,19 @@ public class ViewSeatsActivity extends AppCompatActivity {
     private void doReservation(final String laneInfoDB, final String driveInfoDB, final int carNum) {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> data = new HashMap<>();
+        Map<String, Object> data2 = new HashMap<>();
+        final String trainNum = "2101"; //현재 이 열차 밖에 없음.
+        final String userIDDB = userID;
+        String reserve = laneInfoDB + ";" + driveInfoDB + ";" + trainNum + ";" + carNum + ";" + sectionStartGlobal + ";" + sectionEndGlobal + ";" + btnNumGlobal;
+
         if (btnNumGlobal == 1) {
             data.put("s1_isReservation", true);
             data.put("s1_User", userID);
+            data2.put("reservation_info", reserve);
         } else {
             data.put("s2_isReservation", true);
             data.put("s2_User", userID);
+            data2.put("reservation_info", reserve);
         }
 
         for (int i = sectionLower(sectionStartGlobal, sectionEndGlobal); i <= sectionHigher(sectionStartGlobal, sectionEndGlobal); i++) {
@@ -552,6 +549,21 @@ public class ViewSeatsActivity extends AppCompatActivity {
                         }
                     });
         }
+
+        db.collection("user").document(userIDDB)
+                .set(data2, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
     }
 
     private int sectionLower(int sectionStart, int sectionEnd) {
