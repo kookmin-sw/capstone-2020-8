@@ -95,16 +95,18 @@ client.on("connect", () => {
 
 client.on("message", (topic, message) => {
   var obj = JSON.parse(message); // 객체화
-  obj.create_at = new Date(); // 날짜 정보fun
   console.log(obj);
 })
 
 function pubMinor(){
-  client.publish("Minor", "1")
+  if(minor != ""){
+    client.publish(minor, "1")
+    minor = ""
+  }
 }
 
 setInterval(function() {
   pubMinor();
-}, 5000);
+}, 1000);
 
 module.exports = app;
