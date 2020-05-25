@@ -284,18 +284,18 @@
 
         <Button
             android:id="@+id/button_Seat1"
-            android:layout_width="60dp"
-            android:layout_height="50dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_weight="1"
-            android:background="#545454"
+            android:background="@drawable/woman"
             android:layout_marginRight="120dp"/>
 
         <Button
             android:id="@+id/button_Seat2"
-            android:layout_width="60dp"
-            android:layout_height="50dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_weight="1"
-            android:background="#545454" />
+            android:background="@drawable/woman"/>
 
     </LinearLayout>
 
@@ -318,7 +318,8 @@
             android:text="예약 가능 (비어 있음)"
             android:textColor="#008000"
             android:layout_marginTop="15dp"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:layout_marginLeft="15dp"/>
 
         <TextView
             android:id="@+id/textView5"
@@ -326,7 +327,8 @@
             android:layout_height="wrap_content"
             android:text="예약 가능 (사람 있음)"
             android:textColor="#FFA500"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:layout_marginLeft="15dp"/>
 
         <TextView
             android:id="@+id/textView6"
@@ -335,7 +337,8 @@
             android:layout_height="wrap_content"
             android:text="예약 불가"
             android:textColor="#FF0000"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:layout_marginLeft="15dp"/>
     </LinearLayout>
 
     <Button
