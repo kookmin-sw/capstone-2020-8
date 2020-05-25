@@ -23,9 +23,6 @@ firebase.initializeApp(firebaseConfig);
 // express
 var app = express();
 
-
-
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -54,57 +51,62 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render('error');
 });
-console.log("ㅁㄴㅇㄹ");
 
 // socket.io
 app.io = require('socket.io')();
-var whoIsOn = [];
-app.io.on('connection', function(socket) {
+
+var minor = "";
+app.io.on('connection', (socket) => {
   console.log("연결");
-  var nickname = ``
-   
-    //일단 socket.on('login') 이라는 것은 클라이언트가 login 이라는 이벤트를 발생시키면
-    //어떤 콜백 함수를 작동시킬 것인지 설정하는 것입니다.
-    socket.on('login',function(data){
-        console.log(`${data} has entered chatroom! ---------------------`)
-        whoIsOn.push(data) //
-        nickname = data
+    socket.on('login', (data) => { // minor
+        console.log(`minor : ${data}`)
+        // whoIsOn.push(data) 
+        minor = data
 
         // 아래와 같이 하면 그냥 String 으로 넘어가므로 쉽게 파싱을 할 수 있습니다.
         // 그냥 넘기면 JSONArray로 넘어가서 복잡해집니다.
-        var whoIsOnJson = `${whoIsOn}`
-        console.log(whoIsOnJson)
-        
-        //io.emit 과 socket.emit과 다른 점은 io는 서버에 연결된 모든 소켓에 보내는 것이고
-        // socket.emit은 현재 그 소켓에만 보내는 것입니다.       
-      
-        app.io.emit('newUser',whoIsOnJson)
+        var minorJson = `${minor}`
+        console.log(minorJson)
     });
 
-    socket.on('say',function(data){
-        console.log(`${nickname} : ${data}`)
-    
-
-
-        socket.emit('myMsg',data)
-        socket.broadcast.emit('newMsg',data) // socket.broadcast.emit은 현재 소켓이외의 서버에 연결된 모든 소켓에 보내는 것.
+    socket.on('say', (data) => {
+        console.log(`say msg : ${data}`)
+        socket.emit('myMsg', data)
     });
 
-    socket.on('disconnect',function(){
-        console.log(`${nickname} has left this chatroom ------------------------  `)
+    socket.on('disconnect', () => {
+        console.log(`${minor} has left this chatroom ------------------------  `)
     });
 
-    socket.on('logout',function(){
-
-        //Delete user in the whoIsOn Arryay
-        whoIsOn.splice(whoIsOn.indexOf(nickname),1);
-        var data = {
-            whoIsOn: whoIsOn,
-            disconnected : nickname
-        }
+    socket.on('logout', () => {
         socket.emit('logout',data);
     });
 });
 
 console.log("끝")
+
+// MQTT Server 접속. 센서 데이터 읽기
+var mqtt = require("mqtt") // mqtt 모듈 불러오기
+var client = mqtt.connect("mqtt://192.168.137.1") // mqtt 접속 프로토콜
+
+client.on("connect", () => {
+  client.subscribe("IoT") // 구독할 토픽
+});
+
+client.on("message", (topic, message) => {
+  var obj = JSON.parse(message); // 객체화
+  console.log(obj);
+})
+
+function pubMinor(){
+  if(minor != ""){
+    client.publish(minor, "1")
+    minor = ""
+  }
+}
+
+setInterval(function() {
+  pubMinor();
+}, 1000);
+
 module.exports = app;

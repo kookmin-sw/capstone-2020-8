@@ -24,20 +24,6 @@ var server = http.createServer(app);
 // socket.io
 app.io.attach(server);
 
-/*
-// MQTT Server 접속. 센서 데이터 읽기
-var mqtt = require("mqtt")
-var client = mqtt.connect("mqtt://172.30.1.59")
-client.on("connect", () => {
-  client.subscribe("dht11") // 센서
-});
-
-client.on("message", (topic, message) => {
-  var obj = JSON.parse(message); // 객체화
-  obj.create_at = new Date(); // 날짜 정보
-  console.log(obj);
-})
-*/
 /**
  * Listen on provided port, on all network interfaces.
  */
