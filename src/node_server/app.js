@@ -95,7 +95,7 @@ client.on("connect", () => {
 
 client.on("message", (topic, message) => {
   var obj = JSON.parse(message); // 객체화
-  console.log(obj);
+  console.log(obj.seat);
 })
 
 function pubMinor(){
