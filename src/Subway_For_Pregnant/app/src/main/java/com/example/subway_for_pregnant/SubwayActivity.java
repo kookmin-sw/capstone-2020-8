@@ -3,7 +3,6 @@ package com.example.subway_for_pregnant;
 import android.content.Context;
 import androidx.annotation.IdRes;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -19,11 +18,8 @@ import com.odsay.odsayandroidsdk.ODsayData;
 import com.odsay.odsayandroidsdk.ODsayService;
 import com.odsay.odsayandroidsdk.OnResultCallbackListener;
 
-import org.json.simple.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import java.util.Map;
 

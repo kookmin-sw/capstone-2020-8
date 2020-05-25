@@ -1,6 +1,5 @@
 package com.example.subway_for_pregnant
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity

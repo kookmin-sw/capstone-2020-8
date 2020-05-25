@@ -19,8 +19,6 @@ import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 
-import com.example.subway_for_pregnant.BluetoothLeService;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -22,8 +22,6 @@ import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.OutputStream;
 import java.net.URISyntaxException;
