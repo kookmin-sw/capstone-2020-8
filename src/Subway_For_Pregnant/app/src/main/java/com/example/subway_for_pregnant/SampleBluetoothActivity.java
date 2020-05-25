@@ -22,14 +22,32 @@ import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.OutputStream;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import io.socket.client.IO;
+import io.socket.emitter.Emitter;
+import io.socket.client.Socket;
+
+
 public class SampleBluetoothActivity extends AppCompatActivity implements BeaconConsumer {
 
     private static final String TAG = "Beacontest";
+    private static final String TAG2 = "NodeTest";
+
+    private static final int TIME_START = 10000;
+
+    static Socket socket = null;
+    OutputStream os = null;
+    static String minor_to;
+
+
 
     private BeaconManager beaconManager;
 
@@ -110,39 +128,97 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
 
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
+            super.handleMessage(msg);
             textView.setText("test");
+
+            Log.d(TAG2, "for문전에 진입");
 
             // 비콘의 아이디와 거리를 측정하여 textView에 넣는다.
             for(Beacon beacon : beaconList){
+
+                Log.d(TAG2, "for문에 진입");
+
                 String uuid=beacon.getId1().toString(); //beacon uuid
                 int major = beacon.getId2().toInt(); //beacon major
                 int minor = beacon.getId3().toInt();// beacon minor
-                myStartActivity(NodeTestActivity.class,minor);
+
+                minor_to = Integer.toString(minor);
+
+                Log.d(TAG2, "마이너 설정");
+
                 //int txpower = beacon.getTxPower();
+                if(Double.parseDouble((String.format("%.3f", beacon.getDistance())))<10000) { // 거리가 1m이내일 경우만
+
                 String address = beacon.getBluetoothAddress();
-                if(major==1){
-                //beacon 의 식별을 위하여 major값으로 확인
-                //이곳에 필요한 기능 구현
-                textView.append("ID 1 : " + beacon.getId2() + " / " + "Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())) + "m\n");
-                textView.append("임산부석 블루투스 TEST...\n");
-                textView.append("Beacon Bluetooth Id : "+address+"\n");
-                textView.append("Beacon UUID : "+uuid+"\n");
-                textView.append("Beacon MAJOR : "+major+"\n");
-                textView.append("Beacon MINOR : "+minor+"\n");
-                //textView.append("Beacon TXPOWER : "+txpower+"\n");
+
+                Log.d(TAG2, "메이저 진입 전");
+                    if (major == 1) {
+                        Log.d(TAG2, "메이너 진입");
+                        //beacon 의 식별을 위하여 major값으로 확인
+                        //이곳에 필요한 기능 구현
+                        textView.append("ID 1 : " + beacon.getId2() + " / " + "Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())) + "m\n");
+                        textView.append("임산부석 블루투스 TEST...\n");
+                        textView.append("Beacon Bluetooth Id : " + address + "\n");
+                        textView.append("Beacon UUID : " + uuid + "\n");
+                        textView.append("Beacon MAJOR : " + major + "\n");
+                        textView.append("Beacon MINOR : " + minor + "\n");
+
+                        try {
+                            Log.d(TAG2,"try문 진입");
+                            socket = IO.socket("http://0c358090.ngrok.io");
+                            Log.d(TAG2,"소켓 생성");
+                            socket.on(Socket.EVENT_CONNECT, onConnect);
+                            Log.d(TAG2,"연결");
+                            socket.connect();
+                            socket.on("myMsg",onNewMessage);
+                            Log.d(TAG2,"마이너 보냄");
+
+                        }catch (URISyntaxException e){
+                           throw new RuntimeException(e);
+                        }
+                        //textView.append("Beacon TXPOWER : "+txpower+"\n");
+
+                        //myStartActivity(NodeTestActivity.class, minor);
 
 
-                  }else{
-                //나머지 비콘검색
-                textView.append("ID 2: " + beacon.getId2() + " / " + "Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())) + "m\n");
+                    } else {
+                        //나머지 비콘검색
+                        textView.append("ID 2: " + beacon.getId2() + " / " + "Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())) + "m\n");
+                    }
+                }
+
+                if(handler !=null) {
+                    Log.d(TAG2, "handler 삭제");
+                    handler.removeMessages(0);
+                    break;
                 }
 
             }
             // 자기 자신을 1초마다 호출
-            handler.sendEmptyMessageDelayed(0, 5000000);
+            if(handler == null) {
+                Log.d(TAG2, "handler 호출");
+                handler.sendEmptyMessageDelayed(0, 10000); // 1초
+            }
         }
 
 
+    };
+
+    static Emitter.Listener onConnect = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            socket.emit("say","hi");
+            Log.d(TAG2, "say 이벤트");
+        }
+    };
+
+    static Emitter.Listener onNewMessage = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            socket.emit("login",minor_to);
+            Log.d(TAG2, "login 이벤트");
+
+        }
     };
 
 
@@ -160,11 +236,9 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
                     builder.setMessage("Since location access has not been granted, this app will not be able to discover beacons when in the background.");
                     builder.setPositiveButton(android.R.string.ok, null);
                     builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-
                         @Override
                         public void onDismiss(DialogInterface dialog) {
                         }
-
                     });
                     builder.show();
                 }
