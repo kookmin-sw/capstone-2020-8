@@ -115,12 +115,12 @@ public class TrainActivity extends AppCompatActivity {
         }
 
     private void myStartActivity(Class c, String position) {
-
         Intent intent = getIntent();
         intent.getExtras();
         Intent intent2 = new Intent(this, c);
         intent2.putExtras(intent);
         intent2.putExtra("train_number",position);
+
         startActivity(intent2);
     }
 
