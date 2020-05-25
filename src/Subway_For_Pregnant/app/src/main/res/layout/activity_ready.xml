@@ -6,41 +6,53 @@
     android:layout_height="match_parent"
     tools:context=".Ready2Activity"
     android:orientation="vertical"
-    android:background="@drawable/splash_bg_gradient"
+    android:background="#F6D2D2"
     android:weightSum="1"
     >
 
+    <LinearLayout
+        android:background="@drawable/border_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="90dp"
+        android:gravity="center_horizontal"
+        ></LinearLayout>
+
     <TextView
+        android:background="@drawable/border_layout"
         android:id="@+id/main_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="예약 현황"
-        android:textColor="#FFFFFF"
+        android:textAlignment="center"
+        android:textColor="#040404"
         android:textSize="40dp"
         android:textStyle="bold" />
 
 
     <TextView
         android:id="@+id/desti_large"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/main_text"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
-        android:background="@drawable/rounded_corner"
+        android:layout_marginTop="55dp"
+        android:layout_marginLeft="55dp"
+        android:background="@drawable/border_layout"
         android:gravity="center_horizontal"
         android:text="현재 역"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
         android:textSize="50dp"
         android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/center_img"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:background="@drawable/background_line"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
         android:layout_below="@+id/desti_large"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
@@ -106,7 +118,7 @@
             android:background="@drawable/rounded_corner"
             android:text="착석완료"
             android:textAllCaps="false"
-            android:textColor="#FFFFFF"
+            android:textColor="#000000"
             android:textSize="35dp" />
 
         <Button
@@ -117,7 +129,7 @@
             android:background="@drawable/rounded_corner"
             android:text="예약취소"
             android:textAllCaps="false"
-            android:textColor="#FFFFFF"
+            android:textColor="#000000"
             android:textSize="35dp" />
     </LinearLayout>
 

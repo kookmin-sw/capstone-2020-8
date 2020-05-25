@@ -10,28 +10,27 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="300dp"
         android:layout_marginTop="160dp"
         android:layout_marginBottom="180dp"
-        android:orientation="vertical"
-        android:background="@drawable/border_layout">
+        android:background="@drawable/border_layout"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/trainbutton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginTop="60dp"
             android:layout_marginRight="15dp"
-            android:text="지하철 좌석 예약"
-            />
+            android:text="지하철 좌석 예약" />
 
         <Button
             android:id="@+id/bluetoothButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="15dp"
             android:text="블루투스 TEST" />
 
@@ -40,8 +39,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="25dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginTop="25dp"
             android:layout_marginRight="15dp"
             android:gravity="center"
             android:text="로그아웃" />
