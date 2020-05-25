@@ -47,6 +47,11 @@ public class ViewSeatsActivity extends AppCompatActivity {
     int driveInfoLength;        //노선 개수. 환승 없으면 1, 1번 환승은 2. 이런식으로.
     int[] driveInfoWayCode;     //방면 코드 (1:상행, 2:하행)
     String[] driveInfoLaneName;  //노선 이름. 예: "8호선", "분당선".
+    int[] driveInfoStationCount;
+
+    int pastStationsCount = 0;
+    int transferCount = 0;
+    String trainName;
 
     Button[] bt_State;
     TextView[] tv_State;
@@ -60,7 +65,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        Log.d(TAG,intent.getExtras().getString("train_number"));
+        Log.d(TAG,intent.getExtras().getString("trainName"));
 
         //인텐트 호출
         globalStartName = intent.getExtras().getString("globalStartName");
@@ -75,7 +80,8 @@ public class ViewSeatsActivity extends AppCompatActivity {
 
         driveInfoLength = intent.getExtras().getInt("driveInfoLength");     //노선 개수. 환승 없으면 1, 1번 환승은 2. 이런식으로.
         driveInfoWayCode = new int[driveInfoLength];      //방면 코드 (1:상행, 2:하행)
-        driveInfoLaneName = new String[driveInfoLength];
+        driveInfoLaneName = new String[driveInfoLength];  //승차역 호선명
+        driveInfoStationCount = new int[driveInfoLength];  //이동 역 수
 
         userID = intent.getExtras().getString("user");
 
@@ -92,10 +98,25 @@ public class ViewSeatsActivity extends AppCompatActivity {
         for (int i = 0; i < driveInfoLength; i++) {
             driveInfoLaneName[i] = intent.getExtras().getString("driveInfoLaneName" + i);
             driveInfoWayCode[i] = intent.getExtras().getInt("driveInfoWayCode" + i);
+            driveInfoStationCount[i] = intent.getExtras().getInt("driveInfoStationCount" + i);
+        }
+
+        trainName = intent.getExtras().getString("trainName");
+
+        try {
+            pastStationsCount = intent.getExtras().getInt("pastStationsCount");
+            transferCount = intent.getExtras().getInt("transferCount");
+        }
+        catch (NullPointerException e) {
+            pastStationsCount = 0;
+            transferCount = 0;
         }
 
         String laneInfo = "1";
         String driveInfo = "1";
+
+        sectionStartGlobal = stationsStartID[pastStationsCount];     //출발역
+        sectionEndGlobal = stationsStartID[pastStationsCount + driveInfoStationCount[transferCount] - 1];  //도착역
 
         seat1 = new int[trainLength];
         seat2 = new int[trainLength];
@@ -116,20 +137,25 @@ public class ViewSeatsActivity extends AppCompatActivity {
         tv_State[4] = findViewById(R.id.textView_State5);
         tv_State[5] = findViewById(R.id.textView_StateLeft);
 
-        if (driveInfoWayCode[0] == 1) driveInfo = "Up";
+        if (driveInfoWayCode[transferCount] == 1) driveInfo = "Up";
         else driveInfo = "Down";
 
-        switch (driveInfoLaneName[0]) {
+        switch (driveInfoLaneName[transferCount]) {
             case "2호선":
                 laneInfo = "line2";
                 break;
             case "8호선":
                 laneInfo = "line8";
                 break;
+            case "9호선":
+                laneInfo = "line9";
+                break;
+            default:
+                break;
         }
 
         initSeatStateBtn();
-        getCarState(laneInfo, driveInfo);
+        getCarState(laneInfo, driveInfo, 0);
 
         findViewById(R.id.button_StateLeft).setOnClickListener(onClickListener);
         findViewById(R.id.button_State5).setOnClickListener(onClickListener);
@@ -159,6 +185,11 @@ public class ViewSeatsActivity extends AppCompatActivity {
                     break;
                 case "8호선":
                     laneInfo = "line8";
+                    break;
+                case "9호선":
+                    laneInfo = "line9";
+                    break;
+                default:
                     break;
             }
 
@@ -197,7 +228,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
                     carNum = carNumGlobal;
 
                     if (bt_Seat1.getText().equals("0") || bt_Seat1.getText().equals("1")) {
-                        startReservation(laneInfoDB, driveInfoDB, carNum);
+                        startReservation(laneInfo, driveInfo, carNum);
                         //myStartActivity(Ready2Activity.class);
                     }
                     else if (bt_Seat1.getText().equals("2")) {
@@ -213,7 +244,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
                     carNum = carNumGlobal;
 
                     if (bt_Seat2.getText().equals("0") || bt_Seat2.getText().equals("1")) {
-                        startReservation(laneInfoDB, driveInfoDB, carNum);
+                        startReservation(laneInfo, driveInfo, carNum);
                         //myStartActivity(Ready2Activity.class);
                     }
                     else if (bt_Seat2.getText().equals("2")) {
@@ -225,7 +256,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
                     break;
                 case R.id.button_Refresh:
                     initSeatStateBtn();
-                    getCarState(laneInfo, driveInfo);
+                    getCarState(laneInfo, driveInfo, 0);
                     break;
                 case R.id.button_toNext:
                     myStartActivity(Ready2Activity.class);
@@ -233,7 +264,6 @@ public class ViewSeatsActivity extends AppCompatActivity {
                 default:
                     break;
             }
-            //CollectionReference colRef = db.collection("Demo_subway").document(laneInfo).collection(driveInfo).document("2101").collection("car");
         }
     };
 
@@ -261,63 +291,149 @@ public class ViewSeatsActivity extends AppCompatActivity {
         bt_Seat2.setBackgroundColor(Color.parseColor("#545454")); //Dark Gray
         bt_Seat2.setText("3");
         bt_Seat2.setTextColor(Color.parseColor("#545454"));
-
-        /*
-        for (int i = 0; i < trainLength; i++) {
-            seat1[i] = 2;
-            seat2[i] = 2;
-        }
-         */
     }
 
+    private void getCarState(String laneInfo, String driveInfo, final int select) {
+        for (int i = 1; i <= 6; i++) {  //열차 6칸.
+            getCarState2(laneInfo, driveInfo, i, select);
+        }
+    }
+
+    private void getCarState2(String laneInfo, String driveInfo, final int carNum, final int select) {
+        if (sectionStartGlobal <= sectionEndGlobal) {
+            for (int j = sectionStartGlobal; j <= sectionEndGlobal; j++) {
+                getCarStateDB(laneInfo, driveInfo, carNum, j, select);
+            }
+        }
+        else {
+            for (int j = sectionStartGlobal; j >= sectionEndGlobal; j--) {
+                getCarStateDB(laneInfo, driveInfo, carNum, j, select);
+            }
+        }
+    }
+
+    private void getCarStateDB(String laneInfo, String driveInfo, final int carNum, int j, final int select) {
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final String trainNameDB = trainName;
+        final String laneInfoDB = laneInfo;
+        final String driveInfoDB = driveInfo;
+        final int section = j;
+        final int sectionStartDB = sectionStartGlobal;
+        final int sectionEndDB = sectionEndGlobal;
+
+        db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document(trainNameDB).collection("car").document(Integer.toString(carNum)).collection("section").document(Integer.toString(section))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        Log.d(TAG, String.valueOf(task.isSuccessful()));
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "aaaaaa laneInfoDB: " + laneInfoDB);
+                            Log.d(TAG, "aaaaaa driveInfoDB: " + driveInfoDB);
+                            Log.d(TAG, "aaaaaa trainNameDB: " + trainNameDB);
+                            Log.d(TAG, "aaaaaa carNum: " + carNum);
+                            Log.d(TAG, "aaaaaa section: " + section);
+
+                            DocumentSnapshot document4 = task.getResult();
+                            boolean s1_isReservation_section = (Boolean) document4.getData().get("s1_isReservation");
+                            boolean s2_isReservation_section = (Boolean) document4.getData().get("s2_isReservation");
+
+                            int bt_State_num = 0;  // 홀수면 1번 자리에 예약 있음, 짝수면 2번 자리에 예약 있음.
+                            int bt_State_setNum = 0;
+                            int bt_State_length = 0;
+                            Button bt_State = findViewById(R.id.button_StateRight);
+
+                            switch (carNum) {
+                                case 1:
+                                    bt_State = findViewById(R.id.button_StateRight);
+                                    break;
+                                case 2:
+                                    bt_State = findViewById(R.id.button_State2);
+                                    break;
+                                case 3:
+                                    bt_State = findViewById(R.id.button_State3);
+                                    break;
+                                case 4:
+                                    bt_State = findViewById(R.id.button_State4);
+                                    break;
+                                case 5:
+                                    bt_State = findViewById(R.id.button_State5);
+                                    break;
+                                case 6:
+                                    bt_State = findViewById(R.id.button_StateLeft);
+                                    break;
+                            }
+
+                            //첫 번째 좌석에 예약이 있을 때.
+                            if (s1_isReservation_section == true) {
+                                bt_State_num = Integer.parseInt(bt_State.getText().toString().substring(0, 1));
+                                if (bt_State_num % 2 == 0) {
+                                    bt_State_setNum = bt_State_num + 1;
+                                    bt_State.setText("" + bt_State_setNum + bt_State.getText().toString().substring(1));
+                                }
+                            }
+
+                            //두 번째 좌석에 예약이 있을 때.
+                            if (s2_isReservation_section == true) {
+                                bt_State_num = Integer.parseInt(bt_State.getText().toString().substring(0, 1));
+                                if (bt_State_num < 2) {
+                                    bt_State_setNum = bt_State_num + 2;
+                                    bt_State.setText("" + bt_State_setNum + bt_State.getText().toString().substring(1));
+                                }
+                            }
+                            bt_State.setText(bt_State.getText().toString() + "0");
+
+                            bt_State_length = bt_State.getText().toString().length() - 1;  //300000 이런 식으로 설정해줌. 맨 첫자리는 예약 상태, 그 후의 0의 개수는 확인한 구간 개수.
+                            if (bt_State_length - 1 == sectionHigher(sectionStartDB, sectionEndDB) - sectionLower(sectionStartDB, sectionEndDB)) {
+                                chooseSeatStateBtn(carNum);
+
+                                if (select == 1) {
+                                    doReservation(laneInfoDB, driveInfoDB, carNum);
+                                }
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+    /*
     private void getCarState(String laneInfo, String driveInfo) {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         for (int i = 1; i <= 6; i++) {
             final int carNum = i;
             final String laneInfoDB = laneInfo;
             final String driveInfoDB = driveInfo;
-            final String globalStartNameDB = globalStartName;     //출발역
-            final String globalEndNameDB = globalEndName;       //도착역
-            db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document("2101").collection("car").document(Integer.toString(carNum))
+            final String trainNameDB = trainName;
+            final int startIDDB = stationsStartID[pastStationsCount];     //출발역
+            final int endIDDB = stationsEndSID[pastStationsCount + driveInfoStationCount[transferCount] - 1];       //도착역
+
+            db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document(trainNameDB).collection("car").document(Integer.toString(carNum)).collection("section").document(Integer.toString(startIDDB))
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            Log.d(TAG, String.valueOf(task.isSuccessful()));
                             if (task.isSuccessful()) {
                                 final DocumentSnapshot document1 = task.getResult();
 
-                                db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document("2101").collection("car").document(Integer.toString(carNum)).collection("section").whereEqualTo("start", globalStartNameDB)
+                                final int sectionStart = Integer.parseInt(document1.getId());
+                                sectionStartGlobal = sectionStart;
+
+                                db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document(trainNameDB).collection("car").document(Integer.toString(carNum)).collection("section").document(Integer.toString(endIDDB))
                                         .get()
-                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                             @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                 Log.d(TAG, String.valueOf(task.isSuccessful()));
                                                 if (task.isSuccessful()) {
-                                                    for (final QueryDocumentSnapshot document2 : task.getResult()) {
+                                                    final DocumentSnapshot document2 = task.getResult();
 
-                                                        final int sectionStart = Integer.parseInt(document2.getId());
-                                                        sectionStartGlobal = sectionStart;
+                                                    final int sectionEnd = Integer.parseInt(document2.getId());
+                                                    sectionEndGlobal = sectionEnd;
 
-                                                        db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document("2101").collection("car").document(Integer.toString(carNum)).collection("section").whereEqualTo("end", globalEndNameDB)
-                                                                .get()
-                                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                                    @Override
-                                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                                        Log.d(TAG, String.valueOf(task.isSuccessful()));
-                                                                        if (task.isSuccessful()) {
-                                                                            for (final QueryDocumentSnapshot document3 : task.getResult()) {
+                                                    getSeatState(sectionStart, sectionEnd, laneInfoDB, driveInfoDB, carNum, 0);
 
-                                                                                final int sectionEnd = Integer.parseInt(document3.getId());
-                                                                                sectionEndGlobal = sectionEnd;
-
-                                                                                getSeatState(sectionStart, sectionEnd, laneInfoDB, driveInfoDB, carNum, 0);
-                                                                            }
-                                                                        } else {
-                                                                            Log.d(TAG, "Error getting documents: ", task.getException());
-                                                                        }
-                                                                    }
-                                                                });
-                                                    }
                                                 } else {
                                                     Log.d(TAG, "Error getting documents: ", task.getException());
                                                 }
@@ -333,10 +449,11 @@ public class ViewSeatsActivity extends AppCompatActivity {
 
     private void getSeatState(final int sectionStart, final int sectionEnd, final String laneInfoDB, final String driveInfoDB, final int carNum, final int select) {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final String trainNameDB = trainName;
 
         for (int i = sectionLower(sectionStart, sectionEnd); i <= sectionHigher(sectionStart, sectionEnd); i++) {
             final int section = i;
-            db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document("2101").collection("car").document(Integer.toString(carNum)).collection("section").document(Integer.toString(section))
+            db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document(trainNameDB).collection("car").document(Integer.toString(carNum)).collection("section").document(Integer.toString(section))
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
@@ -408,6 +525,8 @@ public class ViewSeatsActivity extends AppCompatActivity {
         }
     }
 
+     */
+
     private void chooseSeatStateBtn(final int carNum) {
         //선택한 열차칸의 번호를 구별해주는 함수.
         switch (carNum) {
@@ -461,7 +580,9 @@ public class ViewSeatsActivity extends AppCompatActivity {
 
     private void doSetBtnColor(final int carNum, final String laneInfoDB, final String driveInfoDB) {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document("2101").collection("car").document(Integer.toString(carNum))
+        final String trainNameDB = trainName;
+
+        db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document(trainNameDB).collection("car").document(Integer.toString(carNum))
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -501,20 +622,17 @@ public class ViewSeatsActivity extends AppCompatActivity {
         }
     }
 
-    private void startReservation(final String laneInfoDB, final String driveInfoDB, final int carNum) {
-        final int sectionStart = sectionStartGlobal;
-        final int sectionEnd = sectionEndGlobal;
-
-        getSeatState(sectionStart, sectionEnd, laneInfoDB, driveInfoDB, carNum, 1);
+    private void startReservation(String laneInfo, String driveInfo, final int carNum) {
+        getCarState2(laneInfo, driveInfo, carNum, 1);
     }
 
     private void doReservation(final String laneInfoDB, final String driveInfoDB, final int carNum) {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> data = new HashMap<>();
         Map<String, Object> data2 = new HashMap<>();
-        final String trainNum = "2101"; //현재 이 열차 밖에 없음.
+        final String trainNameDB = trainName; //현재 이 열차 밖에 없음.
         final String userIDDB = userID;
-        String reserve = laneInfoDB + ";" + driveInfoDB + ";" + trainNum + ";" + carNum + ";" + sectionStartGlobal + ";" + sectionEndGlobal + ";" + btnNumGlobal;
+        String reserve = laneInfoDB + ";" + driveInfoDB + ";" + trainNameDB + ";" + carNum + ";" + sectionStartGlobal + ";" + sectionEndGlobal + ";" + btnNumGlobal;
 
         if (btnNumGlobal == 1) {
             data.put("s1_isReservation", true);
@@ -528,7 +646,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
 
         for (int i = sectionLower(sectionStartGlobal, sectionEndGlobal); i <= sectionHigher(sectionStartGlobal, sectionEndGlobal); i++) {
             final int section = i;
-            db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document("2101").collection("car").document(Integer.toString(carNum)).collection("section").document(Integer.toString(section))
+            db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document(trainNameDB).collection("car").document(Integer.toString(carNum)).collection("section").document(Integer.toString(section))
                     .set(data, SetOptions.merge())
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override

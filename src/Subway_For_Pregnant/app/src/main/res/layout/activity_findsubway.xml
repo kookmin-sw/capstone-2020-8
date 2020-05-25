@@ -65,7 +65,6 @@
         android:id="@+id/tv_data2"
         android:layout_width="343dp"
         android:layout_height="245dp"
-        android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
