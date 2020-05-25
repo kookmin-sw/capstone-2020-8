@@ -94,8 +94,17 @@ client.on("connect", () => {
 });
 
 client.on("message", (topic, message) => {
+  var db = firebase.firestore();
   var obj = JSON.parse(message); // 객체화
+  let data = {
+    isTrue : false,
+  };
+  
+  if(obj.seat === 1) data.isTrue = true;
   console.log(obj.seat);
+  console.log(data.isTrue);
+
+  db.collection('test').doc('tnf').set(data);
 })
 
 function pubMinor(){
