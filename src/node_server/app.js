@@ -97,14 +97,17 @@ client.on("message", (topic, message) => {
   var db = firebase.firestore();
   var obj = JSON.parse(message); // 객체화
   let data = {
-    isTrue : false,
+    s1_isSit : false,
   };
   
-  if(obj.seat === 1) data.isTrue = true;
+  if(obj.seat === 1) data.s1_isSit = true;
   console.log(obj.seat);
-  console.log(data.isTrue);
+  console.log(data.s1_isSit);
 
-  db.collection('test').doc('tnf').set(data);
+  //db.collection('Demo_subway').doc('line8').collection('Up').doc('2101').
+  //collection('car').doc('1').update(data);
+
+  db.collection('test').doc('tnf').update(data);
 })
 
 function pubMinor(){
