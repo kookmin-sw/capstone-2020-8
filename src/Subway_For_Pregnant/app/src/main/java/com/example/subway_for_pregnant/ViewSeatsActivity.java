@@ -49,7 +49,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
     String[] driveInfoLaneName;  //노선 이름. 예: "8호선", "분당선".
     int[] driveInfoStationCount;
 
-    int pastStationsCount = 0;
+    int pastStationCount = 0;
     int transferCount = 0;
     String trainName;
 
@@ -104,19 +104,19 @@ public class ViewSeatsActivity extends AppCompatActivity {
         trainName = intent.getExtras().getString("trainName");
 
         try {
-            pastStationsCount = intent.getExtras().getInt("pastStationsCount");
+            pastStationCount = intent.getExtras().getInt("pastStationCount");
             transferCount = intent.getExtras().getInt("transferCount");
         }
         catch (NullPointerException e) {
-            pastStationsCount = 0;
+            pastStationCount = 0;
             transferCount = 0;
         }
 
         String laneInfo = "1";
         String driveInfo = "1";
 
-        sectionStartGlobal = stationsStartID[pastStationsCount];     //출발역
-        sectionEndGlobal = stationsStartID[pastStationsCount + driveInfoStationCount[transferCount] - 1];  //도착역
+        sectionStartGlobal = stationsStartID[pastStationCount];     //출발역
+        sectionEndGlobal = stationsStartID[pastStationCount + driveInfoStationCount[transferCount] - 1];  //도착역
 
         seat1 = new int[trainLength];
         seat2 = new int[trainLength];
@@ -176,10 +176,10 @@ public class ViewSeatsActivity extends AppCompatActivity {
             String driveInfo = "1";
             String laneInfo = "1";
 
-            if (driveInfoWayCode[0] == 1) driveInfo = "Up";
+            if (driveInfoWayCode[transferCount] == 1) driveInfo = "Up";
             else driveInfo = "Down";
 
-            switch (driveInfoLaneName[0]) {
+            switch (driveInfoLaneName[transferCount]) {
                 case "2호선":
                     laneInfo = "line2";
                     break;
@@ -328,12 +328,6 @@ public class ViewSeatsActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         Log.d(TAG, String.valueOf(task.isSuccessful()));
                         if (task.isSuccessful()) {
-                            Log.d(TAG, "aaaaaa laneInfoDB: " + laneInfoDB);
-                            Log.d(TAG, "aaaaaa driveInfoDB: " + driveInfoDB);
-                            Log.d(TAG, "aaaaaa trainNameDB: " + trainNameDB);
-                            Log.d(TAG, "aaaaaa carNum: " + carNum);
-                            Log.d(TAG, "aaaaaa section: " + section);
-
                             DocumentSnapshot document4 = task.getResult();
                             boolean s1_isReservation_section = (Boolean) document4.getData().get("s1_isReservation");
                             boolean s2_isReservation_section = (Boolean) document4.getData().get("s2_isReservation");
@@ -505,12 +499,14 @@ public class ViewSeatsActivity extends AppCompatActivity {
         final String userIDDB = userID;
         String reservationInfo = laneInfoDB + ";" + driveInfoDB + ";" + trainNameDB + ";" + carNum + ";"
                 + sectionStartGlobal + ";" + sectionEndGlobal + ";" + btnNumGlobal + ";" //호선 기준 예약한 첫 구간, 예약한 마지막 구간, 좌석 번호 (1 or 2)
-                + stationsStartID[0] + ";" + stationsEndSID[globalStationCount - 1];  //검색한 출발역코드 도착역코드
+                + stationsStartID[0] + ";" + stationsEndSID[globalStationCount - 1] + ";"  //검색한 출발역코드 도착역코드
+                + stationsStartName[pastStationCount] + ";" + stationsEndName[pastStationCount + driveInfoStationCount[transferCount] - 1];  //호선 기준 출발역 도착역
         String transferInfo = "";
 
         if (transferCount + 1 < driveInfoLength) {
-            transferInfo = (pastStationsCount + driveInfoStationCount[transferCount]) + ";"  //pastStationCount: 지난 역 개수
-                    + (transferCount + 1);  //transferCount: 환승한 횟수
+            transferInfo = (pastStationCount + driveInfoStationCount[transferCount]) + ";"  //pastStationCount: 지난 역 개수
+                    + (transferCount + 1) + ";"  //transferCount: 환승한 횟수
+                    + stationsStartID[0] + ";" + stationsEndSID[globalStationCount - 1];  //검색한 출발역코드 도착역코드
         }
 
         if (btnNumGlobal == 1) {
@@ -573,6 +569,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
         Intent intent2 = new Intent(this, c);
         intent2.putExtras(intent);
 
+        intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent2);
     }
 

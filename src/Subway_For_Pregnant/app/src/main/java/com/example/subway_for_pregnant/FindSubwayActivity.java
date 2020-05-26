@@ -176,7 +176,7 @@ public class FindSubwayActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent2);
     }
 

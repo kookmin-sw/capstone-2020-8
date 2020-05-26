@@ -53,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Log.d(TAG, document.getId() + " => " + document.getData().get("isPregnant"));
-
                                     getReservationInfo = (String) document.getData().get("reservation_info");
 
                                     if (getReservationInfo.length() > 0) {
@@ -130,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
     private void myStartActivity(Class c) {
         Intent intent = new Intent(this, c);
         intent.putExtra("user", user.getEmail());
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
@@ -182,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent2);
     }
 }

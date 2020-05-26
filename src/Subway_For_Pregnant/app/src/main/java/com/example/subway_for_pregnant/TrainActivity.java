@@ -40,7 +40,7 @@ public class TrainActivity extends AppCompatActivity {
     int[] stationsEndSID;
     int[] stationsTravelTime;
 
-    int pastStationsCount = 0;
+    int pastStationCount = 0;
     int transferCount = 0;
 
     @Override
@@ -155,11 +155,11 @@ public class TrainActivity extends AppCompatActivity {
         }
 
         try {
-            pastStationsCount = intent.getExtras().getInt("pastStationsCount");
+            pastStationCount = intent.getExtras().getInt("pastStationCount");
             transferCount = intent.getExtras().getInt("transferCount");
         }
         catch (NullPointerException e) {
-            pastStationsCount = 0;
+            pastStationCount = 0;
             transferCount = 0;
         }
     }
@@ -171,6 +171,7 @@ public class TrainActivity extends AppCompatActivity {
         intent2.putExtras(intent);
         intent2.putExtra("trainName", position);
 
+        intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent2);
     }
 }
