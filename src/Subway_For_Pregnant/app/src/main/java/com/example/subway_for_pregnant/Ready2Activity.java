@@ -64,10 +64,12 @@ public class Ready2Activity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.button_sit:
-                    doCancel();
+                    doCancelReserve();
+                    //transfer_info에 저장돼있는 값들로 다음 노선 찾기.
                     break;
                 case R.id.button_cancel:
-                    doCancel();
+                    doCancelReserve();
+                    doCancelUser();
                     break;
                 default:
                     break;
@@ -96,18 +98,18 @@ public class Ready2Activity extends AppCompatActivity {
                                 j += 1;
                             }
 
-                            String reserve[] = getReservation.split(";");
-                            for (int i = 0; i < reserve.length; i++) {
-                                Log.d(TAG, reserve[i]);
+                            String reservationInfo[] = getReservation.split(";");
+                            for (int i = 0; i < reservationInfo.length; i++) {
+                                Log.d(TAG, reservationInfo[i]);
                             }
 
-                            laneInfo = reserve[0];
-                            driveInfo = reserve[1];
-                            trainNum = reserve[2];
-                            carNum = reserve[3];
-                            sectionStartGlobal = reserve[4];
-                            sectionEndGlobal = reserve[5];
-                            seatNum = reserve[6];
+                            laneInfo = reservationInfo[0];
+                            driveInfo = reservationInfo[1];
+                            trainNum = reservationInfo[2];
+                            carNum = reservationInfo[3];
+                            sectionStartGlobal = reservationInfo[4];
+                            sectionEndGlobal = reservationInfo[5];
+                            seatNum = reservationInfo[6];
 
                             String seatPosition[] = {"왼쪽 자리", "오른쪽 자리"};
 
@@ -120,13 +122,10 @@ public class Ready2Activity extends AppCompatActivity {
                 });
     }
 
-    private void doCancel() {
+    private void doCancelReserve() {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         Map<String, Object> data = new HashMap<>();
-        Map<String, Object> data2 = new HashMap<>();
-
-        final String userIDDB = userID;
 
         final String laneInfoDB = laneInfo;
         final String driveInfoDB = driveInfo;
@@ -141,7 +140,6 @@ public class Ready2Activity extends AppCompatActivity {
             data.put("s2_isReservation", false);
             data.put("s2_User", "");
         }
-        data2.put("reservation_info", "");
 
         for (int i = sectionLower(Integer.parseInt(sectionStartGlobal), Integer.parseInt(sectionEndGlobal)); i <= sectionHigher(Integer.parseInt(sectionStartGlobal), Integer.parseInt(sectionEndGlobal)); i++) {
             final int section = i;
@@ -160,9 +158,20 @@ public class Ready2Activity extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+    private void doCancelUser() {
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Map<String, Object> data = new HashMap<>();
+
+        final String userIDDB = userID;
+
+        data.put("reservation_info", "");
+        data.put("transfer_info", "");
 
         db.collection("user").document(userIDDB)
-                .set(data2, SetOptions.merge())
+                .set(data, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

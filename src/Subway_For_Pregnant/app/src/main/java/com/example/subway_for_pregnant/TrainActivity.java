@@ -127,7 +127,7 @@ public class TrainActivity extends AppCompatActivity {
     private void initIntents() {
         Intent intent = getIntent();
 
-                globalStartName = intent.getExtras().getString("globalStartName");
+        globalStartName = intent.getExtras().getString("globalStartName");
         globalEndName = intent.getExtras().getString("globalEndName");
         driveInfoLength = intent.getExtras().getInt("driveInfoLength");
         driveInfoStationCount = new int[driveInfoLength];
