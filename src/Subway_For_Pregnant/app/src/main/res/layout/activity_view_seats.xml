@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F6D2D2">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></ScrollView>
 
     <TextView
         android:id="@+id/title_name"
@@ -32,7 +34,7 @@
         app:layout_constraintBottom_toTopOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_toNext"></View>
+        app:layout_constraintTop_toBottomOf="@+id/title_name"></View>
 
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
@@ -279,19 +281,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="40dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/box_inside">
+        app:layout_constraintBottom_toBottomOf="@id/box_inside"
+        app:layout_constraintTop_toTopOf="@id/box_inside">
 
         <Button
             android:id="@+id/button_Seat1"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_weight="1"
-            android:layout_marginRight="120dp"/>
+            android:layout_marginRight="120dp"
+            />
 
         <Button
             android:id="@+id/button_Seat2"
@@ -348,20 +351,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="열차상태 새로고침"
-        android:layout_marginBottom="10dp"
         app:layout_constraintEnd_toStartOf="@+id/button_toNext"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_name"
-        app:layout_constraintBottom_toTopOf="@id/railbox" />
+        app:layout_constraintTop_toBottomOf="@id/title_name" />
 
     <Button
         android:id="@+id/button_toNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="예약 상태 확인"
-        app:layout_constraintBottom_toTopOf="@id/railbox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/button_Refresh"
         app:layout_constraintTop_toBottomOf="@id/title_name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
