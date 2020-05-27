@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         if (user == null) {
-            myStartActivity(LoginActivity.class);
+            myStartActivity3(LoginActivity.class);
         } else {
             db.collection("user").whereEqualTo("id", user.getEmail())
                     .get()
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             switch (v.getId()) {
                 case R.id.logoutButton:
                     FirebaseAuth.getInstance().signOut();
-                    myStartActivity(MainActivity.class);
+                    myStartActivity3(MainActivity.class);
                     break;
                 case R.id.trainbutton:
                     if (getReservationInfo.length() > 0) {
@@ -183,5 +183,11 @@ public class MainActivity extends AppCompatActivity {
         }
         intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent2);
+    }
+
+    private void myStartActivity3(Class c) {
+        Intent intent = new Intent(this, c);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }
