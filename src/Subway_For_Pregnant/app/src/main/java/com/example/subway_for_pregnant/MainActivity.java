@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.logoutButton).setOnClickListener(onClickListener);
         findViewById(R.id.trainbutton).setOnClickListener(onClickListener);
         findViewById(R.id.bluetoothButton).setOnClickListener(onClickListener);
-        //findViewById(R.id.socketButton).setOnClickListener(onClickListener);
+
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
