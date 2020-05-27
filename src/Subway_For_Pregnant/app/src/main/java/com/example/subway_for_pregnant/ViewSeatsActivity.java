@@ -33,6 +33,8 @@ public class ViewSeatsActivity extends AppCompatActivity {
     int btnNumGlobal;
     int carNumGlobal;
     int trainLength = 6;  //해당 열차의 길이. 열차 칸의 총 개수.
+    int forCount = 0;
+    int isReservationCount = 0;
 
     String globalStartName;     //출발역
     String globalEndName;       //도착역
@@ -228,7 +230,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
                     carNum = carNumGlobal;
 
                     if (bt_Seat1.getText().equals("0") || bt_Seat1.getText().equals("1")) {
-                        startReservation(laneInfo, driveInfo, carNum);
+                        startReservation(laneInfoDB, driveInfoDB, carNum);
                         //myStartActivity(Ready2Activity.class);
                     }
                     else if (bt_Seat1.getText().equals("2")) {
@@ -244,7 +246,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
                     carNum = carNumGlobal;
 
                     if (bt_Seat2.getText().equals("0") || bt_Seat2.getText().equals("1")) {
-                        startReservation(laneInfo, driveInfo, carNum);
+                        startReservation(laneInfoDB, driveInfoDB, carNum);
                         //myStartActivity(Ready2Activity.class);
                     }
                     else if (bt_Seat2.getText().equals("2")) {
@@ -291,6 +293,9 @@ public class ViewSeatsActivity extends AppCompatActivity {
         bt_Seat2.setBackgroundColor(Color.parseColor("#545454")); //Dark Gray
         bt_Seat2.setText("3");
         bt_Seat2.setTextColor(Color.parseColor("#545454"));
+
+        forCount = 0;
+        isReservationCount = 0;
     }
 
     private void getCarState(String laneInfo, String driveInfo, final int select) {
@@ -299,24 +304,22 @@ public class ViewSeatsActivity extends AppCompatActivity {
         }
     }
 
-    private void getCarState2(String laneInfo, String driveInfo, final int carNum, final int select) {
+    private void getCarState2(final String laneInfoDB, final String driveInfoDB, final int carNum, final int select) {
         if (sectionStartGlobal <= sectionEndGlobal) {
             for (int j = sectionStartGlobal; j <= sectionEndGlobal; j++) {
-                getCarStateDB(laneInfo, driveInfo, carNum, j, select);
+                getCarStateDB(laneInfoDB, driveInfoDB, carNum, j, select);
             }
         }
         else {
             for (int j = sectionStartGlobal; j >= sectionEndGlobal; j--) {
-                getCarStateDB(laneInfo, driveInfo, carNum, j, select);
+                getCarStateDB(laneInfoDB, driveInfoDB, carNum, j, select);
             }
         }
     }
 
-    private void getCarStateDB(String laneInfo, String driveInfo, final int carNum, int j, final int select) {
+    private void getCarStateDB(final String laneInfoDB, final String driveInfoDB, final int carNum, int j, final int select) {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final String trainNameDB = trainName;
-        final String laneInfoDB = laneInfo;
-        final String driveInfoDB = driveInfo;
         final int section = j;
         final int sectionStartDB = sectionStartGlobal;
         final int sectionEndDB = sectionEndGlobal;
@@ -487,8 +490,53 @@ public class ViewSeatsActivity extends AppCompatActivity {
         }
     }
 
-    private void startReservation(String laneInfo, String driveInfo, final int carNum) {
-        getCarState2(laneInfo, driveInfo, carNum, 1);
+    private void startReservation(final String laneInfoDB, final String driveInfoDB, final int carNumDB) {
+        if (sectionStartGlobal <= sectionEndGlobal) {
+            for (int j = sectionStartGlobal; j <= sectionEndGlobal; j++) {
+                checkIsReservationDB(laneInfoDB, driveInfoDB, carNumDB, j);
+            }
+        }
+        else {
+            for (int j = sectionStartGlobal; j >= sectionEndGlobal; j--) {
+                checkIsReservationDB(laneInfoDB, driveInfoDB, carNumDB, j);
+            }
+        }
+    }
+
+    private void checkIsReservationDB(final String laneInfoDB, final String driveInfoDB, final int carNumDB, final int j) {
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final String trainNameDB = trainName;
+
+        db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document(trainNameDB).collection("car").document(Integer.toString(carNumDB)).collection("section").document(Integer.toString(j))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            final DocumentSnapshot document1 = task.getResult();
+                            boolean s1_isReservation = (Boolean) document1.getData().get("s1_isReservation");
+                            boolean s2_isReservation = (Boolean) document1.getData().get("s2_isReservation");
+
+                            forCount++;
+                            if (btnNumGlobal == 1 && s1_isReservation == false) {
+                                isReservationCount++;
+                            } else if (btnNumGlobal == 2 && s2_isReservation == false) {
+                                isReservationCount++;
+                            }
+
+                            if (forCount == driveInfoStationCount[transferCount]) {
+                                if (forCount == isReservationCount) {
+                                    getCarState2(laneInfoDB, driveInfoDB, carNumDB, 1);
+                                    startToast("예약하였습니다.");
+                                } else {
+                                    startToast("예약을 할 수 없습니다.");
+                                }
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 
     private void doReservation(final String laneInfoDB, final String driveInfoDB, final int carNum) {

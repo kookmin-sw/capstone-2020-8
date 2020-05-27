@@ -73,7 +73,7 @@
         android:background="@drawable/text_box"
         android:padding="15dp"
         android:text="출발: \n도착: \n열차칸: "
-        android:textColor="#FFFFFF"
+        android:textColor="@android:color/black"
         android:textSize="28dp"
         android:textStyle="bold" />
     <!--        <TextView-->
