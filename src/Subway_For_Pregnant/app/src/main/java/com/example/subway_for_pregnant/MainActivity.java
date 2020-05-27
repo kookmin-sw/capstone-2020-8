@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         if (user == null) {
-            myStartActivity(LoginActivity.class);
+            myStartActivity2(LoginActivity.class);
         } else {
             db.collection("user").whereEqualTo("id", user.getEmail())//.whereEqualTo("isPregnant", true)
                     .get()
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.logoutButton).setOnClickListener(onClickListener);
         findViewById(R.id.trainbutton).setOnClickListener(onClickListener);
         findViewById(R.id.bluetoothButton).setOnClickListener(onClickListener);
-        findViewById(R.id.socketButton).setOnClickListener(onClickListener);
+        //findViewById(R.id.socketButton).setOnClickListener(onClickListener);
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -59,13 +59,13 @@ public class MainActivity extends AppCompatActivity {
             switch (v.getId()) {
                 case R.id.logoutButton:
                     FirebaseAuth.getInstance().signOut();
-                    myStartActivity(MainActivity.class);
+                    myStartActivity2(MainActivity.class);
                     break;
                 case R.id.trainbutton:
                     myStartActivity(FindSubwayActivity.class);
                     break;
                 case R.id.bluetoothButton:
-                    myStartActivity(SampleBluetoothActivity.class);
+                    myStartActivity2(SampleBluetoothActivity.class);
                     break;
                 /*case R.id.socketButton:
                     myStartActivity(NodeTestActivity.class);
@@ -77,6 +77,11 @@ public class MainActivity extends AppCompatActivity {
     private void myStartActivity(Class c) {
         Intent intent = new Intent(this, c);
         intent.putExtra("user", user.getEmail());
+        startActivity(intent);
+    }
+
+    private void myStartActivity2(Class c) {
+        Intent intent = new Intent(this, c);
         startActivity(intent);
     }
 }
