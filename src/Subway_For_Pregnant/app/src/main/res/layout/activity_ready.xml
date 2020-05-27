@@ -10,11 +10,6 @@
     android:weightSum="1"
     >
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:fillViewport="true"
-        android:layout_height="wrap_content">
-
     <LinearLayout
         android:background="@drawable/border_layout"
         android:layout_width="match_parent"
@@ -137,6 +132,5 @@
             android:textColor="#000000"
             android:textSize="35dp" />
     </LinearLayout>
-    </ScrollView>
 
 </RelativeLayout>

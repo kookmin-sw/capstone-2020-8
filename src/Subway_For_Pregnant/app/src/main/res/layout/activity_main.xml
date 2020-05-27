@@ -7,10 +7,6 @@
     android:orientation="vertical"
     android:background="#F6D2D2">
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-
     <TextView
         android:background="@drawable/border_layout"
         android:id="@+id/title"
@@ -99,7 +95,5 @@
             -->
 
     </LinearLayout>
-
-    </ScrollView>
 
 </LinearLayout>
