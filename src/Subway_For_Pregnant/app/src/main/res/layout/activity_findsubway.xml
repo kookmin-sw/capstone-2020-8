@@ -1,29 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F6D2D2"
+    >
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="261dp"
+        android:layout_height="78dp"
+        android:background="@drawable/border_layout"
+        android:text="노선 탐색"
+        android:textSize="50dp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/text_viewbox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/text_viewbox"
+        android:layout_width="411dp"
+        android:layout_height="251dp"
+        android:background="@drawable/border_layout"
+        app:layout_constraintBottom_toTopOf="@+id/tv_data2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8"></View>
 
     <EditText
         android:id="@+id/editText_startStat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="40dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/text_viewbox" />
 
     <EditText
         android:id="@+id/editText_endStat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="48dp"
         android:ems="10"
         android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/text_viewbox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_startStat" />
@@ -33,6 +61,7 @@
         android:layout_width="52dp"
         android:layout_height="38dp"
         android:layout_marginStart="8dp"
+        android:background="@drawable/rounded_corner"
         android:text="확인"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/editText_endStat"
@@ -63,11 +92,22 @@
 
     <TextView
         android:id="@+id/tv_data2"
-        android:layout_width="343dp"
-        android:layout_height="245dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:background="@drawable/text_box"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_endStat" />
+        app:layout_constraintTop_toBottomOf="@+id/text_viewbox" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
