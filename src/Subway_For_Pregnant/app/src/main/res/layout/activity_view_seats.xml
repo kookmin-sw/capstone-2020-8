@@ -287,15 +287,13 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_weight="1"
-            android:background="@drawable/woman"
             android:layout_marginRight="120dp"/>
 
         <Button
             android:id="@+id/button_Seat2"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_weight="1"
-            android:background="@drawable/woman"/>
+            android:layout_weight="1" />
 
     </LinearLayout>
 
