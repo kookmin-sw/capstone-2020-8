@@ -7,6 +7,9 @@
     android:layout_height="match_parent"
     android:background="#F6D2D2">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></ScrollView>
 
     <TextView
         android:id="@+id/title_name"
@@ -360,6 +363,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/button_Refresh"
         app:layout_constraintTop_toBottomOf="@id/title_name" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
