@@ -80,10 +80,6 @@
             android:layout_marginTop="10dp"
             android:background="#F3C4C0"/>
 
-        <item
-
-            />
-
 
         <!--
         <Button
