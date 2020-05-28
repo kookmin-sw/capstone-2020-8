@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#F6D2D2">
 
     <TextView
+        android:background="@drawable/border_layout"
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -17,29 +25,33 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="631dp"
+        android:background="@drawable/border_layout"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:padding="10dp"
         android:paddingEnd="5dp">
 
         <androidx.cardview.widget.CardView
+            android:layout_width="250dp"
+            android:layout_height="250dp"
             android:layout_gravity="center"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            app:cardCornerRadius="100dp" >
+            android:layout_marginTop="45dp"
+            app:cardCornerRadius="100dp">
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="match_parent"
+                android:layout_width="250dp"
                 android:layout_height="match_parent"
+                android:background="@drawable/background_line"
                 app:srcCompat="@drawable/icon" />
         </androidx.cardview.widget.CardView>
 
         <EditText
             android:id="@+id/emailEditText"
-            android:layout_width="match_parent"
+            android:layout_width="360dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="5dp"
             android:ems="10"
             android:hint="이메일"
@@ -47,8 +59,9 @@
 
         <EditText
             android:id="@+id/passwordEditText"
-            android:layout_width="match_parent"
+            android:layout_width="360dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp"
             android:ems="10"
             android:hint="비밀번호"
@@ -56,16 +69,19 @@
 
         <Button
             android:id="@+id/loginButton"
-            android:layout_width="match_parent"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:background="#F3C4C0"
             android:text="로그인" />
 
         <Button
             android:id="@+id/registerButton"
-            android:layout_width="match_parent"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="#F3C4C0"
             android:text="회원가입" />
-
 
         <!--
         <Button
@@ -84,3 +100,6 @@
     </LinearLayout>
 
 </LinearLayout>
+
+
+</ScrollView>

@@ -30,6 +30,9 @@ public class Ready2Activity extends AppCompatActivity {
     String globalEndName;       //도착역
     String userID;
 
+    String reservationInfo[];
+    String transferInfo[];
+
     String laneInfo;
     String driveInfo;
     String trainNum;
@@ -37,6 +40,13 @@ public class Ready2Activity extends AppCompatActivity {
     String sectionStartGlobal;
     String sectionEndGlobal;
     String seatNum;
+    String sStartName;
+    String sEndName;
+
+    String getReservationInfo;
+    String getTransferInfo;
+    int pastStationCount = 0;
+    int transferCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +74,19 @@ public class Ready2Activity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.button_sit:
-                    doCancel();
+                    doCancelReserve();
+                    doCancelUser(0);
+                    if (getTransferInfo.length() == 0) {
+                        myStartActivity(MainActivity.class);
+                    }
+                    else {
+                        myStartActivity2(TrainActivity.class);
+                    }
                     break;
                 case R.id.button_cancel:
-                    doCancel();
+                    doCancelReserve();
+                    doCancelUser(1);
+                    myStartActivity(MainActivity.class);
                     break;
                 default:
                     break;
@@ -87,32 +106,52 @@ public class Ready2Activity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             final DocumentSnapshot document1 = task.getResult();
 
-                            String getReservation = null;
+                            getReservationInfo = (String) document1.getData().get("reservation_info");
+                            getTransferInfo = (String) document1.getData().get("transfer_info");
 
-                            int j = 0;
-                            while (getReservation == null) {
-                                getReservation = (String) document1.getData().get("reservation_info");
-                                Log.d(TAG, "" + j);
-                                j += 1;
+                            if (getReservationInfo.length() > 0) {
+                                reservationInfo = getReservationInfo.split(";");
+                                for (int i = 0; i < reservationInfo.length; i++) {
+                                    Log.d(TAG, reservationInfo[i]);
+                                }
+
+                                laneInfo = reservationInfo[0];
+                                driveInfo = reservationInfo[1];
+                                trainNum = reservationInfo[2];
+                                carNum = reservationInfo[3];
+                                sectionStartGlobal = reservationInfo[4];
+                                sectionEndGlobal = reservationInfo[5];
+                                seatNum = reservationInfo[6];
+                                sStartName = reservationInfo[9];
+                                sEndName = reservationInfo[10];
                             }
 
-                            String reserve[] = getReservation.split(";");
-                            for (int i = 0; i < reserve.length; i++) {
-                                Log.d(TAG, reserve[i]);
-                            }
+                            if (getTransferInfo.length() > 0) {
+                                transferInfo = getTransferInfo.split(";");
+                                for (int i = 0; i < transferInfo.length; i++) {
+                                    Log.d(TAG, transferInfo[i]);
+                                }
 
-                            laneInfo = reserve[0];
-                            driveInfo = reserve[1];
-                            trainNum = reserve[2];
-                            carNum = reserve[3];
-                            sectionStartGlobal = reserve[4];
-                            sectionEndGlobal = reserve[5];
-                            seatNum = reserve[6];
+                                pastStationCount = Integer.parseInt(transferInfo[0]);
+                                transferCount = Integer.parseInt(transferInfo[1]);
+                            }
 
                             String seatPosition[] = {"왼쪽 자리", "오른쪽 자리"};
 
+                            TextView tv_desti_large = findViewById(R.id.desti_large);
+                            switch(laneInfo) {
+                                case "line8":
+                                    tv_desti_large.setText("8호선");
+                                    break;
+                                case "line9":
+                                    tv_desti_large.setText("9호선");
+                                    break;
+                                default:
+                                    break;
+                            }
+
                             TextView tv_current = findViewById(R.id.textView_current);
-                            tv_current.setText("출발역: " + globalStartName + "\n도착역: " + globalEndName + "\n" + carNum + "번 칸의 " + seatPosition[Integer.parseInt(seatNum) - 1]);
+                            tv_current.setText("출발역: " + sStartName + "\n도착역: " + sEndName + "\n" + carNum + "번 칸의 " + seatPosition[Integer.parseInt(seatNum) - 1]);
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
@@ -120,13 +159,10 @@ public class Ready2Activity extends AppCompatActivity {
                 });
     }
 
-    private void doCancel() {
+    private void doCancelReserve() {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         Map<String, Object> data = new HashMap<>();
-        Map<String, Object> data2 = new HashMap<>();
-
-        final String userIDDB = userID;
 
         final String laneInfoDB = laneInfo;
         final String driveInfoDB = driveInfo;
@@ -141,7 +177,6 @@ public class Ready2Activity extends AppCompatActivity {
             data.put("s2_isReservation", false);
             data.put("s2_User", "");
         }
-        data2.put("reservation_info", "");
 
         for (int i = sectionLower(Integer.parseInt(sectionStartGlobal), Integer.parseInt(sectionEndGlobal)); i <= sectionHigher(Integer.parseInt(sectionStartGlobal), Integer.parseInt(sectionEndGlobal)); i++) {
             final int section = i;
@@ -160,9 +195,22 @@ public class Ready2Activity extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+    private void doCancelUser(int check) {
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Map<String, Object> data = new HashMap<>();
+
+        final String userIDDB = userID;
+
+        data.put("reservation_info", "");
+        if (check == 1) {
+            data.put("transfer_info", "");
+        }
 
         db.collection("user").document(userIDDB)
-                .set(data2, SetOptions.merge())
+                .set(data, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -188,11 +236,20 @@ public class Ready2Activity extends AppCompatActivity {
     }
 
     private void myStartActivity(Class c) {
+        Intent intent = new Intent(this, c);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+    private void myStartActivity2(Class c) {
         Intent intent = getIntent();
         intent.getExtras();
         Intent intent2 = new Intent(this, c);
         intent2.putExtras(intent);
+        intent2.putExtra("pastStationCount", pastStationCount);
+        intent2.putExtra("transferCount", transferCount);
 
+        intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent2);
     }
 }

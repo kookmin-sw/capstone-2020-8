@@ -66,6 +66,7 @@ public class PregnantInitActivity extends AppCompatActivity {
         updateUser.put("reserve_seatNum", "");  //예약된 자리 번호
          */
         updateUser.put("reservation_info", "");
+        updateUser.put("transfer_info", "");
 
         synchronized (this) {
             db.collection("pregnant_init").whereEqualTo("name", inputName).whereEqualTo("cardNum", inputCardNum)

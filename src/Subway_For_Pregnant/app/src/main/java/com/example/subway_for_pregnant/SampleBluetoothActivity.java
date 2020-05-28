@@ -176,7 +176,7 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
 
                         try {
                             Log.d(TAG2,"try문 진입");
-                            socket = IO.socket("http://3f7949b4.ngrok.io");
+                            socket = IO.socket("http://6212bbedb44a.ngrok.io");
                             Log.d(TAG2,"소켓 생성");
                             socket.on(Socket.EVENT_CONNECT, onConnect);
                             Log.d(TAG2,"연결");
