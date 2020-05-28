@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -27,6 +28,23 @@ public class TrainActivity extends AppCompatActivity {
     private static final String TAG = "TrainActivity";
     final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    String globalStartName;
+    String globalEndName;
+    int driveInfoLength;
+    int[] driveInfoStationCount;
+    int[] driveInfoWayCode;
+    String[] driveInfoLaneName;
+    int stationsLength;
+    String[] stationsStartName;
+    int[] stationsStartID;
+    String[] stationsEndName;
+    int[] stationsEndSID;
+    int[] stationsTravelTime;
+
+    int emptyCount = 0;
+    boolean checksit = false;
+    int pastStationsCount = 0;
+    int transferCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,32 +55,10 @@ public class TrainActivity extends AppCompatActivity {
         TextView tv_sample = findViewById(R.id.textView_sample);
         final ListView listView = findViewById(R.id.listView);
 
-        Intent intent = getIntent();
+        String laneInfo = "0";
+        String driveInfo = "0";
 
-        String globalStartName = intent.getExtras().getString("globalStartName");
-        String globalEndName = intent.getExtras().getString("globalEndName");
-        int driveInfoLength = intent.getExtras().getInt("driveInfoLength");
-        int[] driveInfoStationCount = new int[driveInfoLength];
-        String[] driveInfoLaneName = new String[driveInfoLength];
-        int stationsLength = intent.getExtras().getInt("stationsLength");
-        String[] stationsStartName = new String[stationsLength];
-        int[] stationsStartID = new int[stationsLength];
-        String[] stationsEndName = new String[stationsLength];
-        int[] stationsEndSID = new int[stationsLength];
-        int[] stationsTravelTime = new int[stationsLength];
-
-        for (int i = 0; i < driveInfoLength; i++) {
-            driveInfoStationCount[i] = intent.getExtras().getInt("driveInfoStationCount" + i);
-            driveInfoLaneName[i] = intent.getExtras().getString("driveInfoLaneName" + i);
-        }
-
-        for (int i = 0; i < stationsLength; i++) {
-            stationsStartName[i] = intent.getExtras().getString("stationsStartName" + i);
-            stationsStartID[i] = intent.getExtras().getInt("stationsStartID" + i);
-            stationsEndName[i] = intent.getExtras().getString("stationsEndName" + i);
-            stationsEndSID[i] = intent.getExtras().getInt("stationsEndSID" + i);
-            stationsTravelTime[i] = intent.getExtras().getInt("stationsTravelTime" + i);
-        }
+        initIntents();
 
         String showResult = "";
         showResult += ("출발역: " + globalStartName + "\n도착역: " + globalEndName + "\n\n");
@@ -81,23 +77,70 @@ public class TrainActivity extends AppCompatActivity {
 
         tv_sample.setText(showResult);
 
+        if (driveInfoWayCode[transferCount] == 1) driveInfo = "Up";
+        else driveInfo = "Down";
 
-            db.collection("Demo_subway").document("line8").collection("Up")
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            List<String> train = new ArrayList<String>();
+        switch (driveInfoLaneName[transferCount]) {
+            case "2호선":
+                laneInfo = "line2";
+                break;
+            case "8호선":
+                laneInfo = "line8";
+                break;
+            case "9호선":
+                laneInfo = "line9";
+                break;
+            default:
+                break;
+        }
 
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
-                                    train.add(queryDocumentSnapshot.getId());
-                                    Log.d(TAG, queryDocumentSnapshot.getId() + " => " + queryDocumentSnapshot.getData());
+        final String laneInfoDB = laneInfo;
+        final String driveInfoDB = driveInfo;
 
-                                }
-                            } else {
-                                Log.d(TAG, "Error getting documents: ", task.getException());
+        db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        List<String> train = new ArrayList<String>();
+
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
+                                train.add(queryDocumentSnapshot.getId());
+                                Log.d(TAG, queryDocumentSnapshot.getId() + " => " + queryDocumentSnapshot.getData());
+
                             }
+
+
+
+                            //개발중
+/*
+                            db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document(train.get(0)).collection("car")
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task2) {
+                                            if(task2.isSuccessful()){
+                                                for(QueryDocumentSnapshot queryDocumentSnapshot2 : task2.getResult()){
+                                                    db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document(train.get(0)).collection("car").document(queryDocumentSnapshot.getId())
+                                                            .get()
+                                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<DocumentSnapshot> task3) {
+                                                                    if(task3.isSuccessful()){
+                                                                        for(QueryDocumentSnapshot queryDocumentSnapshot3 : task3.getResult()){
+
+                                                                        }
+                                                                    }
+                                                                }
+                                                            })
+                                                }
+                                            }
+                                        }
+                                    });*/
+
+
+
 
                             listView.setAdapter(new ArrayAdapter<String>(TrainActivity.this, android.R.layout.simple_list_item_1, train));
 
@@ -109,18 +152,58 @@ public class TrainActivity extends AppCompatActivity {
                                 }
                             });
                         }
-                    });
+                    }
+                });
+    }
+
+
+    private void initIntents() {
+        Intent intent = getIntent();
+
+        globalStartName = intent.getExtras().getString("globalStartName");
+        globalEndName = intent.getExtras().getString("globalEndName");
+        driveInfoLength = intent.getExtras().getInt("driveInfoLength");
+        driveInfoStationCount = new int[driveInfoLength];
+        driveInfoWayCode = new int[driveInfoLength];
+        driveInfoLaneName = new String[driveInfoLength];
+        stationsLength = intent.getExtras().getInt("stationsLength");
+        stationsStartName = new String[stationsLength];
+        stationsStartID = new int[stationsLength];
+        stationsEndName = new String[stationsLength];
+        stationsEndSID = new int[stationsLength];
+        stationsTravelTime = new int[stationsLength];
+
+        for (int i = 0; i < driveInfoLength; i++) {
+            driveInfoStationCount[i] = intent.getExtras().getInt("driveInfoStationCount" + i);
+            driveInfoWayCode[i] = intent.getExtras().getInt("driveInfoWayCode" + i);
+            driveInfoLaneName[i] = intent.getExtras().getString("driveInfoLaneName" + i);
         }
+
+        for (int i = 0; i < stationsLength; i++) {
+            stationsStartName[i] = intent.getExtras().getString("stationsStartName" + i);
+            stationsStartID[i] = intent.getExtras().getInt("stationsStartID" + i);
+            stationsEndName[i] = intent.getExtras().getString("stationsEndName" + i);
+            stationsEndSID[i] = intent.getExtras().getInt("stationsEndSID" + i);
+            stationsTravelTime[i] = intent.getExtras().getInt("stationsTravelTime" + i);
+        }
+
+        try {
+            pastStationsCount = intent.getExtras().getInt("pastStationsCount");
+            transferCount = intent.getExtras().getInt("transferCount");
+        }
+        catch (NullPointerException e) {
+            pastStationsCount = 0;
+            transferCount = 0;
+        }
+    }
 
     private void myStartActivity(Class c, String position) {
         Intent intent = getIntent();
         intent.getExtras();
         Intent intent2 = new Intent(this, c);
         intent2.putExtras(intent);
-        intent2.putExtra("train_number",position);
+        intent2.putExtra("trainName", position);
 
         startActivity(intent2);
     }
-
 }
-

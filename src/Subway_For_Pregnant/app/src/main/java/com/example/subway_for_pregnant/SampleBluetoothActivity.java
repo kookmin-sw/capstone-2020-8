@@ -46,6 +46,7 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
     static String minor_to;
 
 
+    boolean on = false;
 
     private BeaconManager beaconManager;
 
@@ -139,15 +140,27 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
                 String uuid=beacon.getId1().toString(); //beacon uuid
                 int major = beacon.getId2().toInt(); //beacon major
                 int minor = beacon.getId3().toInt();// beacon minor
+                String address = beacon.getBluetoothAddress();
 
                 minor_to = Integer.toString(minor);
 
                 Log.d(TAG2, "마이너 설정");
 
-                //int txpower = beacon.getTxPower();
-                if(Double.parseDouble((String.format("%.3f", beacon.getDistance())))<10000) { // 거리가 1m이내일 경우만
+                if (major == 1) {
+                    Log.d(TAG2, "메이너 진입");
+                    //beacon 의 식별을 위하여 major값으로 확인
+                    //이곳에 필요한 기능 구현
+                    textView.append("ID 1 : " + beacon.getId2() + " / " + "Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())) + "m\n");
+                    textView.append("임산부석 블루투스 TEST...\n");
+                    textView.append("Beacon Bluetooth Id : " + address + "\n");
+                    textView.append("Beacon UUID : " + uuid + "\n");
+                    textView.append("Beacon MAJOR : " + major + "\n");
+                    textView.append("Beacon MINOR : " + minor + "\n");
+                }
 
-                String address = beacon.getBluetoothAddress();
+
+                    //int txpower = beacon.getTxPower();
+                if(Double.parseDouble((String.format("%.3f", beacon.getDistance())))<1) { // 거리가 1m이내일 경우만
 
                 Log.d(TAG2, "메이저 진입 전");
                     if (major == 1) {
@@ -163,13 +176,21 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
 
                         try {
                             Log.d(TAG2,"try문 진입");
-                            socket = IO.socket("http://0c358090.ngrok.io");
+                            socket = IO.socket("http://3f7949b4.ngrok.io");
                             Log.d(TAG2,"소켓 생성");
                             socket.on(Socket.EVENT_CONNECT, onConnect);
                             Log.d(TAG2,"연결");
                             socket.connect();
                             socket.on("myMsg",onNewMessage);
                             Log.d(TAG2,"마이너 보냄");
+
+
+                            //if(handler !=null) {
+                            Log.d(TAG2, "handler 삭제");
+                            handler.removeMessages(0);
+                            on = true;
+                            break;
+                            //}
 
                         }catch (URISyntaxException e){
                            throw new RuntimeException(e);
@@ -179,23 +200,23 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
                         //myStartActivity(NodeTestActivity.class, minor);
 
 
+
                     } else {
                         //나머지 비콘검색
                         textView.append("ID 2: " + beacon.getId2() + " / " + "Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())) + "m\n");
                     }
+
+
+                    handler.removeMessages(0);
+                    on = true;
                 }
 
-                if(handler !=null) {
-                    Log.d(TAG2, "handler 삭제");
-                    handler.removeMessages(0);
-                    break;
-                }
 
             }
             // 자기 자신을 1초마다 호출
-            if(handler == null) {
+            if(on==false) {
                 Log.d(TAG2, "handler 호출");
-                handler.sendEmptyMessageDelayed(0, 10000); // 1초
+                handler.sendEmptyMessageDelayed(0, 100); // 0.1초
             }
         }
 

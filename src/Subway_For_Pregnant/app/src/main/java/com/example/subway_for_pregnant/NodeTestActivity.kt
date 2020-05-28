@@ -28,7 +28,7 @@ class NodeTestActivity : AppCompatActivity() {
         setContentView(R.layout.activity_server)
         try {
             //IO.socket 메소드는 은 저 URL 을 토대로 클라이언트 객체를 Return 합니다.
-           mSocket = IO.socket("https://146025ea.ngrok.io")
+           mSocket = IO.socket("https://3f7949b4.ngrok.io")
             Log.d("NodeTestActivity","socket 생성")
         } catch (e: URISyntaxException) {
             Log.e("NodeTestActivity", e.reason)

@@ -19,7 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:targetSdkVersion="29"
-        android:theme="@style/AppTheme"
+        android:theme="@style/ActionBarTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".MainActivity">
             <intent-filter>

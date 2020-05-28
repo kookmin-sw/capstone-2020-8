@@ -28,7 +28,6 @@ public class FindSubwayActivity extends AppCompatActivity {
     private TextView tv_data;
     private EditText et_sid;
     private EditText et_eid;
-
     private Button bt_select;
 
     private ODsayService odsayService;
