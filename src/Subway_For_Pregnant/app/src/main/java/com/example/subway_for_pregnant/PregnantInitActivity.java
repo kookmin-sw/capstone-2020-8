@@ -14,9 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -47,18 +45,28 @@ public class PregnantInitActivity extends AppCompatActivity {
     };
 
     private void pregnant_register() {
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-            final String email = user.getEmail();
-            final String inputName = ((EditText) findViewById(R.id.pregnant_name)).getText().toString();
-            final String inputCardNum = ((EditText) findViewById(R.id.pregnant_cardNum)).getText().toString();
+        final String email = user.getEmail();
+        final String inputName = ((EditText) findViewById(R.id.pregnant_name)).getText().toString();
+        final String inputCardNum = ((EditText) findViewById(R.id.pregnant_cardNum)).getText().toString();
 
-            final Map<String, Object> updateUser = new HashMap<>();
-            updateUser.put("name", inputName);
-            updateUser.put("cardNum", inputCardNum);
-            updateUser.put("isPregnant", true);
-
+        final Map<String, Object> updateUser = new HashMap<>();
+        updateUser.put("name", inputName);
+        updateUser.put("cardNum", inputCardNum);
+        updateUser.put("isPregnant", true);
+        /*
+        updateUser.put("reserve_laneInfo", "");  //예약된 열차 노선
+        updateUser.put("reserve_driveInfo", "");  //예약된 열차 방향
+        updateUser.put("reserve_trainNum", "");  //예약된 열차 번호
+        updateUser.put("reserve_carNum", "");  //예약된 열차 칸
+        updateUser.put("reserve_start", "");  //예약된 출발역
+        updateUser.put("reserve_end", "");  //예약된 도착역
+        updateUser.put("reserve_seatNum", "");  //예약된 자리 번호
+         */
+        updateUser.put("reservation_info", "");
+        updateUser.put("transfer_info", "");
 
         synchronized (this) {
             db.collection("pregnant_init").whereEqualTo("name", inputName).whereEqualTo("cardNum", inputCardNum)

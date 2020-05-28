@@ -1,72 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Ready2Activity"
     android:orientation="vertical"
-    android:background="@drawable/splash_bg_gradient"
+    android:background="#F6D2D2"
     android:weightSum="1"
     >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="488dp"
+        android:layout_above="@id/button_wrap"
+        android:layout_below="@id/main_text"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="-11dp"
+        android:background="@drawable/border_layout"></LinearLayout>
+
     <TextView
+        android:background="@drawable/border_layout"
         android:id="@+id/main_text"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="이동 중... "
-        android:textColor="#FFFFFF"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="예약 현황"
+        android:textAlignment="center"
+        android:textColor="#040404"
         android:textSize="40dp"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
 
 
     <TextView
-        android:background="@drawable/rounded_corner"
         android:id="@+id/desti_large"
-        android:layout_marginTop="45dp"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/main_text"
-        android:textAlignment="center"
-        android:text="현재 역"
-        android:textColor="#FFFFFF"
-        android:textSize="70dp"
-        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="55dp"
+        android:background="@drawable/border_layout"
         android:gravity="center_horizontal"
-        />
+        android:text="현재 역"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="50dp"
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/center_img"
-        android:layout_marginTop="180dp"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_centerInParent="true"
-        android:layout_below="@id/main_text"
-        android:layout_gravity="center"
+        android:background="@drawable/background_line"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_below="@+id/desti_large"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_directions_railway_black_24dp"
-        />
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/ic_directions_railway_black_24dp" />
 
 
     <TextView
-        android:background="@drawable/text_box"
-        android:id="@+id/current"
-        android:layout_margin="30dp"
-        android:padding="20dp"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
+        android:id="@+id/textView_current"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/center_img"
-        android:text="목표 역 : \n다음 역 : \n도착 역 까지 : "
 
-        android:textColor="#FFFFFF"
-        android:textSize="30dp"
-        android:textStyle="bold"
-        />
+        android:layout_below="@+id/center_img"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/text_box"
+        android:padding="15dp"
+        android:text="출발: \n도착: \n열차칸: "
+        android:textColor="@android:color/black"
+        android:textSize="28dp"
+        android:textStyle="bold" />
     <!--        <TextView-->
     <!--            android:id="@+id/next"-->
     <!--            android:layout_marginTop="0dp"-->
@@ -93,19 +110,40 @@
     <!--            />-->
 
 
-    <Button
-        android:id="@+id/backward_button"
-        android:layout_marginTop="15dp"
+    <LinearLayout
+        android:id="@+id/button_wrap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/rounded_corner"
-        android:layout_below="@id/current"
-        android:text="취소"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        android:textSize="35dp"
-        />
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal"
+        android:layout_below="@id/textView_current">
 
+        <Button
+            android:id="@+id/button_sit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/rounded_corner"
+            android:text="도착"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textSize="35dp" />
+
+        <Button
+            android:id="@+id/button_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/rounded_corner"
+            android:text="예약취소"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textSize="35dp" />
+    </LinearLayout>
 
 </RelativeLayout>
+
+</ScrollView>
