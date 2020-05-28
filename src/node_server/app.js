@@ -94,8 +94,20 @@ client.on("connect", () => {
 });
 
 client.on("message", (topic, message) => {
+  var db = firebase.firestore();
   var obj = JSON.parse(message); // 객체화
-  console.log(obj);
+  let data = {
+    s1_isSit : false,
+  };
+  
+  if(obj.seat === 1) data.s1_isSit = true;
+  console.log(obj.seat);
+  console.log(data.s1_isSit);
+
+  //db.collection('Demo_subway').doc('line8').collection('Up').doc('2101').
+  //collection('car').doc('1').update(data);
+
+  db.collection('test').doc('tnf').update(data);
 })
 
 function pubMinor(){
