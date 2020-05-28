@@ -104,10 +104,10 @@ client.on("message", (topic, message) => {
   console.log(obj.seat);
   console.log(data.s1_isSit);
 
-  //db.collection('Demo_subway').doc('line8').collection('Up').doc('2101').
-  //collection('car').doc('1').update(data);
+  db.collection('Demo_subway').doc('line8').collection('Up').doc('2101').
+  collection('car').doc('1').update(data);
 
-  db.collection('test').doc('tnf').update(data);
+  // db.collection('test').doc('tnf').update(data);
 })
 
 function pubMinor(){
