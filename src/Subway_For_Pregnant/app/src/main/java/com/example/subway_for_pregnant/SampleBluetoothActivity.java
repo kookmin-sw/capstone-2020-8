@@ -160,7 +160,7 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
 
 
                     //int txpower = beacon.getTxPower();
-                if(Double.parseDouble((String.format("%.3f", beacon.getDistance())))<1) { // 거리가 1m이내일 경우만
+                if(Double.parseDouble((String.format("%.3f", beacon.getDistance())))<3) { // 거리가 1m이내일 경우만
 
                 Log.d(TAG2, "메이저 진입 전");
                     if (major == 1) {
