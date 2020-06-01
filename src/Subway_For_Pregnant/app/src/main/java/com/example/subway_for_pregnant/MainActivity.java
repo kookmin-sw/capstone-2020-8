@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
                                                 historyTitle += history[i];
                                                 int j = i / 2;
                                                 itemHistory[j].setTitle(historyTitle);
+                                                historyTitle = "";
                                             }
                                             Log.d(TAG, history[i]);
                                         }
