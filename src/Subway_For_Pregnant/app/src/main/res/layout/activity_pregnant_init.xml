@@ -59,7 +59,7 @@
             android:layout_marginTop="25dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="80dp"
-            android:background="#F8E2E2"
+            android:background="@drawable/rounded_corner"
             android:text="등록" />
 
     </LinearLayout>

@@ -9,10 +9,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
+
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.view.View;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -47,6 +57,8 @@ public class TrainActivity extends AppCompatActivity {
 
     String showResult1;
     String showResult2;
+
+    ImageView imageview = null;
     int buttonMode = 1;
 
     @Override
@@ -61,6 +73,8 @@ public class TrainActivity extends AppCompatActivity {
         String laneInfo = "0";
         String driveInfo = "0";
 
+        imageview = (ImageView)findViewById(R.id.imageView);
+
         initIntents();
 
         showResult1 = "";
@@ -70,19 +84,30 @@ public class TrainActivity extends AppCompatActivity {
 
         int count = 0;
         for (int i = 0; i < driveInfoLength; i++) {
+            imageview.setImageResource(R.drawable.vertical_line);
             showResult1 += ("<" + driveInfoLaneName[i] + ">\n");
+            imageview.setImageResource(R.drawable.vertical_line);
             showResult2 += ("<" + driveInfoLaneName[i] + ">\n");
+            imageview.setImageResource(R.drawable.vertical_line);
             showResult1 += (stationsStartName[count] + "\n");  //현재역
+            imageview.setImageResource(R.drawable.vertical_line);
             showResult2 += (stationsStartName[count] + "\n");  //현재역
+            imageview.setImageResource(R.drawable.vertical_line);
             showResult1 += (stationsEndName[driveInfoStationCount[i] + count - 1] + "\n");
             //showResult1 += (stationsEndName[driveInfoStationCount[i] + count - 1] + "(" + stationsTravelTime[driveInfoStationCount[i] + count - 1] + "분)\n");
             for (int j = count; j < driveInfoStationCount[i] + count; j++) {
+                imageview.setImageResource(R.drawable.vertical_line);
                 showResult2 += (stationsEndName[j] + "(" + stationsTravelTime[j] + "분)\n");
                 //다음역 (현 구간 소요 시간)
             }
+
+            imageview.setImageResource(R.drawable.vertical_line);
             showResult1 += (driveInfoStationCount[i] + "개 역 이동\n");
+            imageview.setImageResource(R.drawable.vertical_line);
             showResult2 += (driveInfoStationCount[i] + "개 역 이동\n");
+            imageview.setImageResource(R.drawable.vertical_line);
             showResult1 += ("\n\n");
+            imageview.setImageResource(R.drawable.vertical_line);
             showResult2 += ("\n\n");
             count += driveInfoStationCount[i];
         }
@@ -122,6 +147,8 @@ public class TrainActivity extends AppCompatActivity {
 
         final String laneInfoDB = laneInfo;
         final String driveInfoDB = driveInfo;
+
+        //ImageView imageView = (ImageView)v.findViewById(R.id.imageView);
 
         db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB)
                 .get()

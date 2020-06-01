@@ -7,15 +7,18 @@
     android:layout_height="match_parent"
     android:gravity="bottom"
     sothree:umanoPanelHeight="68dp"
-    sothree:umanoShadowHeight="4dp">
+    sothree:umanoShadowHeight="4dp"
+    >
 
     <LinearLayout
+        android:background="#F6D2D2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:weightSum="12">
 
         <Button
+            android:background="@drawable/rounded_corner"
             android:id="@+id/button_moreStations"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,6 +27,7 @@
             android:text="자세히" />
 
         <TextView
+            android:background="@drawable/border_layout"
             android:id="@+id/textView_sample"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -32,10 +36,13 @@
             android:gravity="center"
             android:text="지하철 간편도"
             android:textSize="16sp" />
+
+
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/dragView"
+        android:background="#F6D2D2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -43,6 +50,7 @@
         android:orientation="vertical">
 
     <TextView
+        android:background="@drawable/border_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center|top"
@@ -52,7 +60,8 @@
     <ListView
     android:id="@+id/listView"
     android:layout_width="match_parent"
-    android:layout_height="300dp">
+    android:layout_height="300dp"
+        android:layout_gravity="left">
 
     </ListView>
 
