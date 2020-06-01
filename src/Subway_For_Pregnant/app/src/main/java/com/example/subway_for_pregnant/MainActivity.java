@@ -9,6 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     String getReservationInfo;
     String reserveInfo[];
 
+    boolean isLoadComplete = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                                             Log.d(TAG, reserveInfo[i]);
                                         }
                                     }
+                                    isLoadComplete = true;
                                 }
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
@@ -101,10 +105,24 @@ public class MainActivity extends AppCompatActivity {
 
                 if (id == R.id.account) {
                     Toast.makeText(context, title + ": 계정 정보를 확인합니다.", Toast.LENGTH_SHORT).show();
+                } else if (id == R.id.callEmergency) {
+                    if (isLoadComplete) {
+                        Intent tel = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:02120"));
+                        startActivity(tel);
+                    }
+                    else {
+                        startToast("유저 정보를 읽어오는 중입니다.");
+                    }
                 } else if (id == R.id.setting) {
                     Toast.makeText(context, title + ": 설정 정보를 확인합니다.", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.logout) {
-                    Toast.makeText(context, title + ": 로그아웃 시도중", Toast.LENGTH_SHORT).show();
+                    if (isLoadComplete) {
+                        FirebaseAuth.getInstance().signOut();
+                        myStartActivity3(MainActivity.class);
+                    }
+                    else {
+                        startToast("유저 정보를 읽어오는 중입니다.");
+                    }
                 }
 
                 return true;
@@ -125,19 +143,33 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.logoutButton:
-                    FirebaseAuth.getInstance().signOut();
-                    myStartActivity3(MainActivity.class);
-                    break;
-                case R.id.trainbutton:
-                    if (getReservationInfo.length() > 0) {
-                        doFindSubway();
+                    if (isLoadComplete) {
+                        FirebaseAuth.getInstance().signOut();
+                        myStartActivity3(MainActivity.class);
                     }
                     else {
-                        myStartActivity(FindSubwayActivity.class);
+                        startToast("유저 정보를 읽어오는 중입니다.");
+                    }
+                    break;
+                case R.id.trainbutton:
+                    if (isLoadComplete) {
+                        if (getReservationInfo.length() > 0) {
+                            doFindSubway();
+                        } else {
+                            myStartActivity(FindSubwayActivity.class);
+                        }
+                    }
+                    else {
+                        startToast("유저 정보를 읽어오는 중입니다.");
                     }
                     break;
                 case R.id.bluetoothButton:
-                    myStartActivity(SampleBluetoothActivity.class);
+                    if (isLoadComplete) {
+                        myStartActivity(SampleBluetoothActivity.class);
+                    }
+                    else {
+                        startToast("유저 정보를 읽어오는 중입니다.");
+                    }
                     break;
                 }
             }
@@ -238,5 +270,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, c);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    private void startToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }

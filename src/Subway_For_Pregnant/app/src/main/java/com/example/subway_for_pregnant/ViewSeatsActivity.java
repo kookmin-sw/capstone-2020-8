@@ -59,6 +59,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
     TextView[] tv_State;
 
     String userID;
+    int checkReservation = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,7 +170,6 @@ public class ViewSeatsActivity extends AppCompatActivity {
         findViewById(R.id.button_Seat1).setOnClickListener(onClickListener);
         findViewById(R.id.button_Seat2).setOnClickListener(onClickListener);
         findViewById(R.id.button_Refresh).setOnClickListener(onClickListener);
-        findViewById(R.id.button_toNext).setOnClickListener(onClickListener);
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -260,9 +260,6 @@ public class ViewSeatsActivity extends AppCompatActivity {
                     initSeatStateBtn();
                     getCarState(laneInfo, driveInfo, 0);
                     break;
-                case R.id.button_toNext:
-                    myStartActivity(Ready2Activity.class);
-                    break;
                 default:
                     break;
             }
@@ -296,6 +293,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
 
         forCount = 0;
         isReservationCount = 0;
+        checkReservation = 0;
     }
 
     private void getCarState(String laneInfo, String driveInfo, final int select) {
@@ -575,6 +573,10 @@ public class ViewSeatsActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.d(TAG, "DocumentSnapshot successfully written!");
+                            checkReservation += 1;
+                            if (checkReservation == sectionHigher(sectionStartGlobal, sectionEndGlobal) - sectionLower(sectionStartGlobal, sectionEndGlobal) + 2) {
+                                myStartActivity(Ready2Activity.class);
+                            }
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -591,6 +593,10 @@ public class ViewSeatsActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
+                        checkReservation += 1;
+                        if (checkReservation == sectionHigher(sectionStartGlobal, sectionEndGlobal) - sectionLower(sectionStartGlobal, sectionEndGlobal) + 2) {
+                            myStartActivity(Ready2Activity.class);
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
