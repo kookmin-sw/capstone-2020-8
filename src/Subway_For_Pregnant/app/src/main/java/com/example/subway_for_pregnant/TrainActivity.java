@@ -103,7 +103,6 @@ public class TrainActivity extends AppCompatActivity {
         final int stationsLength = intent.getExtras().getInt("stationsLength");   //역 개수. 즉 stations 라고 앞에 붙은 데이터들의 Length.
 
 
-
                 db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

@@ -1,5 +1,6 @@
 package com.example.subway_for_pregnant;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,8 +17,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -52,7 +59,7 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
     FirebaseUser user;
     static String name;
     static String minor_str;
-
+    static boolean is_reservation = false;
 
     boolean on = false;
 
@@ -68,9 +75,10 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample_bluetooth);
 
-
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
         name = user.getEmail();
+
 
                 //비콘 매니저 생성,
         beaconManager = BeaconManager.getInstanceForApplication(this);
@@ -81,6 +89,20 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
 
         //beaconManager 설정 bind
         beaconManager.bind(this);
+
+        db.collection("user").document(user.getEmail())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            DocumentSnapshot documentSnapshot = task.getResult();
+                            if(documentSnapshot.getData().get("reservation_info") != ""){
+                                is_reservation = true;
+                            }
+                        }
+                    }
+                });
 
         //beacon 을 활용하려면 블루투스 권한획득(Andoird M버전 이상)
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
@@ -252,7 +274,7 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
         @Override
         public void call(Object... args) {
 
-            socket.emit("login",minor_to,num,name);
+            socket.emit("login",minor_to,num,name,is_reservation);
 
             socket.emit("leaveRoom",num);
 
