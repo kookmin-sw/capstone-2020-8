@@ -15,13 +15,14 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.Thread.sleep;
 
 public class TrainActivity extends AppCompatActivity {
 
@@ -41,10 +42,10 @@ public class TrainActivity extends AppCompatActivity {
     int[] stationsEndSID;
     int[] stationsTravelTime;
 
-    int emptyCount = 0;
-    boolean checksit = false;
     int pastStationCount = 0;
     int transferCount = 0;
+    int total_size = 0;
+    List<String> train = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,64 +98,95 @@ public class TrainActivity extends AppCompatActivity {
         final String laneInfoDB = laneInfo;
         final String driveInfoDB = driveInfo;
 
-        db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        List<String> train = new ArrayList<String>();
+        Intent intent = getIntent();
 
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
-                                train.add(queryDocumentSnapshot.getId());
-                                Log.d(TAG, queryDocumentSnapshot.getId() + " => " + queryDocumentSnapshot.getData());
-
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-
-
-                            //개발중
-/*
-                            db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document(train.get(0)).collection("car")
-                                    .get()
-                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<QuerySnapshot> task2) {
-                                            if(task2.isSuccessful()){
-                                                for(QueryDocumentSnapshot queryDocumentSnapshot2 : task2.getResult()){
-                                                    db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document(train.get(0)).collection("car").document(queryDocumentSnapshot.getId())
-                                                            .get()
-                                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<DocumentSnapshot> task3) {
-                                                                    if(task3.isSuccessful()){
-                                                                        for(QueryDocumentSnapshot queryDocumentSnapshot3 : task3.getResult()){
-
-                                                                        }
-                                                                    }
-                                                                }
-                                                            })
-                                                }
-                                            }
-                                        }
-                                    });*/
+        final int stationsLength = intent.getExtras().getInt("stationsLength");   //역 개수. 즉 stations 라고 앞에 붙은 데이터들의 Length.
 
 
 
+                db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                   @Override
+                                                   public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-                            listView.setAdapter(new ArrayAdapter<String>(TrainActivity.this, android.R.layout.simple_list_item_1, train));
+                                                       if (task.isSuccessful()) {
+                                                           for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
+                                                               train.add(queryDocumentSnapshot.getId());
+                                                               Log.d(TAG, queryDocumentSnapshot.getId() + " => 선택");
+                                                           }
 
-                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    Toast.makeText(getApplicationContext(), position + " 번째 값 : " + parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
-                                    myStartActivity(ViewSeatsActivity.class, parent.getItemAtPosition(position).toString());
-                                }
-                            });
-                        }
-                        });
+                                                       } else {
+                                                           Log.d(TAG, "Error getting documents: ", task.getException());
+                                                       }
+
+                                                       listView.setAdapter(new ArrayAdapter<String>(TrainActivity.this, android.R.layout.simple_list_item_1, train));
+
+                                                       db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document(train.get(0)).collection("car")
+                                                               .get()
+                                                               .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                   @Override
+                                                                   public void onComplete(@NonNull final Task<QuerySnapshot> task2) {
+
+                                                                       Log.d(TAG,"task2 : "+task2);
+
+                                                                       if (task2.isSuccessful()) {
+                                                                           for (QueryDocumentSnapshot queryDocumentSnapshot2 : task2.getResult()) {
+
+                                                                               final String cnt=queryDocumentSnapshot2.getId();
+
+                                                                               Log.d(TAG, "count : " + cnt);
+                                                                               Log.d(TAG, "경로 : " + laneInfoDB +" "+ driveInfoDB);
+
+                                                                               db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document(train.get(0)).collection("car").document(cnt).collection("section")
+                                                                                       .get()
+                                                                                       .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                                           @Override
+                                                                                           public void onComplete(@NonNull final Task<QuerySnapshot> task3) {
+                                                                                               if (task3.isSuccessful()) {
+                                                                                                   Log.d(TAG, "디비문 내용 : " + train.get(0) + " " + cnt);
+                                                                                                   Log.d(TAG,"출발역 : "+stationsStartID[0]);
+                                                                                                   Log.d(TAG,"도착역 : "+stationsEndSID[stationsLength-1]);
+                                                                                                   for (QueryDocumentSnapshot queryDocumentSnapshot : task3.getResult()) {
+                                                                                                       try {
+                                                                                                           if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && stationsStartID[0] <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsEndSID[stationsLength-1]){
+                                                                                                               total_size++;
+                                                                                                           }
+                                                                                                           if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && stationsStartID[0] <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsEndSID[stationsLength-1]){
+                                                                                                               total_size++;
+                                                                                                           }
+                                                                                                           Thread.sleep(100);
+                                                                                                           Log.d(TAG, "사이즈 크기는 " + total_size);
+                                                                                                       } catch (InterruptedException e) {
+                                                                                                       }
+                                                                                                   }
+                                                                                               }
+                                                                                               else{
+                                                                                                   Log.d(TAG,"ERROR");
+                                                                                               }
+                                                                                           }
+                                                                                       });
+                                                                               try {
+                                                                                   Thread.sleep(1000);
+                                                                               } catch (InterruptedException e) {
+                                                                               }
+                                                                           }
+                                                                       }
+                                                                   }
+                                                               });
+                                                   }
+                                               });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), position + " 번째 값 : " + parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
+                myStartActivity(ViewSeatsActivity.class, parent.getItemAtPosition(position).toString());
+            }
+        });
+
+
+
     }
 
     private void initIntents() {
