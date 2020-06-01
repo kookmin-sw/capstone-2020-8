@@ -9,6 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -104,10 +105,24 @@ public class MainActivity extends AppCompatActivity {
 
                 if (id == R.id.account) {
                     Toast.makeText(context, title + ": 계정 정보를 확인합니다.", Toast.LENGTH_SHORT).show();
+                } else if (id == R.id.callEmergency) {
+                    if (isLoadComplete) {
+                        Intent tel = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:02120"));
+                        startActivity(tel);
+                    }
+                    else {
+                        startToast("유저 정보를 읽어오는 중입니다.");
+                    }
                 } else if (id == R.id.setting) {
                     Toast.makeText(context, title + ": 설정 정보를 확인합니다.", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.logout) {
-                    Toast.makeText(context, title + ": 로그아웃 시도중", Toast.LENGTH_SHORT).show();
+                    if (isLoadComplete) {
+                        FirebaseAuth.getInstance().signOut();
+                        myStartActivity3(MainActivity.class);
+                    }
+                    else {
+                        startToast("유저 정보를 읽어오는 중입니다.");
+                    }
                 }
 
                 return true;
