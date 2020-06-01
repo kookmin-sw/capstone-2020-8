@@ -129,9 +129,15 @@ client.on("message", (topic, message) => {
   db.collection('test').doc('tnf').update(data);
 })
 
+<<<<<<< Updated upstream
 function pubMinor() {
   if (minor != "") {
     client.publish(minor, "1")
+=======
+function pubMinor(){
+  if(minor != ""){
+    client.publish("LED" + minor, "1")
+>>>>>>> Stashed changes
     minor = ""
   }
 }
