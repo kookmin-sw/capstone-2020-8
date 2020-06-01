@@ -7,13 +7,16 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
+    private MenuItem itemHistory[];
     private DrawerLayout drawerLayout;
     private Context context = this;
     private ODsayService odsayService;
@@ -46,6 +50,11 @@ public class MainActivity extends AppCompatActivity {
     FirebaseUser user;
     String getReservationInfo;
     String reserveInfo[];
+    String historyString;
+    String history[];
+    String historyTitle = "";
+    String globalHistoryStart = "";
+    String globalHistoryEnd = "";
 
     boolean isLoadComplete = false;
 
@@ -61,14 +70,24 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.list);
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View v = navigationView.getHeaderView(0);
+        TextView tv_showID = (TextView) v.findViewById(R.id.textView_showID);
+        Menu nv = navigationView.getMenu();
 
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        itemHistory = new MenuItem[4];
+        itemHistory[0] = nv.findItem(R.id.history1);
+        itemHistory[1] = nv.findItem(R.id.history2);
+        itemHistory[2] = nv.findItem(R.id.history3);
+        itemHistory[3] = nv.findItem(R.id.history4);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         if (user == null) {
             myStartActivity3(LoginActivity.class);
         } else {
+            tv_showID.setText(user.getEmail());
             db.collection("user").whereEqualTo("id", user.getEmail())
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -77,11 +96,28 @@ public class MainActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     getReservationInfo = (String) document.getData().get("reservation_info");
+                                    historyString = (String) document.getData().get("history");
 
                                     if (getReservationInfo.length() > 0) {
                                         reserveInfo = getReservationInfo.split(";");
                                         for (int i = 0; i < reserveInfo.length; i++) {
                                             Log.d(TAG, reserveInfo[i]);
+                                        }
+                                    }
+                                    historyTitle = "";
+
+                                    if (historyString.length() > 0) {
+                                        history = historyString.split(";");
+                                        for (int i = 0; i < history.length; i++) {
+                                            if (i % 2 == 0) {
+                                                historyTitle += history[i];
+                                            } else {
+                                                historyTitle += "/";
+                                                historyTitle += history[i];
+                                                int j = i / 2;
+                                                itemHistory[j].setTitle(historyTitle);
+                                            }
+                                            Log.d(TAG, history[i]);
                                         }
                                     }
                                     isLoadComplete = true;
@@ -93,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
                     });
         }
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -123,6 +158,58 @@ public class MainActivity extends AppCompatActivity {
                     else {
                         startToast("유저 정보를 읽어오는 중입니다.");
                     }
+                } else if (id == R.id.history1) {
+                    if (isLoadComplete) {
+                        if (getReservationInfo.length() > 0) {
+                            doFindSubway();
+                        } else {
+                            globalHistoryStart = history[0];
+                            globalHistoryEnd = history[1];
+                            myStartActivity(FindSubwayActivity.class);
+                        }
+                    }
+                    else {
+                        startToast("유저 정보를 읽어오는 중입니다.");
+                    }
+                } else if (id == R.id.history2) {
+                    if (isLoadComplete) {
+                        if (getReservationInfo.length() > 0) {
+                            doFindSubway();
+                        } else {
+                            globalHistoryStart = history[2];
+                            globalHistoryEnd = history[3];
+                            myStartActivity(FindSubwayActivity.class);
+                        }
+                    }
+                    else {
+                        startToast("유저 정보를 읽어오는 중입니다.");
+                    }
+                } else if (id == R.id.history3) {
+                    if (isLoadComplete) {
+                        if (getReservationInfo.length() > 0) {
+                            doFindSubway();
+                        } else {
+                            globalHistoryStart = history[4];
+                            globalHistoryEnd = history[5];
+                            myStartActivity(FindSubwayActivity.class);
+                        }
+                    }
+                    else {
+                        startToast("유저 정보를 읽어오는 중입니다.");
+                    }
+                } else if (id == R.id.history4) {
+                    if (isLoadComplete) {
+                        if (getReservationInfo.length() > 0) {
+                            doFindSubway();
+                        } else {
+                            globalHistoryStart = history[6];
+                            globalHistoryEnd = history[7];
+                            myStartActivity(FindSubwayActivity.class);
+                        }
+                    }
+                    else {
+                        startToast("유저 정보를 읽어오는 중입니다.");
+                    }
                 }
 
                 return true;
@@ -135,7 +222,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.logoutButton).setOnClickListener(onClickListener);
         findViewById(R.id.trainbutton).setOnClickListener(onClickListener);
         findViewById(R.id.bluetoothButton).setOnClickListener(onClickListener);
-
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -171,9 +257,11 @@ public class MainActivity extends AppCompatActivity {
                         startToast("유저 정보를 읽어오는 중입니다.");
                     }
                     break;
-                }
+                default:
+                    break;
             }
-        };
+        }
+    };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -209,6 +297,12 @@ public class MainActivity extends AppCompatActivity {
     private void myStartActivity(Class c) {
         Intent intent = new Intent(this, c);
         intent.putExtra("user", user.getEmail());
+        if (globalHistoryStart.length() > 0) {
+            intent.putExtra("historyStart", globalHistoryStart);
+        }
+        if (globalHistoryEnd.length() > 0) {
+            intent.putExtra("historyEnd", globalHistoryEnd);
+        }
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

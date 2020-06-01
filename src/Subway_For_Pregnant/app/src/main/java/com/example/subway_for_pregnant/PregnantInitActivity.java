@@ -56,15 +56,8 @@ public class PregnantInitActivity extends AppCompatActivity {
         updateUser.put("name", inputName);
         updateUser.put("cardNum", inputCardNum);
         updateUser.put("isPregnant", true);
-        /*
-        updateUser.put("reserve_laneInfo", "");  //예약된 열차 노선
-        updateUser.put("reserve_driveInfo", "");  //예약된 열차 방향
-        updateUser.put("reserve_trainNum", "");  //예약된 열차 번호
-        updateUser.put("reserve_carNum", "");  //예약된 열차 칸
-        updateUser.put("reserve_start", "");  //예약된 출발역
-        updateUser.put("reserve_end", "");  //예약된 도착역
-        updateUser.put("reserve_seatNum", "");  //예약된 자리 번호
-         */
+
+        updateUser.put("history", "");
         updateUser.put("reservation_info", "");
         updateUser.put("transfer_info", "");
 

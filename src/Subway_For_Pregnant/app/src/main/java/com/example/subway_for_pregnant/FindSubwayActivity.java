@@ -9,8 +9,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.odsay.odsayandroidsdk.API;
 import com.odsay.odsayandroidsdk.ODsayData;
 import com.odsay.odsayandroidsdk.ODsayService;
@@ -29,10 +35,17 @@ public class FindSubwayActivity extends AppCompatActivity {
 
     private static final String TAG = "FindSubwayActivity";
 
-    private TextView tv_data;
     private EditText et_sid;
     private EditText et_eid;
     private Button bt_select;
+
+    String user = "";
+    String historyString;
+    String history[];
+    String historyStringNew = "";
+
+    String globalStartStation = "";
+    String globalEndStation = "";
 
     private ODsayService odsayService;
     private JSONObject jsonObject;
@@ -48,9 +61,22 @@ public class FindSubwayActivity extends AppCompatActivity {
     }
 
     private void init() {
+        Intent intent = getIntent();
+
+        String historyStart = intent.getExtras().getString("historyStart");
+        String historyEnd = intent.getExtras().getString("historyEnd");
+        user = intent.getExtras().getString("user");
+
         et_sid = findViewById(R.id.editText_startStat);
         et_eid = findViewById(R.id.editText_endStat);
         bt_select = findViewById(R.id.button_select_stat);
+
+        if (historyStart != null) {
+            et_sid.setText(historyStart);
+        }
+        if (historyEnd != null) {
+            et_eid.setText(historyEnd);
+        }
 
         odsayService = ODsayService.init(FindSubwayActivity.this, getString(R.string.odsay_key));
         odsayService.setReadTimeout(5000);
@@ -61,12 +87,44 @@ public class FindSubwayActivity extends AppCompatActivity {
         bt_select.setOnClickListener(onClickListener);
     }
 
+    private void saveHistory() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("user").whereEqualTo("id", user)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                historyString = (String) document.getData().get("history");
+                                historyStringNew = globalStartStation + ";" + globalEndStation;
+
+                                if (historyString.length() > 0) {
+                                    history = historyString.split(";");
+                                    for (int i = 0; i < history.length; i++) {
+                                        if (i >= 6) {
+                                            break;
+                                        }
+                                        historyStringNew += ";";
+                                        historyStringNew += history[i];
+                                    }
+                                }
+                                myStartActivity(TrainActivity.class);
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
     private OnResultCallbackListener onResultCallbackListener = new OnResultCallbackListener() {
         @Override
         public void onSuccess(ODsayData oDsayData, API api) {
 
             jsonObject = oDsayData.getJson();
-            myStartActivity(TrainActivity.class);
+            saveHistory();
+            //myStartActivity(TrainActivity.class);
 /*
             try {
                 //tv_data.setText(jsonObject.toString());
@@ -106,6 +164,8 @@ public class FindSubwayActivity extends AppCompatActivity {
         public void onClick(View v) {
             String sStationName = et_sid.getText().toString();
             String eStationName = et_eid.getText().toString();
+            globalStartStation = sStationName;
+            globalEndStation = eStationName;
 
             String sStationCode = findStationCode(sStationName);
             String eStationCode = findStationCode(eStationName);
@@ -128,6 +188,7 @@ public class FindSubwayActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Intent intent2 = new Intent(getApplicationContext(), c);
         intent2.putExtras(intent);
+        intent2.putExtra("historyDB", historyStringNew);
 
         try {
             intent2.putExtra("globalStartName", jsonObject.getJSONObject("result").getString("globalStartName"));
