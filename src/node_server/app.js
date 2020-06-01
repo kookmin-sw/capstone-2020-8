@@ -107,31 +107,38 @@ console.log("끝")
 // MQTT Server 접속. 센서 데이터 읽기
 var mqtt = require("mqtt") // mqtt 모듈 불러오기
 var client = mqtt.connect("mqtt://192.168.137.1") // mqtt 접속 프로토콜
+var topic_list = ['Pi1', 'Pi2']
 
 client.on("connect", () => {
-  client.subscribe("IoT") // 구독할 토픽
+  client.subscribe(topic_list) // 구독할 토픽
 });
 
 client.on("message", (topic, message) => {
   var db = firebase.firestore();
   var obj = JSON.parse(message); // 객체화
-  let data = {
-    s1_isSit: false,
-  };
+  
+  console.log(topic);
+  console.log(obj);
 
-  if (obj.seat === 1) data.s1_isSit = true;
+  if (topic === 'Pi1') {
+    db.collection('Demo_subway').doc('line8').collection('Down').doc('8201').
+      collection('car').doc('6').update(obj.s1_isSit);
+  } else if (topic === 'Pi2') {
+    db.collection('Demo_subway').doc('line8').collection('Down').doc('8201').
+      collection('car').doc('6').update(obj.s2_isSit);
+  }
+  /*
   console.log(obj.seat);
   console.log(data.s1_isSit);
 
-  //db.collection('Demo_subway').doc('line8').collection('Up').doc('2101').
-  //collection('car').doc('1').update(data);
-
-  db.collection('test').doc('tnf').update(data);
+  db.collection('Demo_subway').doc('line8').collection('Down').doc('8201').
+  collection('car').doc('6').update(data);
+  */
 })
 
-function pubMinor(){
-  if(minor != ""){
-    client.publish("LED" + minor, "1")
+function pubMinor() {
+  if (minor != "") {
+    client.publish(minor, "1")
     minor = ""
   }
 }
