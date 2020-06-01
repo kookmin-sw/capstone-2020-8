@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -41,10 +42,12 @@ public class TrainActivity extends AppCompatActivity {
     int[] stationsEndSID;
     int[] stationsTravelTime;
 
-    int emptyCount = 0;
-    boolean checksit = false;
     int pastStationCount = 0;
     int transferCount = 0;
+
+    String showResult1;
+    String showResult2;
+    int buttonMode = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,22 +63,45 @@ public class TrainActivity extends AppCompatActivity {
 
         initIntents();
 
-        String showResult = "";
-        showResult += ("출발역: " + globalStartName + "\n도착역: " + globalEndName + "\n\n");
+        showResult1 = "";
+        showResult1 += ("출발역: " + globalStartName + "\n도착역: " + globalEndName + "\n\n");
+        showResult2 = "";
+        showResult2 += ("출발역: " + globalStartName + "\n도착역: " + globalEndName + "\n\n");
+
         int count = 0;
         for (int i = 0; i < driveInfoLength; i++) {
-            showResult += ("<" + driveInfoLaneName[i] + ">\n");
-            showResult += (driveInfoStationCount[i] + "개 역 이동\n");
-            showResult += (stationsStartName[count] + "[" + stationsStartID[count] + "]");  //현재역 [현재역코드]
+            showResult1 += ("<" + driveInfoLaneName[i] + ">\n");
+            showResult2 += ("<" + driveInfoLaneName[i] + ">\n");
+            showResult1 += (stationsStartName[count] + "\n");  //현재역
+            showResult2 += (stationsStartName[count] + "\n");  //현재역
+            showResult1 += (stationsEndName[driveInfoStationCount[i] + count - 1] + "\n");
+            //showResult1 += (stationsEndName[driveInfoStationCount[i] + count - 1] + "(" + stationsTravelTime[driveInfoStationCount[i] + count - 1] + "분)\n");
             for (int j = count; j < driveInfoStationCount[i] + count; j++) {
-                showResult += (" -> " + stationsEndName[j] + "[" + stationsEndSID[j] + "] " + "(" + stationsTravelTime[j] + "분)");
-                // -> 다음역 [다음역코드] (현 구간 소요 시간)
+                showResult2 += (stationsEndName[j] + "(" + stationsTravelTime[j] + "분)\n");
+                //다음역 (현 구간 소요 시간)
             }
-            showResult += ("\n\n");
+            showResult1 += (driveInfoStationCount[i] + "개 역 이동\n");
+            showResult2 += (driveInfoStationCount[i] + "개 역 이동\n");
+            showResult1 += ("\n\n");
+            showResult2 += ("\n\n");
             count += driveInfoStationCount[i];
         }
+        /*
+        int count = 0;
+        for (int i = 0; i < driveInfoLength; i++) {
+            showResult2 += ("<" + driveInfoLaneName[i] + ">\n");
+            showResult2 += (driveInfoStationCount[i] + "개 역 이동\n");
+            showResult2 += (stationsStartName[count] + "[" + stationsStartID[count] + "]");  //현재역 [현재역코드]
+            for (int j = count; j < driveInfoStationCount[i] + count; j++) {
+                showResult2 += (" -> " + stationsEndName[j] + "[" + stationsEndSID[j] + "] " + "(" + stationsTravelTime[j] + "분)");
+                // -> 다음역 [다음역코드] (현 구간 소요 시간)
+            }
+            showResult2 += ("\n\n");
+            count += driveInfoStationCount[i];
+        }
+         */
 
-        tv_sample.setText(showResult);
+        tv_sample.setText(showResult1);
 
         if (driveInfoWayCode[transferCount] == 1) driveInfo = "Up";
         else driveInfo = "Down";
@@ -113,49 +139,45 @@ public class TrainActivity extends AppCompatActivity {
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
+                        listView.setAdapter(new ArrayAdapter<String>(TrainActivity.this, android.R.layout.simple_list_item_1, train));
 
-
-                            //개발중
-/*
-                            db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document(train.get(0)).collection("car")
-                                    .get()
-                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<QuerySnapshot> task2) {
-                                            if(task2.isSuccessful()){
-                                                for(QueryDocumentSnapshot queryDocumentSnapshot2 : task2.getResult()){
-                                                    db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document(train.get(0)).collection("car").document(queryDocumentSnapshot.getId())
-                                                            .get()
-                                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<DocumentSnapshot> task3) {
-                                                                    if(task3.isSuccessful()){
-                                                                        for(QueryDocumentSnapshot queryDocumentSnapshot3 : task3.getResult()){
-
-                                                                        }
-                                                                    }
-                                                                }
-                                                            })
-                                                }
-                                            }
-                                        }
-                                    });*/
-
-
-
-
-                            listView.setAdapter(new ArrayAdapter<String>(TrainActivity.this, android.R.layout.simple_list_item_1, train));
-
-                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    Toast.makeText(getApplicationContext(), position + " 번째 값 : " + parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
-                                    myStartActivity(ViewSeatsActivity.class, parent.getItemAtPosition(position).toString());
-                                }
-                            });
-                        }
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Toast.makeText(getApplicationContext(), position + " 번째 값 : " + parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
+                                myStartActivity(ViewSeatsActivity.class, parent.getItemAtPosition(position).toString());
+                            }
                         });
+                    }
+        });
+
+        findViewById(R.id.button_moreStations).setOnClickListener(onClickListener);
     }
+
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(final View v) {
+            TextView tv_sample = findViewById(R.id.textView_sample);
+            Button bt_moreSt = findViewById(R.id.button_moreStations);
+
+            switch (v.getId()) {
+                case R.id.button_moreStations:
+                    if (buttonMode == 1) {
+                        tv_sample.setText(showResult2);
+                        bt_moreSt.setText("간단히");
+                        buttonMode = 2;
+                    }
+                    else {
+                        tv_sample.setText(showResult1);
+                        bt_moreSt.setText("자세히");
+                        buttonMode = 1;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     private void initIntents() {
         Intent intent = getIntent();
