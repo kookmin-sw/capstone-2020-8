@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -47,7 +48,6 @@ public class FindSubwayActivity extends AppCompatActivity {
     }
 
     private void init() {
-        tv_data = (TextView) findViewById(R.id.tv_data2);
         et_sid = findViewById(R.id.editText_startStat);
         et_eid = findViewById(R.id.editText_endStat);
         bt_select = findViewById(R.id.button_select_stat);
@@ -97,7 +97,7 @@ public class FindSubwayActivity extends AppCompatActivity {
 
         @Override
         public void onError(int i, String errorMessage, API api) {
-            tv_data.setText("API : " + api.name() + "\n" + errorMessage);
+            startToast("API : " + api.name() + "\n" + errorMessage);
         }
     };
 
@@ -115,11 +115,11 @@ public class FindSubwayActivity extends AppCompatActivity {
             if (sStationCode != null && eStationCode != null) {
                 odsayService.requestSubwayPath("1000", sStationCode, eStationCode, "1", onResultCallbackListener);
             } else if (sStationCode == null && eStationCode == null) {
-                tv_data.setText("출발역, 도착역 입력이 잘못되었습니다.");
+                startToast("출발역, 도착역 입력이 잘못되었습니다.");
             } else if (sStationCode == null) {
-                tv_data.setText("출발역 입력이 잘못되었습니다.");
+                startToast("출발역 입력이 잘못되었습니다.");
             } else {
-                tv_data.setText("도착역 입력이 잘못되었습니다.");
+                startToast("도착역 입력이 잘못되었습니다.");
             }
         }
     };
@@ -211,5 +211,9 @@ public class FindSubwayActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void startToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }

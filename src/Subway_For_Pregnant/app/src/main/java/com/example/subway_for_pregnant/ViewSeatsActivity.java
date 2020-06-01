@@ -621,6 +621,11 @@ public class ViewSeatsActivity extends AppCompatActivity {
         startActivity(intent2);
     }
 
+    @Override
+    public void onBackPressed() {
+        myStartActivity(MainActivity.class);
+    }
+
     private void startToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }

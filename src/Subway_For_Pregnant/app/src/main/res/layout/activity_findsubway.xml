@@ -27,7 +27,6 @@
         android:layout_width="411dp"
         android:layout_height="251dp"
         android:background="@drawable/border_layout"
-        app:layout_constraintBottom_toTopOf="@+id/tv_data2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -89,21 +88,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/editText_endStat"
         app:layout_constraintEnd_toStartOf="@+id/editText_endStat"
         app:layout_constraintTop_toTopOf="@+id/editText_endStat" />
-
-    <TextView
-        android:id="@+id/tv_data2"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:background="@drawable/text_box"
-        android:text=""
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_viewbox" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/group"
