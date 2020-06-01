@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/account2"
+            android:icon="@drawable/ic_launcher_foreground"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:title="계정"
+            />
+        <item
+            android:id="@+id/callEmergency2"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:title="다산콜센터" />
+        <item
+            android:id="@+id/setting2"
+            android:icon="@drawable/ic_launcher_foreground"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:title="설정"
+            />
+        <item
+            android:id="@+id/logout2"
+            android:icon="@drawable/ic_launcher_foreground"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:title="로그아웃"
+            />
+        <item
+            android:id="@+id/history2_1"
+            android:title="(히스토리가 없습니다.)" />
+        <item
+            android:id="@+id/history2_2"
+            android:title="(히스토리가 없습니다.)" />
+        <item
+            android:id="@+id/history2_3"
+            android:title="(히스토리가 없습니다.)" />
+        <item
+            android:id="@+id/history2_4"
+            android:title="(히스토리가 없습니다.)" />
+    </group>
+</menu>
