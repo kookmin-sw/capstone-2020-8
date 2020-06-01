@@ -17,6 +17,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -88,15 +89,15 @@ public class FindSubwayActivity extends AppCompatActivity {
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view2);
         View v = navigationView.getHeaderView(0);
-        TextView tv_showID = (TextView) v.findViewById(R.id.textView_showID2);
+        TextView tv_showID = (TextView) v.findViewById(R.id.textView_showID);
         Menu nv = navigationView.getMenu();
 
         drawerLayout2 = (DrawerLayout) findViewById(R.id.drawerLayout2);
         itemHistory = new MenuItem[4];
-        itemHistory[0] = nv.findItem(R.id.history2_1);
-        itemHistory[1] = nv.findItem(R.id.history2_2);
-        itemHistory[2] = nv.findItem(R.id.history2_3);
-        itemHistory[3] = nv.findItem(R.id.history2_4);
+        itemHistory[0] = nv.findItem(R.id.history1);
+        itemHistory[1] = nv.findItem(R.id.history2);
+        itemHistory[2] = nv.findItem(R.id.history3);
+        itemHistory[3] = nv.findItem(R.id.history4);
 
         user = intent.getExtras().getString("user");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -154,23 +155,23 @@ public class FindSubwayActivity extends AppCompatActivity {
 
                 if (id == R.id.account) {
                     startToast(title + ": 계정 정보를 확인합니다.");
-                } else if (id == R.id.callEmergency2) {
+                } else if (id == R.id.callEmergency) {
                     if (isLoadComplete) {
                         Intent tel = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:02120"));
                         startActivity(tel);
                     } else {
                         startToast("유저 정보를 읽어오는 중입니다.");
                     }
-                } else if (id == R.id.setting2) {
+                } else if (id == R.id.setting) {
                     startToast(title + ": 설정 정보를 확인합니다.");
-                } else if (id == R.id.logout2) {
+                } else if (id == R.id.logout) {
                     if (isLoadComplete) {
                         FirebaseAuth.getInstance().signOut();
                         myStartActivity2(MainActivity.class);
                     } else {
                         startToast("유저 정보를 읽어오는 중입니다.");
                     }
-                } else if (id == R.id.history2_1) {
+                } else if (id == R.id.history1) {
                     if (isLoadComplete) {
                         if (getReservationInfo.length() > 0) {
                             myStartActivity2(MainActivity.class);
@@ -182,7 +183,7 @@ public class FindSubwayActivity extends AppCompatActivity {
                     } else {
                         startToast("유저 정보를 읽어오는 중입니다.");
                     }
-                } else if (id == R.id.history2_2) {
+                } else if (id == R.id.history2) {
                     if (isLoadComplete) {
                         if (getReservationInfo.length() > 0) {
                             myStartActivity2(MainActivity.class);
@@ -194,7 +195,7 @@ public class FindSubwayActivity extends AppCompatActivity {
                     } else {
                         startToast("유저 정보를 읽어오는 중입니다.");
                     }
-                } else if (id == R.id.history2_3) {
+                } else if (id == R.id.history3) {
                     if (isLoadComplete) {
                         if (getReservationInfo.length() > 0) {
                             myStartActivity2(MainActivity.class);
@@ -206,7 +207,7 @@ public class FindSubwayActivity extends AppCompatActivity {
                     } else {
                         startToast("유저 정보를 읽어오는 중입니다.");
                     }
-                } else if (id == R.id.history2_4) {
+                } else if (id == R.id.history4) {
                     if (isLoadComplete) {
                         if (getReservationInfo.length() > 0) {
                             myStartActivity2(MainActivity.class);
@@ -223,6 +224,17 @@ public class FindSubwayActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:{ // 왼쪽 상단 버튼 눌렀을 때
+                drawerLayout2.openDrawer(GravityCompat.START);
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void init() {
