@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     String getReservationInfo;
     String reserveInfo[];
 
+    boolean isLoadComplete = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                                             Log.d(TAG, reserveInfo[i]);
                                         }
                                     }
+                                    isLoadComplete = true;
                                 }
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
@@ -125,19 +128,33 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.logoutButton:
-                    FirebaseAuth.getInstance().signOut();
-                    myStartActivity3(MainActivity.class);
-                    break;
-                case R.id.trainbutton:
-                    if (getReservationInfo.length() > 0) {
-                        doFindSubway();
+                    if (isLoadComplete) {
+                        FirebaseAuth.getInstance().signOut();
+                        myStartActivity3(MainActivity.class);
                     }
                     else {
-                        myStartActivity(FindSubwayActivity.class);
+                        startToast("유저 정보를 읽어오는 중입니다.");
+                    }
+                    break;
+                case R.id.trainbutton:
+                    if (isLoadComplete) {
+                        if (getReservationInfo.length() > 0) {
+                            doFindSubway();
+                        } else {
+                            myStartActivity(FindSubwayActivity.class);
+                        }
+                    }
+                    else {
+                        startToast("유저 정보를 읽어오는 중입니다.");
                     }
                     break;
                 case R.id.bluetoothButton:
-                    myStartActivity(SampleBluetoothActivity.class);
+                    if (isLoadComplete) {
+                        myStartActivity(SampleBluetoothActivity.class);
+                    }
+                    else {
+                        startToast("유저 정보를 읽어오는 중입니다.");
+                    }
                     break;
                 }
             }
@@ -238,5 +255,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, c);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    private void startToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }
