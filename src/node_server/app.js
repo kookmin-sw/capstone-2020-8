@@ -54,33 +54,52 @@ app.use((err, req, res, next) => {
 
 // socket.io
 app.io = require('socket.io')();
+let room = ['room0', 'room1'] // 룸 선언
+var a = 0;
 
 var minor = "";
 app.io.on('connection', (socket) => {
   console.log("연결");
-    socket.on('login', (data) => { // minor
-        console.log(`minor : ${data}`)
-        // whoIsOn.push(data) 
-        minor = data
-
-        // 아래와 같이 하면 그냥 String 으로 넘어가므로 쉽게 파싱을 할 수 있습니다.
-        // 그냥 넘기면 JSONArray로 넘어가서 복잡해집니다.
-        var minorJson = `${minor}`
-        console.log(minorJson)
+  // join room 추가
+  socket.on('joinRoom', (num) => {
+    socket.join(room[num], () => {
+      console.log('joinroom');
+      app.io.to(room[num]).emit('joinRoom', num);
     });
+  });
+  // leave room 추가
+  socket.on('leaveRoom', (num) => {
+    console.log('leaveroom');
+    socket.leave(room[num]).emit('leaveRoom', num);
+  })
+  socket.on('login', (data, num, email) => { // minor
+    console.log(`minor : ${data}`);
+    // whoIsOn.push(data) 
+    a = num;
+    minor = data;
 
-    socket.on('say', (data) => {
-        console.log(`say msg : ${data}`)
-        socket.emit('myMsg', data)
-    });
+    // 아래와 같이 하면 그냥 String 으로 넘어가므로 쉽게 파싱을 할 수 있습니다.
+    // 그냥 넘기면 JSONArray로 넘어가서 복잡해집니다.
+    var minorJson = `${minor}`;
+    console.log(minorJson);
+    console.log(`a : ${a}, num : ${num}, email : ${email}`)
+    console.log(`room${num}의 minor : ${data}`);
 
-    socket.on('disconnect', () => {
-        console.log(`${minor} has left this chatroom ------------------------  `)
-    });
+    app.io.to(room[a]).emit('login', data, num);
+  });
 
-    socket.on('logout', () => {
-        socket.emit('logout',data);
-    });
+  socket.on('say', (data) => {
+    console.log(`say msg : ${data}`);
+    socket.emit('myMsg', data);
+  });
+
+  socket.on('disconnect', () => {
+    console.log(`${minor} has left this connection ------------------------  `);
+  });
+
+  socket.on('logout', () => {
+    socket.emit('logout', data);
+  });
 });
 
 console.log("끝")
@@ -97,27 +116,27 @@ client.on("message", (topic, message) => {
   var db = firebase.firestore();
   var obj = JSON.parse(message); // 객체화
   let data = {
-    s1_isSit : false,
+    s1_isSit: false,
   };
-  
-  if(obj.seat === 1) data.s1_isSit = true;
+
+  if (obj.seat === 1) data.s1_isSit = true;
   console.log(obj.seat);
   console.log(data.s1_isSit);
 
-  db.collection('Demo_subway').doc('line8').collection('Up').doc('2101').
-  collection('car').doc('1').update(data);
+  //db.collection('Demo_subway').doc('line8').collection('Up').doc('2101').
+  //collection('car').doc('1').update(data);
 
-  // db.collection('test').doc('tnf').update(data);
+  db.collection('test').doc('tnf').update(data);
 })
 
-function pubMinor(){
-  if(minor != ""){
-    client.publish(minor + "LED", "1")
+function pubMinor() {
+  if (minor != "") {
+    client.publish(minor, "1")
     minor = ""
   }
 }
 
-setInterval(function() {
+setInterval(function () {
   pubMinor();
 }, 1000);
 
