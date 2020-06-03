@@ -36,5 +36,8 @@
         <item
             android:id="@+id/history4"
             android:title="(히스토리가 없습니다.)" />
+        <item
+            android:id="@+id/deleteHistory"
+            android:title="기록 삭제" />
     </group>
 </menu>

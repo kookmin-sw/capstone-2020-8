@@ -80,9 +80,9 @@ public class ViewSeatsActivity extends AppCompatActivity {
 
         stationsLength = intent.getExtras().getInt("stationsLength");   //역 개수. 즉 stations 라고 앞에 붙은 데이터들의 Length.
         stationsStartName = new String[stationsLength];    //구간마다 현재역 이름
-        stationsStartID = new int[stationsLength];            //구간마다 현재역 코드
+        stationsStartID = new int[stationsLength];         //구간마다 현재역 코드
         stationsEndName = new String[stationsLength];      //구간마다 다음역 이름
-        stationsEndSID = new int[stationsLength];             //구간마다 다음역 코드
+        stationsEndSID = new int[stationsLength];          //구간마다 다음역 코드
 
         driveInfoLength = intent.getExtras().getInt("driveInfoLength");     //노선 개수. 환승 없으면 1, 1번 환승은 2. 이런식으로.
         driveInfoWayCode = new int[driveInfoLength];      //방면 코드 (1:상행, 2:하행)

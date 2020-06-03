@@ -21,12 +21,15 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.odsay.odsayandroidsdk.API;
 import com.odsay.odsayandroidsdk.ODsayData;
 import com.odsay.odsayandroidsdk.ODsayService;
@@ -37,7 +40,9 @@ import org.json.JSONObject;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONException;
 
@@ -174,56 +179,115 @@ public class FindSubwayActivity extends AppCompatActivity {
                 } else if (id == R.id.history1) {
                     if (isLoadComplete) {
                         if (getReservationInfo.length() > 0) {
+                            startToast("예약된 좌석이 존재합니다.");
                             myStartActivity2(MainActivity.class);
                         } else {
-                            globalHistoryStart = history[0];
-                            globalHistoryEnd = history[1];
-                            myStartActivity(FindSubwayActivity.class);
+                            try {
+                                globalHistoryStart = history[0];
+                                globalHistoryEnd = history[1];
+                                myStartActivity(FindSubwayActivity.class);
+                            }
+                            catch (NullPointerException e) {
+                                startToast("기록이 없습니다.");
+                            }
                         }
-                    } else {
+                    }
+                    else {
                         startToast("유저 정보를 읽어오는 중입니다.");
                     }
                 } else if (id == R.id.history2) {
                     if (isLoadComplete) {
                         if (getReservationInfo.length() > 0) {
+                            startToast("예약된 좌석이 존재합니다.");
                             myStartActivity2(MainActivity.class);
                         } else {
-                            globalHistoryStart = history[2];
-                            globalHistoryEnd = history[3];
-                            myStartActivity(FindSubwayActivity.class);
+                            try {
+                                globalHistoryStart = history[2];
+                                globalHistoryEnd = history[3];
+                                myStartActivity(FindSubwayActivity.class);
+                            }
+                            catch (NullPointerException e) {
+                                startToast("기록이 없습니다.");
+                            }
                         }
-                    } else {
+                    }
+                    else {
                         startToast("유저 정보를 읽어오는 중입니다.");
                     }
                 } else if (id == R.id.history3) {
                     if (isLoadComplete) {
                         if (getReservationInfo.length() > 0) {
+                            startToast("예약된 좌석이 존재합니다.");
                             myStartActivity2(MainActivity.class);
                         } else {
-                            globalHistoryStart = history[4];
-                            globalHistoryEnd = history[5];
-                            myStartActivity(FindSubwayActivity.class);
+                            try {
+                                globalHistoryStart = history[4];
+                                globalHistoryEnd = history[5];
+                                myStartActivity(FindSubwayActivity.class);
+                            }
+                            catch (NullPointerException e) {
+                                startToast("기록이 없습니다.");
+                            }
                         }
-                    } else {
+                    }
+                    else {
                         startToast("유저 정보를 읽어오는 중입니다.");
                     }
                 } else if (id == R.id.history4) {
                     if (isLoadComplete) {
                         if (getReservationInfo.length() > 0) {
+                            startToast("예약된 좌석이 존재합니다.");
                             myStartActivity2(MainActivity.class);
                         } else {
-                            globalHistoryStart = history[6];
-                            globalHistoryEnd = history[7];
-                            myStartActivity(FindSubwayActivity.class);
+                            try {
+                                globalHistoryStart = history[6];
+                                globalHistoryEnd = history[7];
+                                myStartActivity(FindSubwayActivity.class);
+                            }
+                            catch (NullPointerException e) {
+                                startToast("기록이 없습니다.");
+                            }
                         }
-                    } else {
+                    }
+                    else {
                         startToast("유저 정보를 읽어오는 중입니다.");
                     }
+                } else if (id == R.id.deleteHistory) {
+                    doDeleteHistory();
                 }
 
                 return true;
             }
         });
+    }
+
+    private void doDeleteHistory() {
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Map<String, Object> data = new HashMap<>();
+
+        data.put("history", "");
+        history = null;
+
+        itemHistory[0].setTitle("(히스토리가 없습니다.)");
+        itemHistory[1].setTitle("(히스토리가 없습니다.)");
+        itemHistory[2].setTitle("(히스토리가 없습니다.)");
+        itemHistory[3].setTitle("(히스토리가 없습니다.)");
+
+        db.collection("user").document(user)
+                .set(data, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        startToast("기록이 삭제되었습니다.");
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
     }
 
     @Override
