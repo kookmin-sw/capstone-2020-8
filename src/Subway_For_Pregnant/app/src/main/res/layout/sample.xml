@@ -9,13 +9,30 @@
     sothree:umanoPanelHeight="68dp"
     sothree:umanoShadowHeight="4dp">
 
-    <TextView
-        android:id="@+id/textView_sample"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="지하철 간편도 넣을 예정"
-        android:textSize="16sp" />
+        android:orientation="horizontal"
+        android:weightSum="12">
+
+        <Button
+            android:id="@+id/button_moreStations"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="자세히" />
+
+        <TextView
+            android:id="@+id/textView_sample"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="11"
+            android:gravity="center"
+            android:text="지하철 간편도"
+            android:textSize="16sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/dragView"

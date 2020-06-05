@@ -7,8 +7,6 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="10dp"
-    android:paddingEnd="5dp"
     android:background="#F6D2D2">
 
     <RelativeLayout
@@ -22,11 +20,11 @@
         android:background="@android:color/black"
         android:layout_below="@+id/toolbar"/>
 
-        <androidx.appcompat.widget.Toolbar
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <androidx.appcompat.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     </androidx.appcompat.widget.Toolbar>
 
     <Button

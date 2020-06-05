@@ -252,6 +252,11 @@ public class Ready2Activity extends AppCompatActivity {
         intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent2);
     }
+
+    @Override
+    public void onBackPressed() {
+        myStartActivity(MainActivity.class);
+    }
 }
 
 

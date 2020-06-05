@@ -59,6 +59,12 @@ public class ViewSeatsActivity extends AppCompatActivity {
     TextView[] tv_State;
 
     String userID;
+    int checkReservation = 0;
+
+    int btnState1 = -1;
+    int btnState2 = -1;
+
+    String historyDB = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +73,6 @@ public class ViewSeatsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        Log.d(TAG,intent.getExtras().getString("trainName"));
-
         //인텐트 호출
         globalStartName = intent.getExtras().getString("globalStartName");
         globalEndName = intent.getExtras().getString("globalEndName");
@@ -76,9 +80,9 @@ public class ViewSeatsActivity extends AppCompatActivity {
 
         stationsLength = intent.getExtras().getInt("stationsLength");   //역 개수. 즉 stations 라고 앞에 붙은 데이터들의 Length.
         stationsStartName = new String[stationsLength];    //구간마다 현재역 이름
-        stationsStartID = new int[stationsLength];            //구간마다 현재역 코드
+        stationsStartID = new int[stationsLength];         //구간마다 현재역 코드
         stationsEndName = new String[stationsLength];      //구간마다 다음역 이름
-        stationsEndSID = new int[stationsLength];             //구간마다 다음역 코드
+        stationsEndSID = new int[stationsLength];          //구간마다 다음역 코드
 
         driveInfoLength = intent.getExtras().getInt("driveInfoLength");     //노선 개수. 환승 없으면 1, 1번 환승은 2. 이런식으로.
         driveInfoWayCode = new int[driveInfoLength];      //방면 코드 (1:상행, 2:하행)
@@ -87,7 +91,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
 
         userID = intent.getExtras().getString("user");
 
-        Log.d(TAG, "UserID: " + userID);
+        historyDB = intent.getExtras().getString("historyDB");
 
         for (int i = 0; i < stationsLength; i++) {
             stationsStartName[i] = intent.getExtras().getString("stationsStartName" + i);
@@ -169,7 +173,6 @@ public class ViewSeatsActivity extends AppCompatActivity {
         findViewById(R.id.button_Seat1).setOnClickListener(onClickListener);
         findViewById(R.id.button_Seat2).setOnClickListener(onClickListener);
         findViewById(R.id.button_Refresh).setOnClickListener(onClickListener);
-        findViewById(R.id.button_toNext).setOnClickListener(onClickListener);
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -229,11 +232,11 @@ public class ViewSeatsActivity extends AppCompatActivity {
                     btnNumGlobal = 1;
                     carNum = carNumGlobal;
 
-                    if (bt_Seat1.getText().equals("0") || bt_Seat1.getText().equals("1")) {
+                    if (btnState1 == 0 || btnState1 == 1) {
                         startReservation(laneInfoDB, driveInfoDB, carNum);
                         //myStartActivity(Ready2Activity.class);
                     }
-                    else if (bt_Seat1.getText().equals("2")) {
+                    else if (btnState1 == 2) {
                         startToast("현재 예약이 불가능한 좌석입니다.");
                     }
                     else {
@@ -245,11 +248,11 @@ public class ViewSeatsActivity extends AppCompatActivity {
                     btnNumGlobal = 2;
                     carNum = carNumGlobal;
 
-                    if (bt_Seat2.getText().equals("0") || bt_Seat2.getText().equals("1")) {
+                    if (btnState2 == 0 || btnState2 == 1) {
                         startReservation(laneInfoDB, driveInfoDB, carNum);
                         //myStartActivity(Ready2Activity.class);
                     }
-                    else if (bt_Seat2.getText().equals("2")) {
+                    else if (btnState2 == 2) {
                         startToast("현재 예약이 불가능한 좌석입니다.");
                     }
                     else {
@@ -259,9 +262,6 @@ public class ViewSeatsActivity extends AppCompatActivity {
                 case R.id.button_Refresh:
                     initSeatStateBtn();
                     getCarState(laneInfo, driveInfo, 0);
-                    break;
-                case R.id.button_toNext:
-                    myStartActivity(Ready2Activity.class);
                     break;
                 default:
                     break;
@@ -286,16 +286,15 @@ public class ViewSeatsActivity extends AppCompatActivity {
         bt_State5.setText("0");
         bt_StateLeft.setText("0");
 
-        bt_Seat1.setBackgroundColor(Color.parseColor("#545454")); //Dark Gray
-        bt_Seat1.setText("3");
-        bt_Seat1.setTextColor(Color.parseColor("#545454"));
+        btnState1 = 3;
+        btnState2 = 3;
 
-        bt_Seat2.setBackgroundColor(Color.parseColor("#545454")); //Dark Gray
-        bt_Seat2.setText("3");
-        bt_Seat2.setTextColor(Color.parseColor("#545454"));
+        bt_Seat1.setBackgroundResource(R.drawable.selector_button_gray);
+        bt_Seat2.setBackgroundResource(R.drawable.selector_button_gray);
 
         forCount = 0;
         isReservationCount = 0;
+        checkReservation = 0;
     }
 
     private void getCarState(String laneInfo, String driveInfo, final int select) {
@@ -460,8 +459,8 @@ public class ViewSeatsActivity extends AppCompatActivity {
                             boolean s1_isSit = (Boolean) document1.getData().get("s1_isSit");
                             boolean s2_isSit = (Boolean) document1.getData().get("s2_isSit");
 
-                            setBtnColor(R.id.button_Seat1, seat1[carNum - 1], s1_isSit);
-                            setBtnColor(R.id.button_Seat2, seat2[carNum - 1], s2_isSit);
+                            setBtnColor(R.id.button_Seat1, seat1[carNum - 1], s1_isSit, 1);
+                            setBtnColor(R.id.button_Seat2, seat2[carNum - 1], s2_isSit, 2);
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
@@ -469,24 +468,36 @@ public class ViewSeatsActivity extends AppCompatActivity {
                 });
     }
 
-    private void setBtnColor(int btnId, int check, boolean isSit) {
+    private void setBtnColor(int btnId, int check, boolean isSit, int btnState) {
         Button btn = findViewById(btnId);
         if (check == 0 && isSit == true) {
-            btn.setBackgroundColor(Color.parseColor("#FFA500")); //Gold
-            btn.setText("1");
-            btn.setTextColor(Color.parseColor("#FFA500"));
+            btn.setBackgroundResource(R.drawable.selector_button_gold);
+            if (btnState == 1) {
+                btnState1 = 1;
+            } else {
+                btnState2 = 1;
+            }
         } else if (check == 0) {
-            btn.setBackgroundColor(Color.parseColor("#008000")); //Green
-            btn.setText("0");
-            btn.setTextColor(Color.parseColor("#008000"));
+            btn.setBackgroundResource(R.drawable.selector_button_green);
+            if (btnState == 1) {
+                btnState1 = 0;
+            } else {
+                btnState2 = 0;
+            }
         } else if (check == 2) {
-            btn.setBackgroundColor(Color.parseColor("#FF0000")); //Red
-            btn.setText("2");
-            btn.setTextColor(Color.parseColor("#FF0000"));
+            btn.setBackgroundResource(R.drawable.selector_button_red);
+            if (btnState == 1) {
+                btnState1 = 2;
+            } else {
+                btnState2 = 2;
+            }
         } else {
-            btn.setBackgroundColor(Color.parseColor("#545454")); //Dark Gray
-            btn.setText("3");
-            btn.setTextColor(Color.parseColor("#545454"));
+            btn.setBackgroundResource(R.drawable.selector_button_gray);
+            if (btnState == 1) {
+                btnState1 = 3;
+            } else {
+                btnState2 = 3;
+            }
         }
     }
 
@@ -566,6 +577,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
         }
         data2.put("reservation_info", reservationInfo);
         data2.put("transfer_info", transferInfo);
+        data2.put("history", historyDB);
 
         for (int i = sectionLower(sectionStartGlobal, sectionEndGlobal); i <= sectionHigher(sectionStartGlobal, sectionEndGlobal); i++) {
             final int section = i;
@@ -575,6 +587,10 @@ public class ViewSeatsActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.d(TAG, "DocumentSnapshot successfully written!");
+                            checkReservation += 1;
+                            if (checkReservation == sectionHigher(sectionStartGlobal, sectionEndGlobal) - sectionLower(sectionStartGlobal, sectionEndGlobal) + 2) {
+                                myStartActivity(Ready2Activity.class);
+                            }
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -591,6 +607,10 @@ public class ViewSeatsActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
+                        checkReservation += 1;
+                        if (checkReservation == sectionHigher(sectionStartGlobal, sectionEndGlobal) - sectionLower(sectionStartGlobal, sectionEndGlobal) + 2) {
+                            myStartActivity(Ready2Activity.class);
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -619,6 +639,11 @@ public class ViewSeatsActivity extends AppCompatActivity {
 
         intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent2);
+    }
+
+    @Override
+    public void onBackPressed() {
+        myStartActivity(MainActivity.class);
     }
 
     private void startToast(String msg) {

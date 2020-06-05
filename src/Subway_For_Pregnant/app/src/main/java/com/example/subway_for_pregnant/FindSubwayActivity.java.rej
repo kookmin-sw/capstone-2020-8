@@ -1,0 +1,11 @@
+diff a/src/Subway_For_Pregnant/app/src/main/java/com/example/subway_for_pregnant/FindSubwayActivity.java b/src/Subway_For_Pregnant/app/src/main/java/com/example/subway_for_pregnant/FindSubwayActivity.java	(rejected hunks)
+@@ -40,7 +40,9 @@
+ import java.io.*;
+ import java.nio.charset.StandardCharsets;
+ import java.util.ArrayList;
++import java.util.HashMap;
+ import java.util.List;
++import java.util.Map;
+ 
+ import org.json.JSONException;
+ 
