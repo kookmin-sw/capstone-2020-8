@@ -89,20 +89,6 @@ public class TrainActivity extends AppCompatActivity {
             showResult2 += ("\n\n");
             count += driveInfoStationCount[i];
         }
-        /*
-        int count = 0;
-        for (int i = 0; i < driveInfoLength; i++) {
-            showResult2 += ("<" + driveInfoLaneName[i] + ">\n");
-            showResult2 += (driveInfoStationCount[i] + "개 역 이동\n");
-            showResult2 += (stationsStartName[count] + "[" + stationsStartID[count] + "]");  //현재역 [현재역코드]
-            for (int j = count; j < driveInfoStationCount[i] + count; j++) {
-                showResult2 += (" -> " + stationsEndName[j] + "[" + stationsEndSID[j] + "] " + "(" + stationsTravelTime[j] + "분)");
-                // -> 다음역 [다음역코드] (현 구간 소요 시간)
-            }
-            showResult2 += ("\n\n");
-            count += driveInfoStationCount[i];
-        }
-         */
 
         tv_sample.setText(showResult1);
 
