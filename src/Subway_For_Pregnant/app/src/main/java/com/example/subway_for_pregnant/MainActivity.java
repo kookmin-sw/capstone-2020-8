@@ -178,6 +178,9 @@ public class MainActivity extends AppCompatActivity {
                             catch (NullPointerException e) {
                                 startToast("기록이 없습니다.");
                             }
+                            catch (ArrayIndexOutOfBoundsException e) {
+                                startToast("기록이 없습니다.");
+                            }
                         }
                     }
                     else {
@@ -195,6 +198,9 @@ public class MainActivity extends AppCompatActivity {
                                 myStartActivity(FindSubwayActivity.class);
                             }
                             catch (NullPointerException e) {
+                                startToast("기록이 없습니다.");
+                            }
+                            catch (ArrayIndexOutOfBoundsException e) {
                                 startToast("기록이 없습니다.");
                             }
                         }
@@ -216,6 +222,9 @@ public class MainActivity extends AppCompatActivity {
                             catch (NullPointerException e) {
                                 startToast("기록이 없습니다.");
                             }
+                            catch (ArrayIndexOutOfBoundsException e) {
+                                startToast("기록이 없습니다.");
+                            }
                         }
                     }
                     else {
@@ -233,6 +242,9 @@ public class MainActivity extends AppCompatActivity {
                                 myStartActivity(FindSubwayActivity.class);
                             }
                             catch (NullPointerException e) {
+                                startToast("기록이 없습니다.");
+                            }
+                            catch (ArrayIndexOutOfBoundsException e) {
                                 startToast("기록이 없습니다.");
                             }
                         }
