@@ -69,6 +69,9 @@ public class TrainActivity extends AppCompatActivity {
     String showResult2;
     int buttonMode = 1;
 
+    int[] imgs = {R.drawable.node_icon, R.drawable.ic_more_vert_black_24dp};
+
+
     Context context;
     AttributeSet attrs;
 
@@ -104,22 +107,28 @@ public class TrainActivity extends AppCompatActivity {
             showResult1 += ("<" + driveInfoLaneName[i] + ">\n");
             showResult2 += ("<" + driveInfoLaneName[i] + ">\n");
 
-            image.setImageResource(R.drawable.node_icon);
+            //image.setImageResource(R.drawable.node_icon);
+            System.out.print(imgs[0]);
             showResult1 += (stationsStartName[count] + "\n");  //현재역
-            image.setImageResource(R.drawable.ic_more_vert_black_24dp);
+            //image.setImageResource(R.drawable.ic_more_vert_black_24dp);
+            System.out.print(imgs[1]);
             System.out.println("\n");
 
-            image.setImageResource(R.drawable.node_icon);
+            //image.setImageResource(R.drawable.node_icon);
+            System.out.print(imgs[0]);
             showResult2 += (stationsStartName[count] + "\n");  //현재역
-            image.setImageResource(R.drawable.ic_more_vert_black_24dp);
+            //image.setImageResource(R.drawable.ic_more_vert_black_24dp);
+            System.out.print(imgs[1]);
             System.out.println("\n");
 
             showResult1 += (stationsEndName[driveInfoStationCount[i] + count - 1] + "\n");
             //showResult1 += (stationsEndName[driveInfoStationCount[i] + count - 1] + "(" + stationsTravelTime[driveInfoStationCount[i] + count - 1] + "분)\n");
             for (int j = count; j < driveInfoStationCount[i] + count; j++) {
-                image.setImageResource(R.drawable.node_icon);
+                //image.setImageResource(R.drawable.node_icon);
+                System.out.print(imgs[0]);
                 showResult2 += (stationsEndName[j] + "(" + stationsTravelTime[j] + "분)\n");
-                image.setImageResource(R.drawable.ic_more_vert_black_24dp);
+                //image.setImageResource(R.drawable.ic_more_vert_black_24dp);
+                System.out.print(imgs[1]);
                 System.out.println("\n");
                 //다음역 (현 구간 소요 시간)
             }

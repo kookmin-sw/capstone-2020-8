@@ -27,6 +27,7 @@
             android:text="자세히" />
 
         <TextView
+            android:drawableStart="@drawable/node_icon"
             android:background="@drawable/border_layout"
             android:id="@+id/textView_sample"
             android:layout_width="wrap_content"
@@ -35,7 +36,6 @@
             android:layout_weight="11"
             android:padding="25dp"
             android:gravity="center|left"
-            android:drawableLeft="@drawable/node_icon"
             android:text="지하철 간편도"
             android:textSize="16sp"
             />
