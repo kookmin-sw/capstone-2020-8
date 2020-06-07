@@ -641,7 +641,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        myStartActivity(MainActivity.class);
+        myStartActivity(TrainActivity.class);
     }
 
     private void startToast(String msg) {
