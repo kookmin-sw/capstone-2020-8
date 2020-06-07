@@ -49,6 +49,7 @@ public class TrainActivity extends AppCompatActivity {
     int pastStationCount = 0;
     int transferCount = 0;
     int total_size = 0;
+    int de_position = 0;
     List<String> train = new ArrayList<>();
 
     String showResult1;
@@ -126,7 +127,20 @@ public class TrainActivity extends AppCompatActivity {
 
         final int stationsLength = intent.getExtras().getInt("stationsLength");   //역 개수. 즉 stations 라고 앞에 붙은 데이터들의 Length.
 
-
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), position + " 번째 값 : " + parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
+                Intent intent = getIntent();
+                de_position = position;
+                Intent intent1 = new Intent(parent.getContext(),PopupActivity.class);
+                intent1.putExtra("data",Integer.toString(total_size));
+                intent1.putExtra("trainName",parent.getItemAtPosition(position).toString());
+                intent1.putExtras(intent);
+                startActivityForResult(intent1,1);
+                //myStartActivity(ViewSeatsActivity.class, parent.getItemAtPosition(position).toString());
+            }
+        });
 
         db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB)
                 .get()
@@ -209,19 +223,7 @@ public class TrainActivity extends AppCompatActivity {
         bt_moreStations.setOnClickListener(onClickListener);
 
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), position + " 번째 값 : " + parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
-                Intent intent = getIntent();
-                Intent intent1 = new Intent(parent.getContext(),PopupActivity.class);
-                intent1.putExtra("data",Integer.toString(total_size));
-                intent1.putExtra("trainName",parent.getItemAtPosition(position).toString());
-                intent1.putExtras(intent);
-                startActivityForResult(intent1,1);
-                //myStartActivity(ViewSeatsActivity.class, parent.getItemAtPosition(position).toString());
-            }
-        });
+
 
     }
 
