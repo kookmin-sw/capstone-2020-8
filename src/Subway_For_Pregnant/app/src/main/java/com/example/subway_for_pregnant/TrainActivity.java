@@ -23,7 +23,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Thread.sleep;
 
 public class TrainActivity extends AppCompatActivity {
 
@@ -172,6 +171,7 @@ public class TrainActivity extends AppCompatActivity {
                                                                             Log.d(TAG, "사이즈 크기는 " + total_size);
                                                                         } catch (InterruptedException e) {
                                                                         }
+
                                                                     }
                                                                 } else {
                                                                     Log.d(TAG, "ERROR");
