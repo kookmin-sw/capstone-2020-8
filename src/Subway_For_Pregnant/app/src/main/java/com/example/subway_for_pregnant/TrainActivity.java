@@ -82,7 +82,6 @@ public class TrainActivity extends AppCompatActivity {
             showResult1 += (stationsStartName[count] + "\n");  //현재역
             showResult2 += (stationsStartName[count] + "\n");  //현재역
             showResult1 += (stationsEndName[driveInfoStationCount[i] + count - 1] + "\n");
-            //showResult1 += (stationsEndName[driveInfoStationCount[i] + count - 1] + "(" + stationsTravelTime[driveInfoStationCount[i] + count - 1] + "분)\n");
             for (int j = count; j < driveInfoStationCount[i] + count; j++) {
                 showResult2 += (stationsEndName[j] + "(" + stationsTravelTime[j] + "분)\n");
                 //다음역 (현 구간 소요 시간)
