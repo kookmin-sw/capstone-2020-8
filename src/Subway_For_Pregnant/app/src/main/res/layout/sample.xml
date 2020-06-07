@@ -27,7 +27,6 @@
             android:text="자세히" />
 
         <TextView
-            android:drawableStart="@drawable/node_icon"
             android:background="@drawable/border_layout"
             android:id="@+id/textView_sample"
             android:layout_width="wrap_content"

@@ -96,8 +96,6 @@ public class TrainActivity extends AppCompatActivity {
 
         initIntents();
 
-        ImageView image=new ImageView(this);
-
         showResult1 = "";
         showResult1 += ("출발역: " + globalStartName + "\n도착역: " + globalEndName + "\n\n");
         showResult2 = "";
@@ -107,29 +105,11 @@ public class TrainActivity extends AppCompatActivity {
         for (int i = 0; i < driveInfoLength; i++) {
             showResult1 += ("<" + driveInfoLaneName[i] + ">\n");
             showResult2 += ("<" + driveInfoLaneName[i] + ">\n");
-
-            //image.setImageResource(R.drawable.node_icon);
-            System.out.print(imgs[0]);
             showResult1 += (stationsStartName[count] + "\n");  //현재역
-            //image.setImageResource(R.drawable.ic_more_vert_black_24dp);
-            System.out.print(imgs[1]);
-            System.out.println("\n");
-
-            //image.setImageResource(R.drawable.node_icon);
-            System.out.print(imgs[0]);
             showResult2 += (stationsStartName[count] + "\n");  //현재역
-            //image.setImageResource(R.drawable.ic_more_vert_black_24dp);
-            System.out.print(imgs[1]);
-            System.out.println("\n");
-
             showResult1 += (stationsEndName[driveInfoStationCount[i] + count - 1] + "\n");
             for (int j = count; j < driveInfoStationCount[i] + count; j++) {
-                //image.setImageResource(R.drawable.node_icon);
-                System.out.print(imgs[0]);
                 showResult2 += (stationsEndName[j] + "(" + stationsTravelTime[j] + "분)\n");
-                //image.setImageResource(R.drawable.ic_more_vert_black_24dp);
-                System.out.print(imgs[1]);
-                System.out.println("\n");
                 //다음역 (현 구간 소요 시간)
             }
 
