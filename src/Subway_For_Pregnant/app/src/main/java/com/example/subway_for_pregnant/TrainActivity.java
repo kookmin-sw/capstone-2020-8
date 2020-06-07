@@ -4,15 +4,28 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
+
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,6 +38,11 @@ import java.util.List;
 
 
 public class TrainActivity extends AppCompatActivity {
+
+    static public int ORIENTATION_HORIZONTAL = 0;
+    static public int ORIENTATION_VERTICAL = 1;
+    private Paint mPaint;
+    private int orientation;
 
     private static final String TAG = "TrainActivity";
     final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -51,8 +69,17 @@ public class TrainActivity extends AppCompatActivity {
     String showResult2;
     int buttonMode = 1;
 
+    Context context;
+    AttributeSet attrs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        int dashGap, dashLength, dashThickness;
+        int color;
+
+        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.DividerView, 0, 0);
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.sample);
@@ -65,6 +92,8 @@ public class TrainActivity extends AppCompatActivity {
 
         initIntents();
 
+        ImageView image=new ImageView(this);
+
         showResult1 = "";
         showResult1 += ("출발역: " + globalStartName + "\n도착역: " + globalEndName + "\n\n");
         showResult2 = "";
@@ -74,12 +103,24 @@ public class TrainActivity extends AppCompatActivity {
         for (int i = 0; i < driveInfoLength; i++) {
             showResult1 += ("<" + driveInfoLaneName[i] + ">\n");
             showResult2 += ("<" + driveInfoLaneName[i] + ">\n");
+
+            image.setImageResource(R.drawable.node_icon);
             showResult1 += (stationsStartName[count] + "\n");  //현재역
+            image.setImageResource(R.drawable.ic_more_vert_black_24dp);
+            System.out.println("\n");
+
+            image.setImageResource(R.drawable.node_icon);
             showResult2 += (stationsStartName[count] + "\n");  //현재역
+            image.setImageResource(R.drawable.ic_more_vert_black_24dp);
+            System.out.println("\n");
+
             showResult1 += (stationsEndName[driveInfoStationCount[i] + count - 1] + "\n");
             //showResult1 += (stationsEndName[driveInfoStationCount[i] + count - 1] + "(" + stationsTravelTime[driveInfoStationCount[i] + count - 1] + "분)\n");
             for (int j = count; j < driveInfoStationCount[i] + count; j++) {
+                image.setImageResource(R.drawable.node_icon);
                 showResult2 += (stationsEndName[j] + "(" + stationsTravelTime[j] + "분)\n");
+                image.setImageResource(R.drawable.ic_more_vert_black_24dp);
+                System.out.println("\n");
                 //다음역 (현 구간 소요 시간)
             }
             showResult1 += (driveInfoStationCount[i] + "개 역 이동\n");
@@ -222,6 +263,7 @@ public class TrainActivity extends AppCompatActivity {
                 default:
                     break;
             }
+
         }
     };
 
@@ -275,4 +317,6 @@ public class TrainActivity extends AppCompatActivity {
         intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent2);
     }
+
+
 }

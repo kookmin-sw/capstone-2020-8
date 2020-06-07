@@ -27,33 +27,46 @@
         android:layout_height="wrap_content">
     </androidx.appcompat.widget.Toolbar>
 
-    <Button
-        android:id="@+id/trainbutton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="지하철 좌석 예약"
-        android:layout_below="@+id/view_toolbar"/>
+        <Button
+            android:id="@+id/trainbutton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="지하철 좌석 예약"
+            android:textSize="23dp"
+            android:layout_below="@+id/view_toolbar"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/rounded_corner"/>
 
-    <Button
-        android:id="@+id/bluetoothButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="블루투스 TEST"
-        android:layout_below="@+id/trainbutton"/>
+        <Button
+            android:id="@+id/bluetoothButton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="블루투스 TEST"
+            android:textSize="23dp"
+            android:layout_below="@+id/trainbutton"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/rounded_corner"/>
 
-    <Button
-        android:id="@+id/socketButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Socket TEST"
-        android:layout_below="@+id/bluetoothButton"/>
+        <Button
+            android:id="@+id/socketButton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Socket TEST"
+            android:textSize="23dp"
+            android:layout_below="@+id/bluetoothButton"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/rounded_corner"/>
 
-    <Button
-        android:id="@+id/logoutButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/socketButton"
-        android:text="로그아웃" />`
+        <Button
+            android:id="@+id/logoutButton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/socketButton"
+            android:layout_marginBottom="15dp"
+            android:text="로그아웃"
+            android:textSize="23dp"
+            android:background="@drawable/rounded_corner"/>`
 </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView

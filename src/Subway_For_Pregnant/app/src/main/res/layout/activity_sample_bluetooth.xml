@@ -5,8 +5,9 @@
 
     <Button
         android:id="@+id/Run"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/round_button"
         android:text="RunButton" />
 
     <TextView
