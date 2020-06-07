@@ -28,18 +28,22 @@ hx.set_reference_unit(referenceUnit)
 hx.reset()
 hx.tare()
 
-mqtt = mqtt.Client("PinkLight 1") # MQTT Client Name
+mqtt = mqtt.Client("Pi2") # MQTT Client Name
 mqtt.connect("192.168.137.1", 1883) # MQTT Broker Add
 
-cnt = 0
+cnt = 2
+
 while True:
     try:
         val = hx.get_weight(5)
         if val <= 20 * 4: # load under 20Kg
-            mqtt.publish("IoT", "{\"seat\":0}") # Topic Name, Message
+            if cnt % 2 == 0:
+                mqtt.publish("Pi2", "{\"s2_isSit\":true}") # Topic Name, Message
+            else :
+                mqtt.publish("Pi2", "{\"s2_isSit\":false}")
             cnt += 1 
         else: # load over 20Kg
-            mqtt.publish("IoT", "{\"seat\":1}") # Topic Name, Message
+            mqtt.publish("IoT", "{\"s2_isSit\":false}")
             cnt -= 1
 
         hx.power_down()
@@ -50,3 +54,5 @@ while True:
         cleanAndExit()
         
 mqtt.loop(5)
+
+
