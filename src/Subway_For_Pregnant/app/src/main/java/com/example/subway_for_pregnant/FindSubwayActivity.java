@@ -156,6 +156,8 @@ public class FindSubwayActivity extends AppCompatActivity {
                 menuItem.setChecked(true);
                 drawerLayout2.closeDrawers();
 
+                EditText et_startStat = (EditText) findViewById(R.id.editText_startStat);
+                EditText et_endStat = (EditText) findViewById(R.id.editText_endStat);
                 int id = menuItem.getItemId();
                 String title = menuItem.getTitle().toString();
 
@@ -184,9 +186,8 @@ public class FindSubwayActivity extends AppCompatActivity {
                             myStartActivity2(MainActivity.class);
                         } else {
                             try {
-                                globalHistoryStart = history[0];
-                                globalHistoryEnd = history[1];
-                                myStartActivity3(FindSubwayActivity.class);
+                                et_startStat.setText(history[0]);
+                                et_endStat.setText(history[1]);
                             }
                             catch (NullPointerException e) {
                                 startToast("기록이 없습니다.");
@@ -203,9 +204,8 @@ public class FindSubwayActivity extends AppCompatActivity {
                             myStartActivity2(MainActivity.class);
                         } else {
                             try {
-                                globalHistoryStart = history[2];
-                                globalHistoryEnd = history[3];
-                                myStartActivity3(FindSubwayActivity.class);
+                                et_startStat.setText(history[2]);
+                                et_endStat.setText(history[3]);
                             }
                             catch (NullPointerException e) {
                                 startToast("기록이 없습니다.");
@@ -222,9 +222,8 @@ public class FindSubwayActivity extends AppCompatActivity {
                             myStartActivity2(MainActivity.class);
                         } else {
                             try {
-                                globalHistoryStart = history[4];
-                                globalHistoryEnd = history[5];
-                                myStartActivity3(FindSubwayActivity.class);
+                                et_startStat.setText(history[4]);
+                                et_endStat.setText(history[5]);
                             }
                             catch (NullPointerException e) {
                                 startToast("기록이 없습니다.");
@@ -241,9 +240,8 @@ public class FindSubwayActivity extends AppCompatActivity {
                             myStartActivity2(MainActivity.class);
                         } else {
                             try {
-                                globalHistoryStart = history[6];
-                                globalHistoryEnd = history[7];
-                                myStartActivity3(FindSubwayActivity.class);
+                                et_startStat.setText(history[6]);
+                                et_endStat.setText(history[7]);
                             }
                             catch (NullPointerException e) {
                                 startToast("기록이 없습니다.");
@@ -486,20 +484,6 @@ public class FindSubwayActivity extends AppCompatActivity {
         Intent intent = new Intent(this, c);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-    }
-
-    private void myStartActivity3(Class c) {
-        Intent intent = getIntent();
-        Intent intent2 = new Intent(this, c);
-        intent2.putExtras(intent);
-        if (globalHistoryStart.length() > 0) {
-            intent2.putExtra("historyStart", globalHistoryStart);
-        }
-        if (globalHistoryEnd.length() > 0) {
-            intent2.putExtra("historyEnd", globalHistoryEnd);
-        }
-        intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent2);
     }
 
     private String findStationCode(String stationName) {
