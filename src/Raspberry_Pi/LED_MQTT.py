@@ -3,28 +3,27 @@ import paho.mqtt.client as mqtt
 import RPi.GPIO as GPIO
 import time
 
+GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
-LED = 17
-GPIO.setup(LED, GPIO.OUT, initial = GPIO.LOW)
+LED_All, LED_Res = 17, 18
+GPIO.setup(LED_All, GPIO.OUT, initial = GPIO.LOW)
+GPIO.setup(LED_Res, GPIO.OUT, initial = GPIO.LOW)
 
 def led_pattern(ptn_type):
-    # 
+    
     if str(ptn_type) == "1":
-        for i in range(10):
-            GPIO.output(LED, GPIO.HIGH)
-            time.sleep(0.5)
-            GPIO.output(LED, GPIO.LOW)
-            time.sleep(0.5)
+        GPIO.output(LED_All, GPIO.HIGH)
     elif str(ptn_type) == "2":
-        GPIO.output(LED, GPIO.HIGH)
+        GPIO.output(LED_Res, GPIO.HIGH)
     else:
-        GPIO.output(LED, GPIO.LOW)
+        GPIO.output(LED_All, GPIO.LOW)
+        GPIO.output(LED_Res, GPIO.LOW)
 
 # 서버로부터 CONNTACK 응답을 받을 때 호출되는 콜백
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
     #client.subscribe("$SYS/#")
-    client.subscribe("LED602") #구독 "LED2"
+    client.subscribe("LED601") #구독 "LED2"
 
 # 서버로부터 publish message를 받을 때 호출되는 콜백
 def on_message(client, userdata, msg):
