@@ -140,7 +140,7 @@ client.on("message", (topic, message) => {
 
 function pubMinor() {
   if (minor != "") {
-    client.publish(minor, "1")
+    client.publish("LED" + minor, "1")
     minor = ""
   }
 }
