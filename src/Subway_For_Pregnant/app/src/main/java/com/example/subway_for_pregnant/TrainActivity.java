@@ -214,8 +214,11 @@ public class TrainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getApplicationContext(), position + " 번째 값 : " + parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
+                Intent intent = getIntent();
                 Intent intent1 = new Intent(parent.getContext(),PopupActivity.class);
                 intent1.putExtra("data",Integer.toString(total_size));
+                intent1.putExtra("trainName",parent.getItemAtPosition(position).toString());
+                intent1.putExtras(intent);
                 startActivityForResult(intent1,1);
                 //myStartActivity(ViewSeatsActivity.class, parent.getItemAtPosition(position).toString());
             }
