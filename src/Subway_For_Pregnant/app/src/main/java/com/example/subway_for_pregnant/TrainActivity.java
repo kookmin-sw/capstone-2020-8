@@ -133,7 +133,6 @@ public class TrainActivity extends AppCompatActivity {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
 
-                        listView.setAdapter(new ArrayAdapter<String>(TrainActivity.this, android.R.layout.simple_list_item_1, train));
 
                         db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document(train.get(0)).collection("car")
                                 .get()
@@ -180,27 +179,35 @@ public class TrainActivity extends AppCompatActivity {
                                                             }
                                                         });
                                                 try {
-                                                    Thread.sleep(1000);
+                                                    Thread.sleep(10);
                                                 } catch (InterruptedException e) {
 
                                                 }
                                             }
+
                                         }
                                     }
                                 });
+
+                        listView.setAdapter(new ArrayAdapter<String>(TrainActivity.this, android.R.layout.simple_list_item_1, train));
+
                     }
                 });
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getApplicationContext(), position + " 번째 값 : " + parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
-                myStartActivity(ViewSeatsActivity.class, parent.getItemAtPosition(position).toString());
+                Intent intent1 = new Intent(parent.getContext(),PopupActivity.class);
+                intent1.putExtra("data",Integer.toString(total_size));
+                startActivityForResult(intent1,1);
+                //myStartActivity(ViewSeatsActivity.class, parent.getItemAtPosition(position).toString());
             }
         });
 
-
     }
+
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
