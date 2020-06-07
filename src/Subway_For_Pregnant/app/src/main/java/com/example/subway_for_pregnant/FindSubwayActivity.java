@@ -364,33 +364,6 @@ public class FindSubwayActivity extends AppCompatActivity {
 
             jsonObject = oDsayData.getJson();
             saveHistory();
-            //myStartActivity(TrainActivity.class);
-/*
-            try {
-                //tv_data.setText(jsonObject.toString());
-                //tv_data.setText("" + );
-                tv_data.setText(
-                    "출발역 : " + jsonObject.getJSONObject("result").getString("globalStartName")
-                        + "\n"
-                        + "도착역 : " + jsonObject.getJSONObject("result").getString("globalEndName")
-                        + "\n"
-                        + "걸리는 시간 : " + jsonObject.getJSONObject("result").getInt("globalTravelTime") + "분"
-                        + "\n"
-                        + "총 거리: " + jsonObject.getJSONObject("result").getInt("globalDistance") + "km"
-                        + "\n"
-                        + "총 정거장 : " + jsonObject.getJSONObject("result").getInt("globalStationCount") + "정거장"
-                        + "\n"
-                        + "카드요금 : " + jsonObject.getJSONObject("result").getInt("fare") + "원"
-                        + "\n"
-                        + "현금 : " + jsonObject.getJSONObject("result").getInt("cashFare") + "원"
-                );
-            } catch (JSONException e) {
-                tv_data.setText("ㅁㄴㅇㄻㄴㅇㄹ");
-                e.printStackTrace();
-            } */
-
-// 혹시 모르니 파싱 데이터 내비둘것 2020.04.22
-
         }
 
         @Override
