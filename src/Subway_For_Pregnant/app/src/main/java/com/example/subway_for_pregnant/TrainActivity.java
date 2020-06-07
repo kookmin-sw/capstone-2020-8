@@ -41,6 +41,10 @@ public class TrainActivity extends AppCompatActivity {
     String[] stationsEndName;
     int[] stationsEndSID;
     int[] stationsTravelTime;
+    int exchangeInfoLength;
+    int[] exChangeInfoExSID;
+    int[] exChangeInfoFastTrain;
+    int[] exChangeInfoFastDoor;
 
     int pastStationCount = 0;
     int transferCount = 0;
@@ -58,6 +62,7 @@ public class TrainActivity extends AppCompatActivity {
         setContentView(R.layout.sample);
 
         TextView tv_sample = findViewById(R.id.textView_sample);
+        Button bt_moreStations = findViewById(R.id.button_moreStations);
         final ListView listView = findViewById(R.id.listView);
 
         String laneInfo = "0";
@@ -82,10 +87,17 @@ public class TrainActivity extends AppCompatActivity {
                 showResult2 += (stationsEndName[j] + "(" + stationsTravelTime[j] + "분)\n");
                 //다음역 (현 구간 소요 시간)
             }
-            showResult1 += (driveInfoStationCount[i] + "개 역 이동\n");
-            showResult2 += (driveInfoStationCount[i] + "개 역 이동\n");
-            showResult1 += ("\n\n");
-            showResult2 += ("\n\n");
+
+            showResult1 += (driveInfoStationCount[i] + "개 역 이동\n\n");
+            showResult2 += (driveInfoStationCount[i] + "개 역 이동\n\n");
+
+            if (driveInfoLength > 1 && i < driveInfoLength - 1) {
+                showResult1 += ("빠른 환승: " + exChangeInfoFastTrain[i] + "-" + exChangeInfoFastDoor[i] + "\n");
+                showResult2 += ("빠른 환승: " + exChangeInfoFastTrain[i] + "-" + exChangeInfoFastDoor[i] + "\n");
+            }
+
+            showResult1 += ("\n");
+            showResult2 += ("\n");
             count += driveInfoStationCount[i];
         }
 
@@ -195,6 +207,9 @@ public class TrainActivity extends AppCompatActivity {
                 });
 
 
+        bt_moreStations.setOnClickListener(onClickListener);
+
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -249,6 +264,12 @@ public class TrainActivity extends AppCompatActivity {
         stationsEndName = new String[stationsLength];
         stationsEndSID = new int[stationsLength];
         stationsTravelTime = new int[stationsLength];
+        exchangeInfoLength = intent.getExtras().getInt("exChangeInfoLength");
+        if (exchangeInfoLength > 0) {
+            exChangeInfoExSID = new int[exchangeInfoLength];
+            exChangeInfoFastTrain = new int[exchangeInfoLength];
+            exChangeInfoFastDoor = new int[exchangeInfoLength];
+        }
 
         for (int i = 0; i < driveInfoLength; i++) {
             driveInfoStationCount[i] = intent.getExtras().getInt("driveInfoStationCount" + i);
@@ -262,6 +283,12 @@ public class TrainActivity extends AppCompatActivity {
             stationsEndName[i] = intent.getExtras().getString("stationsEndName" + i);
             stationsEndSID[i] = intent.getExtras().getInt("stationsEndSID" + i);
             stationsTravelTime[i] = intent.getExtras().getInt("stationsTravelTime" + i);
+        }
+
+        for (int i = 0; i < exchangeInfoLength; i++) {
+            exChangeInfoExSID[i] = intent.getExtras().getInt("exChangeInfoExSID" + i);
+            exChangeInfoFastTrain[i] = intent.getExtras().getInt("exChangeInfoFastTrain" + i);
+            exChangeInfoFastDoor[i] = intent.getExtras().getInt("exChangeInfoFastDoor" + i);
         }
 
         try {
@@ -283,5 +310,15 @@ public class TrainActivity extends AppCompatActivity {
 
         intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent2);
+    }
+
+    private void myStartActivity2(Class c) {
+        Intent intent = new Intent(this, c);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+    public void onBackPressed() {
+        myStartActivity2(MainActivity.class);
     }
 }
