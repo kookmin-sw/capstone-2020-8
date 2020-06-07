@@ -21,7 +21,7 @@
         android:text="좌석 탐색"
         android:textSize="50sp"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@id/button_Refresh"
+        app:layout_constraintBottom_toTopOf="@id/railbox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></TextView>
@@ -270,7 +270,7 @@
         android:id="@+id/box_inside"
         android:layout_width="414dp"
         android:layout_height="161dp"
-        android:background="@drawable/border_layout"
+        android:background="@drawable/subway_seat"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -282,6 +282,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="horizontal"
+        android:layout_marginTop="45dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -290,17 +291,18 @@
 
         <Button
             android:id="@+id/button_Seat1"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_weight="1"
-            android:layout_marginRight="120dp"/>
+            android:layout_marginRight="195dp"/>
 
 
         <Button
             android:id="@+id/button_Seat2"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_weight="1" />
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"/>
 
     </LinearLayout>
 
@@ -310,6 +312,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -351,8 +354,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="열차상태 새로고침"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_name" />
+        android:textSize="20dp"
+        android:background="@drawable/rounded_corner"
+        app:layout_constraintTop_toTopOf="@id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="@id/linearLayout3"
+        app:layout_constraintBottom_toBottomOf="@id/linearLayout3"
+        android:layout_marginEnd="30dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

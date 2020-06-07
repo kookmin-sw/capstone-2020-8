@@ -1,20 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape>
+            <stroke android:width = "3dp"
+                android:color= "#E380A1"/>
+            <solid android:color="#F1D9E1"/>
 
-    <stroke android:width = "3dp"
-        android:color= "#E380A1"/>
-    <solid android:color="#F1D9E1"/>
+            <!--    <stroke android:width="3dp"-->
+            <!--        android:color="#ff000000" />-->
 
-    <!--    <stroke android:width="3dp"-->
-    <!--        android:color="#ff000000" />-->
+            <!--    <padding android:left="1dp"-->
+            <!--        android:top="1dp"-->
+            <!--        android:right="1dp"-->
+            <!--        android:bottom="1dp" />-->
 
-    <!--    <padding android:left="1dp"-->
-    <!--        android:top="1dp"-->
-    <!--        android:right="1dp"-->
-    <!--        android:bottom="1dp" />-->
+            <corners android:bottomRightRadius="30dp"
+                android:bottomLeftRadius="30dp"
+                android:topLeftRadius="30dp"
+                android:topRightRadius="30dp" />
+        </shape>
+    </item>
 
-    <corners android:bottomRightRadius="30dp"
-        android:bottomLeftRadius="30dp"
-        android:topLeftRadius="30dp"
-        android:topRightRadius="30dp" />
-</shape>
+    <item android:state_pressed="false">
+        <shape>
+            <stroke android:width = "3dp"
+                android:color= "#E380A1"/>
+            <solid android:color="#FFFFFF"/>
+
+            <!--    <stroke android:width="3dp"-->
+            <!--        android:color="#ff000000" />-->
+
+            <!--    <padding android:left="1dp"-->
+            <!--        android:top="1dp"-->
+            <!--        android:right="1dp"-->
+            <!--        android:bottom="1dp" />-->
+
+            <corners android:bottomRightRadius="30dp"
+                android:bottomLeftRadius="30dp"
+                android:topLeftRadius="30dp"
+                android:topRightRadius="30dp" />
+        </shape>
+    </item>
+</selector>
