@@ -78,11 +78,6 @@ public class TrainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        int dashGap, dashLength, dashThickness;
-        int color;
-
-        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.DividerView, 0, 0);
-
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.sample);
