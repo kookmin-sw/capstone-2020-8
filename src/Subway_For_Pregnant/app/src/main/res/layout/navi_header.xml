@@ -27,13 +27,4 @@
         android:textColor="#D6547F"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:textColor="#D6547F"
-        android:textSize="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:text="@string/nav_header_subtitle" />
-
 </LinearLayout>
