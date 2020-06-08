@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -105,10 +107,17 @@ public class TrainActivity extends AppCompatActivity {
         for (int i = 0; i < driveInfoLength; i++) {
             showResult1 += ("<" + driveInfoLaneName[i] + ">\n");
             showResult2 += ("<" + driveInfoLaneName[i] + ">\n");
+
+            tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
             showResult1 += (stationsStartName[count] + "\n");  //현재역
+            tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
             showResult2 += (stationsStartName[count] + "\n");  //현재역
+
+            tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
             showResult1 += (stationsEndName[driveInfoStationCount[i] + count - 1] + "\n");
+
             for (int j = count; j < driveInfoStationCount[i] + count; j++) {
+                tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
                 showResult2 += (stationsEndName[j] + "(" + stationsTravelTime[j] + "분)\n");
                 //다음역 (현 구간 소요 시간)
             }
