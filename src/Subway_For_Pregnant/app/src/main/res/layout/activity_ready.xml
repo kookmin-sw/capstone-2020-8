@@ -38,6 +38,7 @@
         android:layout_below="@id/main_text"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="-11dp"
+        android:orientation="vertical"
         android:background="@drawable/border_layout"></LinearLayout>
 
 
@@ -116,9 +117,9 @@
             android:id="@+id/button_sit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
             android:background="@drawable/rounded_corner"
             android:text="도착"
+            android:padding="5dp"
             android:textAllCaps="false"
             android:textColor="#D6547F"
             android:textSize="35dp" />
@@ -132,7 +133,21 @@
             android:text="예약취소"
             android:textAllCaps="false"
             android:textColor="#D6547F"
+            android:padding="5dp"
             android:textSize="35dp" />
+
+        <Button
+            android:id="@+id/LED"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/rounded_corner"
+            android:text="LED"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:textColor="#D6547F"
+            android:padding="5dp"
+            android:textSize="35dp"
+            />
     </LinearLayout>
 
 </RelativeLayout>
