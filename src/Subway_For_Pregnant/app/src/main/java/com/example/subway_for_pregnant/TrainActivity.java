@@ -112,16 +112,16 @@ public class TrainActivity extends AppCompatActivity {
             showResult2 += ("<" + driveInfoLaneName[i] + ">\n");
 
             //tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
-            showResult1 += (stationsStartName[count] + "\n" + "|" + "\n");  //현재역
+            showResult1 += ("● " + stationsStartName[count] + "\n" + "↓" + "\n");  //현재역
             //tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
-            showResult2 += (stationsStartName[count] + "\n" + "|" + "\n");  //현재역
+            showResult2 += ("● " + stationsStartName[count] + "\n" + "↓" + "\n");  //현재역
 
             //tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
-            showResult1 += (stationsEndName[driveInfoStationCount[i] + count - 1] + "\n");
+            showResult1 += ("● " + stationsEndName[driveInfoStationCount[i] + count - 1] + "\n");
 
             for (int j = count; j < driveInfoStationCount[i] + count; j++) {
                 //tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
-                showResult2 += (stationsEndName[j] + "(" + stationsTravelTime[j] + "분)\n" + "|" + "\n");
+                showResult2 += ("● " + stationsEndName[j] + "(" + stationsTravelTime[j] + "분)\n" + "↓" + "\n");
                 //다음역 (현 구간 소요 시간)
             }
 
@@ -129,8 +129,8 @@ public class TrainActivity extends AppCompatActivity {
             showResult2 += (driveInfoStationCount[i] + "개 역 이동\n\n");
 
             if (driveInfoLength > 1 && i < driveInfoLength - 1) {
-                showResult1 += ("빠른 환승: " + exChangeInfoFastTrain[i] + "-" + exChangeInfoFastDoor[i] + "\n");
-                showResult2 += ("빠른 환승: " + exChangeInfoFastTrain[i] + "-" + exChangeInfoFastDoor[i] + "\n");
+                showResult1 += ("== " + "빠른 환승: " + exChangeInfoFastTrain[i] + "-" + exChangeInfoFastDoor[i] + " ==\n");
+                showResult2 += ("== " + "빠른 환승: " + exChangeInfoFastTrain[i] + "-" + exChangeInfoFastDoor[i] + " ==\n");
             }
 
             showResult1 += ("\n");
