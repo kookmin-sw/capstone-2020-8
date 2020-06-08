@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.method.ScrollingMovementMethod;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -92,6 +93,8 @@ public class TrainActivity extends AppCompatActivity {
         TextView tv_sample = findViewById(R.id.textView_sample);
         Button bt_moreStations = findViewById(R.id.button_moreStations);
         final ListView listView = findViewById(R.id.listView);
+
+        tv_sample.setMovementMethod(new ScrollingMovementMethod());
 
         String laneInfo = "0";
         String driveInfo = "0";
