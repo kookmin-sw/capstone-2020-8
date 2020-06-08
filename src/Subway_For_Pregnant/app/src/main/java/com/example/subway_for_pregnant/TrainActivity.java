@@ -275,14 +275,14 @@ public class TrainActivity extends AppCompatActivity {
                 case R.id.button_moreStations:
                     if (buttonMode == 1) {
 
-                        tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
+                        //tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
                         tv_sample.setText(showResult2);
                         bt_moreSt.setText("간단히");
                         buttonMode = 2;
                     }
                     else {
 
-                        tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
+                        //tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
                         tv_sample.setText(showResult1);
                         bt_moreSt.setText("자세히");
                         buttonMode = 1;
