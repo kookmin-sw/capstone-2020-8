@@ -15,14 +15,16 @@
 
     <TextView
         android:id="@+id/title_name"
-        android:background="@drawable/border_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/border_layout"
         android:text="좌석 탐색"
-        android:textSize="50sp"
         android:textAlignment="center"
+        android:textSize="45sp"
+        android:textColor="#D6547F"
         app:layout_constraintBottom_toTopOf="@id/railbox"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></TextView>
 
@@ -31,10 +33,11 @@
         android:layout_width="900dp"
         android:layout_height="225dp"
         android:background="@drawable/trail_resource"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_name"></View>
+        app:layout_constraintTop_toBottomOf="@+id/title_name"
+        app:layout_constraintBottom_toTopOf="@+id/box_inside"></View>
 
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
@@ -250,31 +253,16 @@
         </LinearLayout>
     </HorizontalScrollView>
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/border_layout"
-        android:text="=== 열차 가는 방향 ==>"
-        android:textAlignment="center"
-        android:textSize="35sp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/box_inside"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/railbox" />
-
     <View
         android:id="@+id/box_inside"
         android:layout_width="414dp"
         android:layout_height="161dp"
         android:background="@drawable/subway_seat"
+        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView3"></View>
+        app:layout_constraintTop_toBottomOf="@id/railbox"></View>
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -312,10 +300,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@id/box_inside">
 
         <TextView
@@ -355,7 +343,9 @@
         android:layout_height="wrap_content"
         android:text="열차상태 새로고침"
         android:textSize="20dp"
+        android:padding="15dp"
         android:background="@drawable/rounded_corner"
+        android:textColor="#D6547F"
         app:layout_constraintTop_toTopOf="@id/linearLayout3"
         app:layout_constraintEnd_toEndOf="@id/linearLayout3"
         app:layout_constraintBottom_toBottomOf="@id/linearLayout3"

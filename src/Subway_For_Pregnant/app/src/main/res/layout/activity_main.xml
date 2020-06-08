@@ -19,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:gravity="center"
+        android:textColor="#D6547F"
         android:text="눈치보이조"
         android:textSize="34sp"
         android:textStyle="bold" />
@@ -73,6 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:background="@drawable/rounded_corner"
+            android:textColor="#D6547F"
             android:text="로그인"
             android:textSize="25dp"/>
 
@@ -83,6 +85,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/rounded_corner"
             android:text="회원가입"
+            android:textColor="#D6547F"
             android:textSize="25dp"/>
 
         <!--
