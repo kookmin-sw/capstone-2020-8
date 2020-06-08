@@ -108,17 +108,17 @@ public class TrainActivity extends AppCompatActivity {
             showResult1 += ("<" + driveInfoLaneName[i] + ">\n");
             showResult2 += ("<" + driveInfoLaneName[i] + ">\n");
 
-            tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
-            showResult1 += (stationsStartName[count] + "\n");  //현재역
-            tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
-            showResult2 += (stationsStartName[count] + "\n");  //현재역
+            //tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
+            showResult1 += (stationsStartName[count] + "\n" + "|" + "\n");  //현재역
+            //tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
+            showResult2 += (stationsStartName[count] + "\n" + "|" + "\n");  //현재역
 
-            tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
+            //tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
             showResult1 += (stationsEndName[driveInfoStationCount[i] + count - 1] + "\n");
 
             for (int j = count; j < driveInfoStationCount[i] + count; j++) {
-                tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
-                showResult2 += (stationsEndName[j] + "(" + stationsTravelTime[j] + "분)\n");
+                //tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
+                showResult2 += (stationsEndName[j] + "(" + stationsTravelTime[j] + "분)\n" + "|" + "\n");
                 //다음역 (현 구간 소요 시간)
             }
 
@@ -271,11 +271,15 @@ public class TrainActivity extends AppCompatActivity {
             switch (v.getId()) {
                 case R.id.button_moreStations:
                     if (buttonMode == 1) {
+
+                        tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
                         tv_sample.setText(showResult2);
                         bt_moreSt.setText("간단히");
                         buttonMode = 2;
                     }
                     else {
+
+                        tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
                         tv_sample.setText(showResult1);
                         bt_moreSt.setText("자세히");
                         buttonMode = 1;
