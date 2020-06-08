@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#eeeeee"
+    android:background="@drawable/text_box"
     android:orientation="vertical"
     android:layout_width="300dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="8dp">
 
     <!-- 타이틀바 -->
     <LinearLayout
@@ -13,9 +14,9 @@
         <TextView
             android:text="지하철 좌석 현황"
             android:textSize="20sp"
-            android:textColor="#fff"
+            android:textColor="#D6547F"
             android:gravity="center"
-            android:background="#ff7a00"
+            android:background="#F6D2D2"
             android:layout_width="match_parent"
             android:layout_height="53dp" />
     </LinearLayout>
@@ -53,18 +54,18 @@
         <Button
             android:text="확인"
             android:textSize="15sp"
-            android:textColor="#ff7a00"
+            android:textColor="#D6547F"
             android:padding="16dp"
-            android:background="#00000000"
+            android:background="@drawable/square_button"
             android:layout_width="150dp"
             android:layout_height="53dp"
             android:onClick="mOnOpen"/>
 
         <Button
             android:textSize="15sp"
-            android:textColor="#ff7a00"
+            android:textColor="#D6547F"
             android:padding="16dp"
-            android:background="#00000000"
+            android:background="@drawable/square_button"
             android:layout_width="150dp"
             android:layout_height="53dp"
             android:layout_weight="1"

@@ -24,12 +24,14 @@
         android:layout_marginTop="20dp"
         android:text="예약 현황"
         android:textAlignment="center"
-        android:textColor="#040404"
-        android:textSize="40dp"
+        android:textColor="#D6547F"
+        android:textSize="37dp"
         android:textStyle="bold"
+        android:padding="5dp"
         />
 
     <LinearLayout
+        android:id="@+id/text_cover"
         android:layout_width="match_parent"
         android:layout_height="488dp"
         android:layout_above="@id/button_wrap"
@@ -118,7 +120,7 @@
             android:background="@drawable/rounded_corner"
             android:text="도착"
             android:textAllCaps="false"
-            android:textColor="#000000"
+            android:textColor="#D6547F"
             android:textSize="35dp" />
 
         <Button
@@ -129,7 +131,7 @@
             android:background="@drawable/rounded_corner"
             android:text="예약취소"
             android:textAllCaps="false"
-            android:textColor="#000000"
+            android:textColor="#D6547F"
             android:textSize="35dp" />
     </LinearLayout>
 

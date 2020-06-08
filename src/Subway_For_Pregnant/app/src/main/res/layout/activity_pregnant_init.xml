@@ -16,6 +16,7 @@
         android:background="@drawable/border_layout"
         android:gravity="center"
         android:text="임산부 인증"
+        android:textColor="#D6547F"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -60,7 +61,9 @@
             android:layout_marginRight="20dp"
             android:layout_marginBottom="80dp"
             android:background="@drawable/rounded_corner"
-            android:text="등록" />
+            android:text="등록"
+            android:textColor="#D6547F"
+            android:textSize="20dp"/>
 
     </LinearLayout>
 
