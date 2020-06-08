@@ -1,6 +1,7 @@
 package com.example.subway_for_pregnant;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -73,6 +74,8 @@ public class TrainActivity extends AppCompatActivity {
     String showResult1;
     String showResult2;
     int buttonMode = 1;
+    int cnt = 0;
+    int cnt2;
 
     int[] imgs = {R.drawable.node_icon, R.drawable.ic_more_vert_black_24dp};
 
@@ -152,20 +155,6 @@ public class TrainActivity extends AppCompatActivity {
 
         final int stationsLength = intent.getExtras().getInt("stationsLength");   //역 개수. 즉 stations 라고 앞에 붙은 데이터들의 Length.
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), position + " 번째 값 : " + parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
-                Intent intent = getIntent();
-                de_position = position;
-                Intent intent1 = new Intent(parent.getContext(),PopupActivity.class);
-                intent1.putExtra("data",Integer.toString(total_size));
-                intent1.putExtra("trainName",parent.getItemAtPosition(position).toString());
-                intent1.putExtras(intent);
-                startActivityForResult(intent1,1);
-                //myStartActivity(ViewSeatsActivity.class, parent.getItemAtPosition(position).toString());
-            }
-        });
 
         db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB)
                 .get()
@@ -183,72 +172,31 @@ public class TrainActivity extends AppCompatActivity {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
 
-
-                        db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document(train.get(0)).collection("car")
-                                .get()
-                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull final Task<QuerySnapshot> task2) {
-
-                                        Log.d(TAG, "task2 : " + task2);
-
-                                        if (task2.isSuccessful()) {
-                                            for (QueryDocumentSnapshot queryDocumentSnapshot2 : task2.getResult()) {
-
-                                                final String cnt = queryDocumentSnapshot2.getId();
-
-                                                Log.d(TAG, "count : " + cnt);
-                                                Log.d(TAG, "경로 : " + laneInfoDB + " " + driveInfoDB);
-
-                                                db.collection("Demo_subway").document(laneInfoDB).collection(driveInfoDB).document(train.get(0)).collection("car").document(cnt).collection("section")
-                                                        .get()
-                                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                            @Override
-                                                            public void onComplete(@NonNull final Task<QuerySnapshot> task3) {
-                                                                if (task3.isSuccessful()) {
-                                                                    Log.d(TAG, "디비문 내용 : " + train.get(0) + " " + cnt);
-                                                                    Log.d(TAG, "출발역 : " + stationsStartID[0]);
-                                                                    Log.d(TAG, "도착역 : " + stationsEndSID[stationsLength - 1]);
-                                                                    for (QueryDocumentSnapshot queryDocumentSnapshot : task3.getResult()) {
-                                                                        try {
-                                                                            if (queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && stationsStartID[0] <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsEndSID[stationsLength - 1]) {
-                                                                                total_size++;
-                                                                            }
-                                                                            if (queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && stationsStartID[0] <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsEndSID[stationsLength - 1]) {
-                                                                                total_size++;
-                                                                            }
-                                                                            Thread.sleep(100);
-                                                                            Log.d(TAG, "사이즈 크기는 " + total_size);
-                                                                        } catch (InterruptedException e) {
-                                                                        }
-
-                                                                    }
-                                                                } else {
-                                                                    Log.d(TAG, "ERROR");
-                                                                }
-                                                            }
-                                                        });
-                                                try {
-                                                    Thread.sleep(10);
-                                                } catch (InterruptedException e) {
-
-                                                }
-                                            }
-
-                                        }
-                                    }
-                                });
-
                         listView.setAdapter(new ArrayAdapter<String>(TrainActivity.this, android.R.layout.simple_list_item_1, train));
 
                     }
                 });
 
-
         bt_moreStations.setOnClickListener(onClickListener);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), position + " 번째 값 : " + parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
+                Intent intent = getIntent();
+                Intent intent1 = new Intent(parent.getContext(), PopupActivity.class);
+                //intent1.putExtra("data",Integer.toString(total_size));
 
-
+                intent1.putExtra("trainName", parent.getItemAtPosition(position).toString());
+                intent1.putExtra("laneInfoDB", laneInfoDB);
+                intent1.putExtra("driveInfoDB", driveInfoDB);
+                intent1.putExtra("stationsEndSID", stationsEndSID[stationsLength - 1]);
+                intent1.putExtras(intent);
+                intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivityForResult(intent1, 1);
+                //myStartActivity(ViewSeatsActivity.class, parent.getItemAtPosition(position).toString());
+            }
+        });
 
     }
 
