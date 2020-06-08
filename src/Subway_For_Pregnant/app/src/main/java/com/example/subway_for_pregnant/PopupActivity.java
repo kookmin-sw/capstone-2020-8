@@ -16,6 +16,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Arrays;
+
 
 public class PopupActivity extends Activity {
 
@@ -27,6 +29,7 @@ public class PopupActivity extends Activity {
     int exchangeInfoLength;
     int stationsStartID;
     int stationsEndSID;
+    boolean[] sheet = new boolean[12];
 
     private static final String TAG = "PopupActivity";
     final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -41,6 +44,8 @@ public class PopupActivity extends Activity {
 
         textView = (TextView) findViewById(R.id.txtText);
         textView.setText("로딩중...");
+
+        Arrays.fill(sheet,true);
 
 
         //데이터 가져오기
@@ -94,37 +99,37 @@ public class PopupActivity extends Activity {
                                                                                                        if(exchangeInfoLength > 0) { //환승을 하는 경우
                                                                                                            if(laneInfoDB.equals("line8")){
                                                                                                                if(stationsStartID>=815){
-                                                                                                                   if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && 815 <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= stationsStartID){
-                                                                                                                       total_size++;
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(true) && 815 <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= stationsStartID){
+                                                                                                                       sheet[Integer.parseInt(cnt)-1] = false;
                                                                                                                    }
-                                                                                                                   if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && 815 <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= stationsStartID){
-                                                                                                                       total_size++;
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(true) && 815 <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= stationsStartID){
+                                                                                                                       sheet[Integer.parseInt(cnt)-1] = false;
                                                                                                                    }
                                                                                                                }
                                                                                                                else{
-                                                                                                                   if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= 815){
-                                                                                                                       total_size++;
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(true) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= 815){
+                                                                                                                       sheet[Integer.parseInt(cnt)-1] = false;
                                                                                                                    }
-                                                                                                                   if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= 815){
-                                                                                                                       total_size++;
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(true) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= 815){
+                                                                                                                       sheet[Integer.parseInt(cnt)-1] = false;
                                                                                                                    }
                                                                                                                }
                                                                                                            }
                                                                                                            if(laneInfoDB.equals("line9")){
                                                                                                                if(stationsStartID>=933){
-                                                                                                                   if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && 933 <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= stationsStartID){
-                                                                                                                       total_size++;
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(true) && 933 <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= stationsStartID){
+                                                                                                                       sheet[Integer.parseInt(cnt)-1] = false;
                                                                                                                    }
-                                                                                                                   if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && 933 <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= stationsStartID){
-                                                                                                                       total_size++;
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(true) && 933 <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= stationsStartID){
+                                                                                                                       sheet[Integer.parseInt(cnt)-1] = false;
                                                                                                                    }
                                                                                                                }
                                                                                                                else{
-                                                                                                                   if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= 933){
-                                                                                                                       total_size++;
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(true) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= 933){
+                                                                                                                       sheet[Integer.parseInt(cnt)-1] = false;
                                                                                                                    }
-                                                                                                                   if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= 933){
-                                                                                                                       total_size++;
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(true) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= 933){
+                                                                                                                       sheet[Integer.parseInt(cnt)-1] = false;
                                                                                                                    }
                                                                                                                }
                                                                                                            }
@@ -132,19 +137,19 @@ public class PopupActivity extends Activity {
                                                                                                        }
                                                                                                        else{//환승을 안하는 경우
                                                                                                            if(laneInfoDB.equals("line8")){
-                                                                                                               if (queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsEndSID) {
-                                                                                                                   total_size++;
+                                                                                                               if (queryDocumentSnapshot.getData().get("s1_isReservation").equals(true) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsEndSID) {
+                                                                                                                   sheet[Integer.parseInt(cnt)-1] = false;
                                                                                                                }
-                                                                                                               if (queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsEndSID) {
-                                                                                                                   total_size++;
+                                                                                                               if (queryDocumentSnapshot.getData().get("s2_isReservation").equals(true) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsEndSID) {
+                                                                                                                   sheet[Integer.parseInt(cnt)-1] = false;
                                                                                                                }
                                                                                                            }
                                                                                                            if(laneInfoDB.equals("line9")){
-                                                                                                               if (queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && stationsEndSID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsStartID) {
-                                                                                                                   total_size++;
+                                                                                                               if (queryDocumentSnapshot.getData().get("s1_isReservation").equals(true) && stationsEndSID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsStartID) {
+                                                                                                                   sheet[Integer.parseInt(cnt)-1] = false;
                                                                                                                }
-                                                                                                               if (queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && stationsEndSID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsStartID) {
-                                                                                                                   total_size++;
+                                                                                                               if (queryDocumentSnapshot.getData().get("s2_isReservation").equals(true) && stationsEndSID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsStartID) {
+                                                                                                                   sheet[Integer.parseInt(cnt)-1] = false;
                                                                                                                }
                                                                                                            }
                                                                                                        }
@@ -165,19 +170,19 @@ public class PopupActivity extends Activity {
                                                                                                        if(exchangeInfoLength>0){ //환승을 하는 경우
                                                                                                            if(laneInfoDB.equals("line8")){
                                                                                                                if(815>=stationsStartID){
-                                                                                                                   if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= 815){
-                                                                                                                       total_size++;
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(true) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= 815){
+                                                                                                                       sheet[Integer.parseInt(cnt)-1] = false;
                                                                                                                    }
-                                                                                                                   if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= 815){
-                                                                                                                       total_size++;
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(true) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= 815){
+                                                                                                                       sheet[Integer.parseInt(cnt)-1] = false;
                                                                                                                    }
                                                                                                                }
                                                                                                                else{
-                                                                                                                   if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && 815 <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsStartID){
-                                                                                                                       total_size++;
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(true) && 815 <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsStartID){
+                                                                                                                       sheet[Integer.parseInt(cnt)-1] = false;
                                                                                                                    }
-                                                                                                                   if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && 815 <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsStartID){
-                                                                                                                       total_size++;
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(true) && 815 <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsStartID){
+                                                                                                                       sheet[Integer.parseInt(cnt)-1] = false;
                                                                                                                    }
                                                                                                                }
                                                                                                            }
@@ -185,38 +190,38 @@ public class PopupActivity extends Activity {
                                                                                                            if (laneInfoDB.equals("line9")) {
                                                                                                                if(stationsStartID>=933)
                                                                                                                {
-                                                                                                                   if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= 933){
-                                                                                                                       total_size++;
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(true) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= 933){
+                                                                                                                       sheet[Integer.parseInt(cnt)-1] = false;
                                                                                                                    }
-                                                                                                                   if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= 933){
-                                                                                                                       total_size++;
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(true) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= 933){
+                                                                                                                       sheet[Integer.parseInt(cnt)-1] = false;
                                                                                                                    }
                                                                                                                }
                                                                                                                else{
-                                                                                                                   if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && 933 <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= stationsStartID){
-                                                                                                                       total_size++;
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(true) && 933 <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= stationsStartID){
+                                                                                                                       sheet[Integer.parseInt(cnt)-1] = false;
                                                                                                                    }
-                                                                                                                   if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && 933 <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= stationsStartID){
-                                                                                                                       total_size++;
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(true) && 933 <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= stationsStartID){
+                                                                                                                       sheet[Integer.parseInt(cnt)-1] = false;
                                                                                                                    }
                                                                                                                }
                                                                                                            }
                                                                                                        }
                                                                                                        else{//환승을 안하는 경우
                                                                                                            if(laneInfoDB.equals("line8")){
-                                                                                                               if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && stationsEndSID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsStartID){
-                                                                                                                   total_size++;
+                                                                                                               if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(true) && stationsEndSID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsStartID){
+                                                                                                                   sheet[Integer.parseInt(cnt)-1] = false;
                                                                                                                }
-                                                                                                               if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && stationsEndSID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsStartID){
-                                                                                                                   total_size++;
+                                                                                                               if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(true) && stationsEndSID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsStartID){
+                                                                                                                   sheet[Integer.parseInt(cnt)-1] = false;
                                                                                                                }
                                                                                                            }
                                                                                                            if(laneInfoDB.equals("line9")){
-                                                                                                               if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsEndSID){
-                                                                                                                   total_size++;
+                                                                                                               if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(true) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsEndSID){
+                                                                                                                   sheet[Integer.parseInt(cnt)-1] = false;
                                                                                                                }
-                                                                                                               if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsEndSID){
-                                                                                                                   total_size++;
+                                                                                                               if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(true) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsEndSID){
+                                                                                                                   sheet[Integer.parseInt(cnt)-1] = false;
                                                                                                                }
                                                                                                            }
 
@@ -234,8 +239,7 @@ public class PopupActivity extends Activity {
                                                                                        } else {
                                                                                            Log.d(TAG, "ERROR");
                                                                                        }
-                                                                                       textView.setText("현재 좌석 현황 : ");
-                                                                                       textView.append(Integer.toString(total_size));
+
                                                                                    }
                                                                                });
                                                                        try {
@@ -246,6 +250,13 @@ public class PopupActivity extends Activity {
                                                                    }
 
                                                                }
+                                                               textView.setText("현재 좌석 현황 : ");
+                                                               for(int i=0;i<12;i++){
+                                                                   if(sheet[i] == true){
+                                                                       total_size++;
+                                                                   }
+                                                               }
+                                                               textView.append(Integer.toString(total_size));
                                                            }
                                                        });
                                            }
