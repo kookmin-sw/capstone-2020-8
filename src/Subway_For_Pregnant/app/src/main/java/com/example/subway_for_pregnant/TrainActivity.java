@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -187,12 +188,15 @@ public class TrainActivity extends AppCompatActivity {
                 Intent intent1 = new Intent(parent.getContext(), PopupActivity.class);
                 //intent1.putExtra("data",Integer.toString(total_size));
 
+                intent1.putExtras(intent);
+
                 intent1.putExtra("trainName", parent.getItemAtPosition(position).toString());
+                Log.d(TAG,parent.getItemAtPosition(position).toString());
                 intent1.putExtra("laneInfoDB", laneInfoDB);
                 intent1.putExtra("driveInfoDB", driveInfoDB);
                 intent1.putExtra("stationsEndSID", stationsEndSID[stationsLength - 1]);
-                intent1.putExtras(intent);
-                intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                 startActivityForResult(intent1, 1);
                 //myStartActivity(ViewSeatsActivity.class, parent.getItemAtPosition(position).toString());
             }

@@ -93,19 +93,39 @@ public class PopupActivity extends Activity {
                                                                                                    try {
                                                                                                        if(exchangeInfoLength > 0) { //환승을 하는 경우
                                                                                                            if(laneInfoDB.equals("line8")){
-                                                                                                               if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())< 815){
-                                                                                                                   total_size++;
+                                                                                                               if(stationsStartID>=815){
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && 815 <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= stationsStartID){
+                                                                                                                       total_size++;
+                                                                                                                   }
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && 815 <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= stationsStartID){
+                                                                                                                       total_size++;
+                                                                                                                   }
                                                                                                                }
-                                                                                                               if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())< 815){
-                                                                                                                   total_size++;
+                                                                                                               else{
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= 815){
+                                                                                                                       total_size++;
+                                                                                                                   }
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= 815){
+                                                                                                                       total_size++;
+                                                                                                                   }
                                                                                                                }
                                                                                                            }
                                                                                                            if(laneInfoDB.equals("line9")){
-                                                                                                               if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && 933 < Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= stationsStartID){
-                                                                                                                   total_size++;
+                                                                                                               if(stationsStartID>=933){
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && 933 <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= stationsStartID){
+                                                                                                                       total_size++;
+                                                                                                                   }
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && 933 <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= stationsStartID){
+                                                                                                                       total_size++;
+                                                                                                                   }
                                                                                                                }
-                                                                                                               if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && 933 < Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= stationsStartID){
-                                                                                                                   total_size++;
+                                                                                                               else{
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= 933){
+                                                                                                                       total_size++;
+                                                                                                                   }
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= 933){
+                                                                                                                       total_size++;
+                                                                                                                   }
                                                                                                                }
                                                                                                            }
 
@@ -144,19 +164,41 @@ public class PopupActivity extends Activity {
                                                                                                    try{
                                                                                                        if(exchangeInfoLength>0){ //환승을 하는 경우
                                                                                                            if(laneInfoDB.equals("line8")){
-                                                                                                               if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && 815 < Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsStartID){
-                                                                                                                   total_size++;
+                                                                                                               if(815>=stationsStartID){
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= 815){
+                                                                                                                       total_size++;
+                                                                                                                   }
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= 815){
+                                                                                                                       total_size++;
+                                                                                                                   }
                                                                                                                }
-                                                                                                               if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && 815 < Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsStartID){
-                                                                                                                   total_size++;
+                                                                                                               else{
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && 815 <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsStartID){
+                                                                                                                       total_size++;
+                                                                                                                   }
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && 815 <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId()) <= stationsStartID){
+                                                                                                                       total_size++;
+                                                                                                                   }
                                                                                                                }
                                                                                                            }
+
                                                                                                            if (laneInfoDB.equals("line9")) {
-                                                                                                               if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())< 933){
-                                                                                                                   total_size++;
+                                                                                                               if(stationsStartID>=933)
+                                                                                                               {
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= 933){
+                                                                                                                       total_size++;
+                                                                                                                   }
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= 933){
+                                                                                                                       total_size++;
+                                                                                                                   }
                                                                                                                }
-                                                                                                               if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && stationsStartID <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())< 933){
-                                                                                                                   total_size++;
+                                                                                                               else{
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s1_isReservation").equals(false) && 933 <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= stationsStartID){
+                                                                                                                       total_size++;
+                                                                                                                   }
+                                                                                                                   if(queryDocumentSnapshot.getData().get("s2_isReservation").equals(false) && 933 <= Integer.parseInt(queryDocumentSnapshot.getId()) && Integer.parseInt(queryDocumentSnapshot.getId())<= stationsStartID){
+                                                                                                                       total_size++;
+                                                                                                                   }
                                                                                                                }
                                                                                                            }
                                                                                                        }
