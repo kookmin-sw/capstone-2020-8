@@ -27,37 +27,14 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity">
-
-        </activity>
-        <activity android:name=".RegisterActivity">
-
-        </activity>
-        <activity android:name=".PregnantInitActivity">
-
-        </activity>
-        <activity android:name=".SubwayActivity">
-
-        </activity>
-
-        <activity android:name=".FindSubwayActivity">
-
-        </activity>
-        <activity android:name=".TrainActivity">
-
-        </activity>
-
-        <activity android:name=".ViewSeatsActivity">
-
-        </activity>
-        <activity android:name=".Ready2Activity">
-        </activity>
-        <activity android:name=".SampleBluetoothActivity">
-
-        </activity>
-        <activity android:name=".NodeTestActivity">
-
-        </activity>
+        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".PregnantInitActivity"></activity>
+        <activity android:name=".FindSubwayActivity"></activity>
+        <activity android:name=".TrainActivity"></activity>
+        <activity android:name=".ViewSeatsActivity"></activity>
+        <activity android:name=".Ready2Activity"></activity>
+        <activity android:name=".SampleBluetoothActivity"></activity>
         <activity android:name=".PopupActivity"
             android:theme="@style/Theme.AppCompat.Dialog"></activity>
     </application>

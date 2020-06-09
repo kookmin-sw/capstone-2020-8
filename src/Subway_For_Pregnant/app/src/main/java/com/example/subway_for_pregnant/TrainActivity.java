@@ -1,33 +1,22 @@
 package com.example.subway_for_pregnant;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnTouchListener;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,11 +29,6 @@ import java.util.List;
 
 
 public class TrainActivity extends AppCompatActivity {
-
-    static public int ORIENTATION_HORIZONTAL = 0;
-    static public int ORIENTATION_VERTICAL = 1;
-    private Paint mPaint;
-    private int orientation;
 
     private static final String TAG = "TrainActivity";
     final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -68,21 +52,13 @@ public class TrainActivity extends AppCompatActivity {
 
     int pastStationCount = 0;
     int transferCount = 0;
-    int total_size = 0;
-    int de_position = 0;
     List<String> train = new ArrayList<>();
 
     String showResult1;
     String showResult2;
     int buttonMode = 1;
-    int cnt = 0;
-    int cnt2;
 
     int[] imgs = {R.drawable.node_icon, R.drawable.ic_more_vert_black_24dp};
-
-
-    Context context;
-    AttributeSet attrs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -283,6 +259,7 @@ public class TrainActivity extends AppCompatActivity {
         }
     }
 
+    /*
     private void myStartActivity(Class c, String position) {
         Intent intent = getIntent();
         intent.getExtras();
@@ -292,7 +269,7 @@ public class TrainActivity extends AppCompatActivity {
 
         intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent2);
-    }
+    }*/
 
     private void myStartActivity2(Class c) {
         Intent intent = new Intent(this, c);

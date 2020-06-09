@@ -49,16 +49,14 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
     private static final String TAG = "Beacontest";
     private static final String TAG2 = "NodeTest";
 
-    private static final int TIME_START = 10000;
+    private static final int TIME_START = 1000;
 
     static Socket socket = null;
-    OutputStream os = null;
     static String minor_to;
     String[] room = {"room1", "room2", "room3"};
     static int num = 0;
     FirebaseUser user;
     static String name;
-    static String minor_str;
     static boolean is_reservation = false;
 
     boolean on = false;
@@ -327,6 +325,7 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
         }
     }
 
+    /*
     private void myStartActivity(Class c, int minor) {
         Intent intent = getIntent();
         intent.getExtras();
@@ -334,6 +333,6 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
         intent2.putExtras(intent);
         intent2.putExtra("minor",minor);
         startActivity(intent2);
-    }
+    }*/
 }
 
