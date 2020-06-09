@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F6D2D2"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
 <RelativeLayout
     android:layout_width="match_parent"
@@ -17,8 +16,7 @@
     android:background="#F6D2D2"
     android:weightSum="1"
     android:layout_gravity="center_vertical"
-    android:layout_marginBottom="10dp"
-    >
+    android:layout_marginBottom="10dp">
 
     <TextView
         android:id="@+id/main_text"

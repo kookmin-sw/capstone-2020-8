@@ -116,7 +116,6 @@ public class FindSubwayActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 getReservationInfo = (String) document.getData().get("reservation_info");
                                 historyString = (String) document.getData().get("history");
-                                Log.d(TAG, historyString);
 
                                 if (getReservationInfo.length() > 0) {
                                     reserveInfo = getReservationInfo.split(";");
@@ -126,7 +125,7 @@ public class FindSubwayActivity extends AppCompatActivity {
                                 }
                                 historyTitle = "";
 
-                                if (historyString.length() > 0) {
+                                if (historyString != null && historyString.length() > 0) {
                                     history = historyString.split(";");
                                     for (int i = 0; i < history.length; i++) {
                                         if (i % 2 == 0) {
@@ -338,7 +337,7 @@ public class FindSubwayActivity extends AppCompatActivity {
                                 historyString = (String) document.getData().get("history");
                                 historyStringNew = globalStartStation + ";" + globalEndStation;
 
-                                if (historyString.length() > 0) {
+                                if (historyString != null && historyString.length() > 0) {
                                     history = historyString.split(";");
                                     for (int i = 0; i < history.length; i++) {
                                         if (i >= 6) {

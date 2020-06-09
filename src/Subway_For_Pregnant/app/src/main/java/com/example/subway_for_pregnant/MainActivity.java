@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                     historyTitle = "";
 
-                                    if (historyString.length() > 0) {
+                                    if (historyString != null && historyString.length() > 0) {
                                         history = historyString.split(";");
                                         for (int i = 0; i < history.length; i++) {
                                             if (i % 2 == 0) {

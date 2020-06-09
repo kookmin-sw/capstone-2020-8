@@ -1,31 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#F6D2D2">
-
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#F6D2D2">
+    android:background="#F6D2D2"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
 
     <TextView
         android:id="@+id/title_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="25dp"
         android:background="@drawable/border_layout"
+        android:padding="25dp"
         android:text="좌석 탐색"
-        android:layout_marginTop="23dp"
         android:textAlignment="center"
+        android:textColor="#D6547F"
         android:textSize="40dp"
         android:textStyle="bold"
-        android:textColor="#D6547F"
         app:layout_constraintBottom_toTopOf="@id/railbox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -356,5 +348,3 @@
         android:layout_marginEnd="30dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-</ScrollView>
