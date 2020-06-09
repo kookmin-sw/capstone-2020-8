@@ -9,15 +9,16 @@
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
+        android:padding="25dp"
         android:layout_above="@+id/pregnant_register"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="63dp"
         android:background="@drawable/border_layout"
         android:gravity="center"
         android:text="임산부 인증"
         android:textColor="#D6547F"
-        android:textSize="24sp"
+        android:textSize="40dp"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -63,7 +64,7 @@
             android:background="@drawable/rounded_corner"
             android:text="등록"
             android:textColor="#D6547F"
-            android:textSize="20dp"/>
+            android:textSize="20dp" />
 
     </LinearLayout>
 
