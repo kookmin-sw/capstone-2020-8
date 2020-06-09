@@ -6,7 +6,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var bleRouter = require('./routes/ble');
 
 const firebaseConfig = {
   apiKey: "AIzaSyCfgOZevt5ojBKE1f12zbH30vIVwOjA9QM",
@@ -34,7 +33,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/ble', bleRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -54,33 +52,59 @@ app.use((err, req, res, next) => {
 
 // socket.io
 app.io = require('socket.io')();
-
+let room = ['room0', 'room1'] // 룸 선언
+var a = 0;
 var minor = "";
+var id = "";
+var carNum, seatNum;
+var isReservation = false;
+
 app.io.on('connection', (socket) => {
   console.log("연결");
-    socket.on('login', (data) => { // minor
-        console.log(`minor : ${data}`)
-        // whoIsOn.push(data) 
-        minor = data
-
-        // 아래와 같이 하면 그냥 String 으로 넘어가므로 쉽게 파싱을 할 수 있습니다.
-        // 그냥 넘기면 JSONArray로 넘어가서 복잡해집니다.
-        var minorJson = `${minor}`
-        console.log(minorJson)
+  // join room 추가
+  socket.on('joinRoom', (num) => {
+    socket.join(room[num], () => {
+      console.log('joinroom');
+      app.io.to(room[num]).emit('joinRoom', num);
     });
+  });
+  // leave room 추가
+  socket.on('leaveRoom', (num) => {
+    console.log('leaveroom');
+    socket.leave(room[num]).emit('leaveRoom', num);
+  })
+  socket.on('login', (data, num, email, isR) => { // minor
+    console.log(`minor : ${data}`);
+    // whoIsOn.push(data) 
+    a = num;
+    minor = data;
+    id = email;
+    carNum = minor[0];
+    seatNum = minor[2];
+    isReservation = isR;
+    console.log(`${carNum}, ${seatNum}`);
 
-    socket.on('say', (data) => {
-        console.log(`say msg : ${data}`)
-        socket.emit('myMsg', data)
-    });
 
-    socket.on('disconnect', () => {
-        console.log(`${minor} has left this chatroom ------------------------  `)
-    });
+    var minorJson = `${minor}`;
+    console.log(minorJson);
+    console.log(`a : ${a}, num : ${num}, email : ${email}, `)
+    console.log(`room${num}의 minor : ${data}`);
 
-    socket.on('logout', () => {
-        socket.emit('logout',data);
-    });
+    app.io.to(room[a]).emit('login', data, num, email, isR);
+  });
+
+  socket.on('say', (data) => {
+    console.log(`say msg : ${data}`);
+    socket.emit('myMsg', data);
+  });
+
+  socket.on('disconnect', () => {
+    console.log(`${minor} has left this connection ------------------------  `);
+  });
+
+  socket.on('logout', () => {
+    socket.emit('logout', data);
+  });
 });
 
 console.log("끝")
@@ -88,36 +112,89 @@ console.log("끝")
 // MQTT Server 접속. 센서 데이터 읽기
 var mqtt = require("mqtt") // mqtt 모듈 불러오기
 var client = mqtt.connect("mqtt://192.168.137.1") // mqtt 접속 프로토콜
+var topic_list = ['Pi1', 'Pi2']
 
 client.on("connect", () => {
-  client.subscribe("IoT") // 구독할 토픽
+  client.subscribe(topic_list) // 구독할 토픽
 });
 
 client.on("message", (topic, message) => {
   var db = firebase.firestore();
   var obj = JSON.parse(message); // 객체화
-  let data = {
-    s1_isSit : false,
-  };
-  
-  if(obj.seat === 1) data.s1_isSit = true;
-  console.log(obj.seat);
-  console.log(data.s1_isSit);
 
-  db.collection('Demo_subway').doc('line8').collection('Up').doc('2101').
-  collection('car').doc('1').update(data);
+  console.log(topic);
+  console.log(obj);
 
-  // db.collection('test').doc('tnf').update(data);
+  if(topic === 'Pi1'){
+    if(obj.s1_isSit)
+      client.publish('LED601', '0');
+  }
+  if(topic === 'Pi2'){
+    if(obj.s2_isSit)
+      client.publish('LED602', '0');
+  }
+
+  db.collection('Demo_subway').doc('line8').collection('Down').doc('8201').
+    collection('car').doc('6').update(obj);
 })
 
-function pubMinor(){
-  if(minor != ""){
-    client.publish(minor + "LED", "1")
-    minor = ""
+function pubMinor() {
+  // 8호선 하행, 잠실, 814
+  var db = firebase.firestore();
+  var isUser;
+  if (minor != "") {
+    db.collection('Demo_subway').doc('line8').collection('Down').doc('8201').
+      collection('car').doc(carNum).collection('section').doc('814').get()
+      .then(doc => {
+        if (!doc.exists) {
+          console.log('No such document!');
+        } else {
+          //console.log('Document data:', doc.data());
+          console.log(`seatNum = ${seatNum}`);
+
+          isUser = 's' + seatNum + '_User';
+
+          if (doc.data().s2_User === '') {// 예약이 안되어 있는 경우
+            console.log('예약 안 한 산모 + 예약 안 된 자리')
+            client.publish('LED' + minor, '1')
+            minor = ""
+            return;
+          }
+
+          db.collection('user').where('id', '==', isUser).get()
+            .then(snapshot => {
+              if (snapshot.empty) {
+                console.log(isReservation);
+                if (isReservation) {
+                  console.log('예악한 산모 + <-가 예약 안 한 자리')
+                  return;
+                }
+                // else 다른 사람이 예약되어 잇는 경우 패스
+
+                console.log('예약 안 한 산모 + 예약되어 있는 자리');
+                return;
+              }
+              snapshot.forEach(doc1 => { // 본인이 예약한 자리에 잘 찾아왔을 경우
+                console.log(doc1.id, '=>', doc1.data());
+
+                console.log('예약한 산모 + <-가 예약한 자리')
+                client.publish('LED' + minor, '2')
+                minor = ""
+              });
+            })
+            .catch(err => {
+              console.log('Error getting documents', err);
+            });
+        }
+      })
+      .catch(err => {
+        console.log('Error getting document', err);
+      });
+
   }
 }
 
-setInterval(function() {
+setInterval(() => {
   pubMinor();
 }, 1000);
 
