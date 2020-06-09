@@ -27,7 +27,6 @@
             android:text="자세히" />
 
         <TextView
-            android:drawableStart="@drawable/node_icon"
             android:background="@drawable/border_layout"
             android:id="@+id/textView_sample"
             android:layout_width="wrap_content"
@@ -37,7 +36,8 @@
             android:padding="25dp"
             android:gravity="center|left"
             android:text="지하철 간편도"
-            android:textSize="16sp"
+            android:textSize="22sp"
+            android:scrollbars="vertical"
             />
 
     </LinearLayout>
@@ -58,7 +58,8 @@
         android:gravity="center|left"
         android:text="지하철 열차 현황"
         android:padding="25dp"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:scrollbars="vertical"/>
 
     <ListView
     android:id="@+id/listView"

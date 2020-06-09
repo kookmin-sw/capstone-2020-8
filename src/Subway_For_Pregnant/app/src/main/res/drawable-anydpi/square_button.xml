@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
-        <shape android:shape="oval">
-            <stroke android:color="#E380A1" android:width="5dp" />
+        <shape android:shape="rectangle">
+            <stroke android:color="#F1D9E1" android:width="5dp" />
             <solid android:color="#F1D9E1"/>
             <size android:width="150dp" android:height="150dp"/>
         </shape>
     </item>
 
     <item android:state_pressed="false">
-        <shape android:shape="oval">
+        <shape android:shape="rectangle">
             <stroke android:width = "3dp"
-                android:color= "#E380A1"/>
+                android:color= "#FFFFFF"/>
             <solid android:color="#FFFFFF"/>
             <size android:width="150dp" android:height="150dp"/>
 

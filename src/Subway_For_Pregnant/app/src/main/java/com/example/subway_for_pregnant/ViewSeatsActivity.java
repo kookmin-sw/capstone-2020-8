@@ -1,7 +1,6 @@
 package com.example.subway_for_pregnant;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -641,7 +640,7 @@ public class ViewSeatsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        myStartActivity(MainActivity.class);
+        myStartActivity(TrainActivity.class);
     }
 
     private void startToast(String msg) {

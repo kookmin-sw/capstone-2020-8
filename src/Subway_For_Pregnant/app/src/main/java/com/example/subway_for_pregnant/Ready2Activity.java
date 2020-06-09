@@ -66,6 +66,7 @@ public class Ready2Activity extends AppCompatActivity {
 
         findViewById(R.id.button_sit).setOnClickListener(onClickListener);
         findViewById(R.id.button_cancel).setOnClickListener(onClickListener);
+        findViewById(R.id.LED).setOnClickListener(onClickListener);
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -87,6 +88,8 @@ public class Ready2Activity extends AppCompatActivity {
                     doCancelUser(1);
                     myStartActivity(MainActivity.class);
                     break;
+                case R.id.LED:
+                    myStartActivity(SampleBluetoothActivity.class);
                 default:
                     break;
             }

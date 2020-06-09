@@ -33,6 +33,7 @@
             android:layout_height="60dp"
             android:text="지하철 좌석 예약"
             android:textSize="23dp"
+            android:textColor="#D6547F"
             android:layout_below="@+id/view_toolbar"
             android:layout_marginBottom="15dp"
             android:layout_marginTop="30dp"
@@ -42,19 +43,10 @@
             android:id="@+id/bluetoothButton"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="블루투스 TEST"
+            android:text="좌석 검색"
             android:textSize="23dp"
+            android:textColor="#D6547F"
             android:layout_below="@+id/trainbutton"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/rounded_corner"/>
-
-        <Button
-            android:id="@+id/socketButton"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="Socket TEST"
-            android:textSize="23dp"
-            android:layout_below="@+id/bluetoothButton"
             android:layout_marginBottom="15dp"
             android:background="@drawable/rounded_corner"/>
 
@@ -62,10 +54,11 @@
             android:id="@+id/logoutButton"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_below="@+id/socketButton"
+            android:layout_below="@+id/bluetoothButton"
             android:layout_marginBottom="15dp"
             android:text="로그아웃"
             android:textSize="23dp"
+            android:textColor="#D6547F"
             android:background="@drawable/rounded_corner"/>`
 </RelativeLayout>
 

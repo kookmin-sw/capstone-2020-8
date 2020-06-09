@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -126,7 +125,7 @@ public class FindSubwayActivity extends AppCompatActivity {
                                 }
                                 historyTitle = "";
 
-                                if (historyString.length() > 0) {
+                                if (historyString != null && historyString.length() > 0) {
                                     history = historyString.split(";");
                                     for (int i = 0; i < history.length; i++) {
                                         if (i % 2 == 0) {
@@ -155,6 +154,8 @@ public class FindSubwayActivity extends AppCompatActivity {
                 menuItem.setChecked(true);
                 drawerLayout2.closeDrawers();
 
+                EditText et_startStat = (EditText) findViewById(R.id.editText_startStat);
+                EditText et_endStat = (EditText) findViewById(R.id.editText_endStat);
                 int id = menuItem.getItemId();
                 String title = menuItem.getTitle().toString();
 
@@ -183,9 +184,8 @@ public class FindSubwayActivity extends AppCompatActivity {
                             myStartActivity2(MainActivity.class);
                         } else {
                             try {
-                                globalHistoryStart = history[0];
-                                globalHistoryEnd = history[1];
-                                myStartActivity(FindSubwayActivity.class);
+                                et_startStat.setText(history[0]);
+                                et_endStat.setText(history[1]);
                             }
                             catch (NullPointerException e) {
                                 startToast("기록이 없습니다.");
@@ -202,9 +202,8 @@ public class FindSubwayActivity extends AppCompatActivity {
                             myStartActivity2(MainActivity.class);
                         } else {
                             try {
-                                globalHistoryStart = history[2];
-                                globalHistoryEnd = history[3];
-                                myStartActivity(FindSubwayActivity.class);
+                                et_startStat.setText(history[2]);
+                                et_endStat.setText(history[3]);
                             }
                             catch (NullPointerException e) {
                                 startToast("기록이 없습니다.");
@@ -221,9 +220,8 @@ public class FindSubwayActivity extends AppCompatActivity {
                             myStartActivity2(MainActivity.class);
                         } else {
                             try {
-                                globalHistoryStart = history[4];
-                                globalHistoryEnd = history[5];
-                                myStartActivity(FindSubwayActivity.class);
+                                et_startStat.setText(history[4]);
+                                et_endStat.setText(history[5]);
                             }
                             catch (NullPointerException e) {
                                 startToast("기록이 없습니다.");
@@ -240,9 +238,8 @@ public class FindSubwayActivity extends AppCompatActivity {
                             myStartActivity2(MainActivity.class);
                         } else {
                             try {
-                                globalHistoryStart = history[6];
-                                globalHistoryEnd = history[7];
-                                myStartActivity(FindSubwayActivity.class);
+                                et_startStat.setText(history[6]);
+                                et_endStat.setText(history[7]);
                             }
                             catch (NullPointerException e) {
                                 startToast("기록이 없습니다.");
@@ -340,7 +337,7 @@ public class FindSubwayActivity extends AppCompatActivity {
                                 historyString = (String) document.getData().get("history");
                                 historyStringNew = globalStartStation + ";" + globalEndStation;
 
-                                if (historyString.length() > 0) {
+                                if (historyString != null && historyString.length() > 0) {
                                     history = historyString.split(";");
                                     for (int i = 0; i < history.length; i++) {
                                         if (i >= 6) {
@@ -365,33 +362,6 @@ public class FindSubwayActivity extends AppCompatActivity {
 
             jsonObject = oDsayData.getJson();
             saveHistory();
-            //myStartActivity(TrainActivity.class);
-/*
-            try {
-                //tv_data.setText(jsonObject.toString());
-                //tv_data.setText("" + );
-                tv_data.setText(
-                    "출발역 : " + jsonObject.getJSONObject("result").getString("globalStartName")
-                        + "\n"
-                        + "도착역 : " + jsonObject.getJSONObject("result").getString("globalEndName")
-                        + "\n"
-                        + "걸리는 시간 : " + jsonObject.getJSONObject("result").getInt("globalTravelTime") + "분"
-                        + "\n"
-                        + "총 거리: " + jsonObject.getJSONObject("result").getInt("globalDistance") + "km"
-                        + "\n"
-                        + "총 정거장 : " + jsonObject.getJSONObject("result").getInt("globalStationCount") + "정거장"
-                        + "\n"
-                        + "카드요금 : " + jsonObject.getJSONObject("result").getInt("fare") + "원"
-                        + "\n"
-                        + "현금 : " + jsonObject.getJSONObject("result").getInt("cashFare") + "원"
-                );
-            } catch (JSONException e) {
-                tv_data.setText("ㅁㄴㅇㄻㄴㅇㄹ");
-                e.printStackTrace();
-            } */
-
-// 혹시 모르니 파싱 데이터 내비둘것 2020.04.22
-
         }
 
         @Override
@@ -523,5 +493,10 @@ public class FindSubwayActivity extends AppCompatActivity {
 
     private void startToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        myStartActivity2(MainActivity.class);
     }
 }

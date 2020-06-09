@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                     historyTitle = "";
 
-                                    if (historyString.length() > 0) {
+                                    if (historyString != null && historyString.length() > 0) {
                                         history = historyString.split(";");
                                         for (int i = 0; i < history.length; i++) {
                                             if (i % 2 == 0) {
@@ -370,6 +370,7 @@ public class MainActivity extends AppCompatActivity {
     private void myStartActivity(Class c) {
         Intent intent = new Intent(this, c);
         intent.putExtra("user", user.getEmail());
+        intent.putExtra("cnt2",-1);
         if (globalHistoryStart.length() > 0) {
             intent.putExtra("historyStart", globalHistoryStart);
         }
