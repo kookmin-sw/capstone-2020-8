@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -251,6 +250,11 @@ public class Ready2Activity extends AppCompatActivity {
 
         intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent2);
+    }
+
+    @Override
+    public void onBackPressed() {
+        myStartActivity(MainActivity.class);
     }
 }
 

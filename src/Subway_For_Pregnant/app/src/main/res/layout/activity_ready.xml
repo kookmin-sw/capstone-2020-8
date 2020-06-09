@@ -15,15 +15,6 @@
     android:weightSum="1"
     >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="488dp"
-        android:layout_above="@id/button_wrap"
-        android:layout_below="@id/main_text"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="-11dp"
-        android:background="@drawable/border_layout"></LinearLayout>
-
     <TextView
         android:background="@drawable/border_layout"
         android:id="@+id/main_text"
@@ -35,7 +26,17 @@
         android:textAlignment="center"
         android:textColor="#040404"
         android:textSize="40dp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="488dp"
+        android:layout_above="@id/button_wrap"
+        android:layout_below="@id/main_text"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="-11dp"
+        android:background="@drawable/border_layout"></LinearLayout>
 
 
     <TextView
@@ -54,28 +55,16 @@
         android:textSize="50dp"
         android:textStyle="bold" />
 
-    <ImageView
-        android:id="@+id/center_img"
-        android:background="@drawable/background_line"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:layout_below="@+id/desti_large"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="15dp"
-        android:src="@drawable/ic_directions_railway_black_24dp" />
-
 
     <TextView
         android:id="@+id/textView_current"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
 
-        android:layout_below="@+id/center_img"
+        android:layout_below="@+id/desti_large"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="15dp"
         android:background="@drawable/text_box"

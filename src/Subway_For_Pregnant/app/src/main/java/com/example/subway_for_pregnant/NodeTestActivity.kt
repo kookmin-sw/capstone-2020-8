@@ -28,23 +28,12 @@ class NodeTestActivity : AppCompatActivity() {
         setContentView(R.layout.activity_server)
         try {
             //IO.socket 메소드는 은 저 URL 을 토대로 클라이언트 객체를 Return 합니다.
-           mSocket = IO.socket("https://3f7949b4.ngrok.io")
+           mSocket = IO.socket("http://fae58e2bad96.ngrok.io")
             Log.d("NodeTestActivity","socket 생성")
         } catch (e: URISyntaxException) {
             Log.e("NodeTestActivity", e.reason)
         } catch (e: IOException){
             Log.e("NodeTestActivity", "IO에러")
-        }
-
-        //중요한 것은 아니며 전 액티비티에서 username을 가져왔습니다.
-        //원하시는 방법 대로 username을 가져오시면 될 듯 합니다.
-        try {
-            var intent = intent;
-            username = intent.getStringExtra("username")
-            Log.d(Tag,username)
-        }
-        catch (e: Exception){
-            Log.d(Tag, " username NULL")
         }
 
         try{

@@ -9,13 +9,18 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,6 +31,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.android.material.navigation.NavigationView;
 import org.json.JSONObject;
 
+import com.google.firebase.firestore.SetOptions;
 import com.odsay.odsayandroidsdk.API;
 import com.odsay.odsayandroidsdk.ODsayData;
 import com.odsay.odsayandroidsdk.ODsayService;
@@ -33,10 +39,14 @@ import com.odsay.odsayandroidsdk.OnResultCallbackListener;
 
 import org.json.JSONException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
+    private MenuItem itemHistory[];
     private DrawerLayout drawerLayout;
     private Context context = this;
     private ODsayService odsayService;
@@ -45,6 +55,13 @@ public class MainActivity extends AppCompatActivity {
     FirebaseUser user;
     String getReservationInfo;
     String reserveInfo[];
+    String historyString;
+    String history[];
+    String historyTitle = "";
+    String globalHistoryStart = "";
+    String globalHistoryEnd = "";
+
+    boolean isLoadComplete = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +75,24 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.list);
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View v = navigationView.getHeaderView(0);
+        TextView tv_showID = (TextView) v.findViewById(R.id.textView_showID);
+        Menu nv = navigationView.getMenu();
 
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        itemHistory = new MenuItem[4];
+        itemHistory[0] = nv.findItem(R.id.history1);
+        itemHistory[1] = nv.findItem(R.id.history2);
+        itemHistory[2] = nv.findItem(R.id.history3);
+        itemHistory[3] = nv.findItem(R.id.history4);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         if (user == null) {
             myStartActivity3(LoginActivity.class);
         } else {
+            tv_showID.setText(user.getEmail());
             db.collection("user").whereEqualTo("id", user.getEmail())
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -74,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     getReservationInfo = (String) document.getData().get("reservation_info");
+                                    historyString = (String) document.getData().get("history");
 
                                     if (getReservationInfo.length() > 0) {
                                         reserveInfo = getReservationInfo.split(";");
@@ -81,6 +109,24 @@ public class MainActivity extends AppCompatActivity {
                                             Log.d(TAG, reserveInfo[i]);
                                         }
                                     }
+                                    historyTitle = "";
+
+                                    if (historyString.length() > 0) {
+                                        history = historyString.split(";");
+                                        for (int i = 0; i < history.length; i++) {
+                                            if (i % 2 == 0) {
+                                                historyTitle += history[i];
+                                            } else {
+                                                historyTitle += "/";
+                                                historyTitle += history[i];
+                                                int j = i / 2;
+                                                itemHistory[j].setTitle(historyTitle);
+                                                historyTitle = "";
+                                            }
+                                            Log.d(TAG, history[i]);
+                                        }
+                                    }
+                                    isLoadComplete = true;
                                 }
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
@@ -89,7 +135,6 @@ public class MainActivity extends AppCompatActivity {
                     });
         }
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -101,10 +146,114 @@ public class MainActivity extends AppCompatActivity {
 
                 if (id == R.id.account) {
                     Toast.makeText(context, title + ": 계정 정보를 확인합니다.", Toast.LENGTH_SHORT).show();
+                } else if (id == R.id.callEmergency) {
+                    if (isLoadComplete) {
+                        Intent tel = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:02120"));
+                        startActivity(tel);
+                    }
+                    else {
+                        startToast("유저 정보를 읽어오는 중입니다.");
+                    }
                 } else if (id == R.id.setting) {
                     Toast.makeText(context, title + ": 설정 정보를 확인합니다.", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.logout) {
-                    Toast.makeText(context, title + ": 로그아웃 시도중", Toast.LENGTH_SHORT).show();
+                    if (isLoadComplete) {
+                        FirebaseAuth.getInstance().signOut();
+                        myStartActivity3(MainActivity.class);
+                    }
+                    else {
+                        startToast("유저 정보를 읽어오는 중입니다.");
+                    }
+                } else if (id == R.id.history1) {
+                    if (isLoadComplete) {
+                        if (getReservationInfo.length() > 0) {
+                            startToast("예약된 좌석이 존재합니다.");
+                            doFindSubway();
+                        } else {
+                            try {
+                                globalHistoryStart = history[0];
+                                globalHistoryEnd = history[1];
+                                myStartActivity(FindSubwayActivity.class);
+                            }
+                            catch (NullPointerException e) {
+                                startToast("기록이 없습니다.");
+                            }
+                            catch (ArrayIndexOutOfBoundsException e) {
+                                startToast("기록이 없습니다.");
+                            }
+                        }
+                    }
+                    else {
+                        startToast("유저 정보를 읽어오는 중입니다.");
+                    }
+                } else if (id == R.id.history2) {
+                    if (isLoadComplete) {
+                        if (getReservationInfo.length() > 0) {
+                            startToast("예약된 좌석이 존재합니다.");
+                            doFindSubway();
+                        } else {
+                            try {
+                                globalHistoryStart = history[2];
+                                globalHistoryEnd = history[3];
+                                myStartActivity(FindSubwayActivity.class);
+                            }
+                            catch (NullPointerException e) {
+                                startToast("기록이 없습니다.");
+                            }
+                            catch (ArrayIndexOutOfBoundsException e) {
+                                startToast("기록이 없습니다.");
+                            }
+                        }
+                    }
+                    else {
+                        startToast("유저 정보를 읽어오는 중입니다.");
+                    }
+                } else if (id == R.id.history3) {
+                    if (isLoadComplete) {
+                        if (getReservationInfo.length() > 0) {
+                            startToast("예약된 좌석이 존재합니다.");
+                            doFindSubway();
+                        } else {
+                            try {
+                                globalHistoryStart = history[4];
+                                globalHistoryEnd = history[5];
+                                myStartActivity(FindSubwayActivity.class);
+                            }
+                            catch (NullPointerException e) {
+                                startToast("기록이 없습니다.");
+                            }
+                            catch (ArrayIndexOutOfBoundsException e) {
+                                startToast("기록이 없습니다.");
+                            }
+                        }
+                    }
+                    else {
+                        startToast("유저 정보를 읽어오는 중입니다.");
+                    }
+                } else if (id == R.id.history4) {
+                    if (isLoadComplete) {
+                        if (getReservationInfo.length() > 0) {
+                            startToast("예약된 좌석이 존재합니다.");
+                            doFindSubway();
+                        } else {
+                            try {
+                                globalHistoryStart = history[6];
+                                globalHistoryEnd = history[7];
+                                myStartActivity(FindSubwayActivity.class);
+                            }
+                            catch (NullPointerException e) {
+                                startToast("기록이 없습니다.");
+                            }
+                            catch (ArrayIndexOutOfBoundsException e) {
+                                startToast("기록이 없습니다.");
+                            }
+                        }
+                    }
+                    else {
+                        startToast("유저 정보를 읽어오는 중입니다.");
+                    }
+                } else if (id == R.id.deleteHistory) {
+                    doDeleteHistory();
                 }
 
                 return true;
@@ -117,7 +266,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.logoutButton).setOnClickListener(onClickListener);
         findViewById(R.id.trainbutton).setOnClickListener(onClickListener);
         findViewById(R.id.bluetoothButton).setOnClickListener(onClickListener);
-
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -125,23 +273,68 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.logoutButton:
-                    FirebaseAuth.getInstance().signOut();
-                    myStartActivity3(MainActivity.class);
-                    break;
-                case R.id.trainbutton:
-                    if (getReservationInfo.length() > 0) {
-                        doFindSubway();
+                    if (isLoadComplete) {
+                        FirebaseAuth.getInstance().signOut();
+                        myStartActivity3(MainActivity.class);
                     }
                     else {
-                        myStartActivity(FindSubwayActivity.class);
+                        startToast("유저 정보를 읽어오는 중입니다.");
+                    }
+                    break;
+                case R.id.trainbutton:
+                    if (isLoadComplete) {
+                        if (getReservationInfo.length() > 0) {
+                            doFindSubway();
+                        } else {
+                            myStartActivity(FindSubwayActivity.class);
+                        }
+                    }
+                    else {
+                        startToast("유저 정보를 읽어오는 중입니다.");
                     }
                     break;
                 case R.id.bluetoothButton:
-                    myStartActivity(SampleBluetoothActivity.class);
+                    if (isLoadComplete) {
+                        myStartActivity(SampleBluetoothActivity.class);
+                    }
+                    else {
+                        startToast("유저 정보를 읽어오는 중입니다.");
+                    }
                     break;
-                }
+                default:
+                    break;
             }
-        };
+        }
+    };
+
+    private void doDeleteHistory() {
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Map<String, Object> data = new HashMap<>();
+
+        data.put("history", "");
+        history = null;
+
+        itemHistory[0].setTitle("(히스토리가 없습니다.)");
+        itemHistory[1].setTitle("(히스토리가 없습니다.)");
+        itemHistory[2].setTitle("(히스토리가 없습니다.)");
+        itemHistory[3].setTitle("(히스토리가 없습니다.)");
+
+        db.collection("user").document(user.getEmail())
+                .set(data, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        startToast("기록이 삭제되었습니다.");
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -177,6 +370,12 @@ public class MainActivity extends AppCompatActivity {
     private void myStartActivity(Class c) {
         Intent intent = new Intent(this, c);
         intent.putExtra("user", user.getEmail());
+        if (globalHistoryStart.length() > 0) {
+            intent.putExtra("historyStart", globalHistoryStart);
+        }
+        if (globalHistoryEnd.length() > 0) {
+            intent.putExtra("historyEnd", globalHistoryEnd);
+        }
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
@@ -238,5 +437,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, c);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    private void startToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }
