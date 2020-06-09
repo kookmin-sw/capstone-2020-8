@@ -80,7 +80,7 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
 
                 //비콘 매니저 생성,
         beaconManager = BeaconManager.getInstanceForApplication(this);
-        textView = (TextView) findViewById(R.id.textView7);//비콘검색후 검색내용 뿌려주기위한 textview
+        //textView = (TextView) findViewById(R.id.textView7);//비콘검색후 검색내용 뿌려주기위한 textview
 
         //비콘 매니저에서 layout 설정 'm:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25'
         beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
@@ -161,7 +161,7 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            textView.setText("test");
+            //textView.setText("test");
 
             Log.d(TAG2, "for문전에 진입");
 
@@ -170,7 +170,7 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
 
                 Log.d(TAG2, "for문에 진입");
 
-                String uuid=beacon.getId1().toString(); //beacon uuid
+                String uuid = beacon.getId1().toString(); //beacon uuid
                 int major = beacon.getId2().toInt(); //beacon major
                 int minor = beacon.getId3().toInt();// beacon minor
                 String address = beacon.getBluetoothAddress();
@@ -183,29 +183,28 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
                     Log.d(TAG2, "메이너 진입");
                     //beacon 의 식별을 위하여 major값으로 확인
                     //이곳에 필요한 기능 구현
-                    textView.append("ID 1 : " + beacon.getId2() + " / " + "Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())) + "m\n");
-                    textView.append("임산부석 블루투스 TEST...\n");
-                    textView.append("Beacon Bluetooth Id : " + address + "\n");
-                    textView.append("Beacon UUID : " + uuid + "\n");
-                    textView.append("Beacon MAJOR : " + major + "\n");
-                    textView.append("Beacon MINOR : " + minor_to + "\n");
+                    //textView.append("ID 1 : " + beacon.getId2() + " / " + "Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())) + "m\n");
+                    //textView.append("임산부석 블루투스 TEST...\n");
+                    //textView.append("Beacon Bluetooth Id : " + address + "\n");
+                    //textView.append("Beacon UUID : " + uuid + "\n");
+                    //textView.append("Beacon MAJOR : " + major + "\n");
+                    //textView.append("Beacon MINOR : " + minor_to + "\n");
                 }
 
-
                     //int txpower = beacon.getTxPower();
-                if(Double.parseDouble((String.format("%.3f", beacon.getDistance())))<1) { // 거리가 1m이내일 경우만
+                if(Double.parseDouble((String.format("%.3f", beacon.getDistance())))<3) { // 거리가 1m이내일 경우만
 
                     Log.d(TAG2, "메이저 진입 전");
                     if (major == 10) {
                         Log.d(TAG2, "메이너 진입");
                         //beacon 의 식별을 위하여 major값으로 확인
                         //이곳에 필요한 기능 구현
-                        textView.append("ID 1 : " + beacon.getId2() + " / " + "Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())) + "m\n");
-                        textView.append("임산부석 블루투스 TEST...\n");
-                        textView.append("Beacon Bluetooth Id : " + address + "\n");
-                        textView.append("Beacon UUID : " + uuid + "\n");
-                        textView.append("Beacon MAJOR : " + major + "\n");
-                        textView.append("Beacon MINOR : " + minor_to + "\n");
+                        //textView.append("ID 1 : " + beacon.getId2() + " / " + "Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())) + "m\n");
+                        //textView.append("임산부석 블루투스 TEST...\n");
+                        //textView.append("Beacon Bluetooth Id : " + address + "\n");
+                        //textView.append("Beacon UUID : " + uuid + "\n");
+                        //textView.append("Beacon MAJOR : " + major + "\n");
+                        //textView.append("Beacon MINOR : " + minor_to + "\n");
 
                         try {
                             Log.d(TAG2, "try문 진입");
@@ -242,7 +241,6 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
                         //나머지 비콘검색
                         textView.append("ID 2: " + beacon.getId2() + " / " + "Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())) + "m\n");
                     }
-
                     handler.removeMessages(0);
                     on = true;
                 }
