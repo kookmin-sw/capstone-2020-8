@@ -1,5 +1,6 @@
 package com.example.subway_for_pregnant;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +16,15 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -39,12 +49,15 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
     private static final String TAG = "Beacontest";
     private static final String TAG2 = "NodeTest";
 
-    private static final int TIME_START = 10000;
+    private static final int TIME_START = 1000;
 
     static Socket socket = null;
-    OutputStream os = null;
     static String minor_to;
-
+    String[] room = {"room1", "room2", "room3"};
+    static int num = 0;
+    FirebaseUser user;
+    static String name;
+    static boolean is_reservation = false;
 
     boolean on = false;
 
@@ -59,7 +72,13 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample_bluetooth);
-        //비콘 매니저 생성,
+
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        name = user.getEmail();
+
+
+                //비콘 매니저 생성,
         beaconManager = BeaconManager.getInstanceForApplication(this);
         textView = (TextView) findViewById(R.id.textView7);//비콘검색후 검색내용 뿌려주기위한 textview
 
@@ -68,6 +87,20 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
 
         //beaconManager 설정 bind
         beaconManager.bind(this);
+
+        db.collection("user").document(user.getEmail())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            DocumentSnapshot documentSnapshot = task.getResult();
+                            if(documentSnapshot.getData().get("reservation_info") != ""){
+                                is_reservation = true;
+                            }
+                        }
+                    }
+                });
 
         //beacon 을 활용하려면 블루투스 권한획득(Andoird M버전 이상)
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
@@ -142,11 +175,11 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
                 int minor = beacon.getId3().toInt();// beacon minor
                 String address = beacon.getBluetoothAddress();
 
-                minor_to = Integer.toString(minor);
+                minor_to = Integer.toHexString(minor);
 
                 Log.d(TAG2, "마이너 설정");
 
-                if (major == 1) {
+                if (major == 10) {
                     Log.d(TAG2, "메이너 진입");
                     //beacon 의 식별을 위하여 major값으로 확인
                     //이곳에 필요한 기능 구현
@@ -155,15 +188,15 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
                     textView.append("Beacon Bluetooth Id : " + address + "\n");
                     textView.append("Beacon UUID : " + uuid + "\n");
                     textView.append("Beacon MAJOR : " + major + "\n");
-                    textView.append("Beacon MINOR : " + minor + "\n");
+                    textView.append("Beacon MINOR : " + minor_to + "\n");
                 }
 
 
                     //int txpower = beacon.getTxPower();
-                if(Double.parseDouble((String.format("%.3f", beacon.getDistance())))<3) { // 거리가 1m이내일 경우만
+                if(Double.parseDouble((String.format("%.3f", beacon.getDistance())))<1) { // 거리가 1m이내일 경우만
 
-                Log.d(TAG2, "메이저 진입 전");
-                    if (major == 1) {
+                    Log.d(TAG2, "메이저 진입 전");
+                    if (major == 10) {
                         Log.d(TAG2, "메이너 진입");
                         //beacon 의 식별을 위하여 major값으로 확인
                         //이곳에 필요한 기능 구현
@@ -172,17 +205,22 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
                         textView.append("Beacon Bluetooth Id : " + address + "\n");
                         textView.append("Beacon UUID : " + uuid + "\n");
                         textView.append("Beacon MAJOR : " + major + "\n");
-                        textView.append("Beacon MINOR : " + minor + "\n");
+                        textView.append("Beacon MINOR : " + minor_to + "\n");
 
                         try {
-                            Log.d(TAG2,"try문 진입");
-                            socket = IO.socket("http://6212bbedb44a.ngrok.io");
-                            Log.d(TAG2,"소켓 생성");
+                            Log.d(TAG2, "try문 진입");
+                            socket = IO.socket("http://7ea2a9bbfebc.ngrok.io");
+                            Log.d(TAG2, "소켓 생성");
                             socket.on(Socket.EVENT_CONNECT, onConnect);
-                            Log.d(TAG2,"연결");
+                            Log.d(TAG2, "연결");
                             socket.connect();
-                            socket.on("myMsg",onNewMessage);
-                            Log.d(TAG2,"마이너 보냄");
+                            socket.on("joinRoom", joinNewRoom);
+                            socket.on("myMsg", onNewMessage);
+                            Log.d(TAG2, "마이너 보냄 및 disconnect 보냄");
+
+                            socket.on("leaveRoom", leaveNewRoom);
+
+                            //socket.disconnect();
 
 
                             //if(handler !=null) {
@@ -192,20 +230,18 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
                             break;
                             //}
 
-                        }catch (URISyntaxException e){
-                           throw new RuntimeException(e);
+                        } catch (URISyntaxException e) {
+                            throw new RuntimeException(e);
                         }
                         //textView.append("Beacon TXPOWER : "+txpower+"\n");
 
                         //myStartActivity(NodeTestActivity.class, minor);
 
 
-
                     } else {
                         //나머지 비콘검색
                         textView.append("ID 2: " + beacon.getId2() + " / " + "Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())) + "m\n");
                     }
-
 
                     handler.removeMessages(0);
                     on = true;
@@ -227,6 +263,7 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
         @Override
         public void call(Object... args) {
             socket.emit("say","hi");
+            socket.emit("joinRoom",num);
             Log.d(TAG2, "say 이벤트");
         }
     };
@@ -234,9 +271,31 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
     static Emitter.Listener onNewMessage = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            socket.emit("login",minor_to);
+
+            socket.emit("login",minor_to,num,name,is_reservation);
+
+            socket.emit("leaveRoom",num);
+
+            num++;
+            num = num%3;
+
             Log.d(TAG2, "login 이벤트");
 
+        }
+    };
+
+    static Emitter.Listener joinNewRoom = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            Log.d(TAG2, "joinNewRoom on 이벤트");
+
+        }
+    };
+
+    static Emitter.Listener leaveNewRoom = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            Log.d(TAG2, "joinNewRoom on 이벤트 && 이벤트 끝");
         }
     };
 
@@ -266,6 +325,7 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
         }
     }
 
+    /*
     private void myStartActivity(Class c, int minor) {
         Intent intent = getIntent();
         intent.getExtras();
@@ -273,6 +333,6 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
         intent2.putExtras(intent);
         intent2.putExtra("minor",minor);
         startActivity(intent2);
-    }
+    }*/
 }
 

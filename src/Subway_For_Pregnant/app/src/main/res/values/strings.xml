@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Subway_For_Pregnant</string>
+    <string name="app_name">눈치보이조</string>
     <string name="odsay_key">4ibjC6uSjKVJ07CjXdf3y2dH9/IpDy8ktPv6LTbmHxQ</string>
     <string name="ble_not_supported">BLE is not supported</string>
     <string name="label_data">Data:</string>

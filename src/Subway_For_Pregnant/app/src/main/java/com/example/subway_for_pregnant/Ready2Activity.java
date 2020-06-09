@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -67,6 +66,7 @@ public class Ready2Activity extends AppCompatActivity {
 
         findViewById(R.id.button_sit).setOnClickListener(onClickListener);
         findViewById(R.id.button_cancel).setOnClickListener(onClickListener);
+        findViewById(R.id.LED).setOnClickListener(onClickListener);
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -88,6 +88,8 @@ public class Ready2Activity extends AppCompatActivity {
                     doCancelUser(1);
                     myStartActivity(MainActivity.class);
                     break;
+                case R.id.LED:
+                    myStartActivity(SampleBluetoothActivity.class);
                 default:
                     break;
             }
@@ -251,6 +253,11 @@ public class Ready2Activity extends AppCompatActivity {
 
         intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent2);
+    }
+
+    @Override
+    public void onBackPressed() {
+        myStartActivity(MainActivity.class);
     }
 }
 

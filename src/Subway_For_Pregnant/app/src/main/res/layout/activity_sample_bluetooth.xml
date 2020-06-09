@@ -1,19 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="#F6D2D2">
 
-    <Button
-        android:id="@+id/Run"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="RunButton" />
 
-    <TextView
-        android:id="@+id/textView7"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="20dp"/>
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/Run"
+            android:layout_width="wrap_content"
+            android:layout_height="325dp"
+            android:background="@drawable/round_button"
+            android:padding="10dp"
+            android:text="RunButton"
+            android:textAlignment="center"
+            android:textColor="#D6547F"
+            android:textSize="50dp" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:background="@drawable/text_box"
+            android:padding="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="TextView"
+            android:textSize="20dp" />
+
+
+    </LinearLayout>
+
+
 
 </LinearLayout>
