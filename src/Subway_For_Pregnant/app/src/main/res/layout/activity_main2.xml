@@ -43,7 +43,7 @@
             android:id="@+id/bluetoothButton"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="좌석 LED 점등 버튼"
+            android:text="좌석 검색"
             android:textSize="23dp"
             android:textColor="#D6547F"
             android:layout_below="@+id/trainbutton"
