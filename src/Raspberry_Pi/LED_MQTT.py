@@ -9,15 +9,29 @@ LED_All, LED_Res = 17, 18
 GPIO.setup(LED_All, GPIO.OUT, initial = GPIO.LOW)
 GPIO.setup(LED_Res, GPIO.OUT, initial = GPIO.LOW)
 
+
 def led_pattern(ptn_type):
     
     if str(ptn_type) == "1":
+        for i in range(5):
+            GPIO.output(LED_All, GPIO.HIGH)
+            time.sleep(0.5)
+            GPIO.output(LED_All, GPIO.LOW)
+            time.sleep(0.5)
         GPIO.output(LED_All, GPIO.HIGH)
+        
     elif str(ptn_type) == "2":
+        for i in range(5):
+            GPIO.output(LED_Res, GPIO.HIGH)
+            time.sleep(0.5)
+            GPIO.output(LED_Res, GPIO.LOW)
+            time.sleep(0.5)
         GPIO.output(LED_Res, GPIO.HIGH)
-    else:
+        
+    elif str(ptn_type) == "0":
         GPIO.output(LED_All, GPIO.LOW)
         GPIO.output(LED_Res, GPIO.LOW)
+
 
 # 서버로부터 CONNTACK 응답을 받을 때 호출되는 콜백
 def on_connect(client, userdata, flags, rc):
