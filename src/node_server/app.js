@@ -127,6 +127,15 @@ client.on("message", (topic, message) => {
   console.log(topic);
   console.log(obj);
 
+  if(topic === 'Pi1'){
+    if(obj.s1_isSit)
+      client.publish('LED601', '0');
+  }
+  if(topic === 'Pi2'){
+    if(obj.s2_isSit)
+      client.publish('LED602', '0');
+  }
+
   db.collection('Demo_subway').doc('line8').collection('Down').doc('8201').
     collection('car').doc('6').update(obj);
 })
