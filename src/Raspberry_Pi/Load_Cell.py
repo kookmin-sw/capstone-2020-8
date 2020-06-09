@@ -4,7 +4,7 @@ import paho.mqtt.client as mqtt
 
 EMULATE_HX711=False
 
-referenceUnit = 1
+referenceUnit = 22168 
 
 if not EMULATE_HX711:
     import RPi.GPIO as GPIO
@@ -28,23 +28,23 @@ hx.set_reference_unit(referenceUnit)
 hx.reset()
 hx.tare()
 
-mqtt = mqtt.Client("Pi2") # MQTT Client Name
+mqtt = mqtt.Client("Pi1") # MQTT Client Name
 mqtt.connect("192.168.137.1", 1883) # MQTT Broker Add
 
-cnt = 2
+isSit = "false"
 
 while True:
     try:
         val = hx.get_weight(5)
-        if val <= 20 * 4: # load under 20Kg
-            if cnt % 2 == 0:
-                mqtt.publish("Pi2", "{\"s2_isSit\":true}") # Topic Name, Message
-            else :
-                mqtt.publish("Pi2", "{\"s2_isSit\":false}")
-            cnt += 1 
-        else: # load over 20Kg
-            mqtt.publish("IoT", "{\"s2_isSit\":false}")
-            cnt -= 1
+        print(val)
+        if val > 20: # load over 20Kg
+            if isSit != "true":
+                mqtt.publish("Pi1", "{\"s1_isSit\":true}")
+                isSit = "true"
+        else: # load under 20Kg
+            if isSit != "false":
+                mqtt.publish("Pi1", "{\"s1_isSit\":false}")
+                isSit = "false"
 
         hx.power_down()
         hx.power_up()
@@ -54,5 +54,3 @@ while True:
         cleanAndExit()
         
 mqtt.loop(5)
-
-
