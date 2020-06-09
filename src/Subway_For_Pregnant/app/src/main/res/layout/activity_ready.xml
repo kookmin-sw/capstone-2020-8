@@ -4,41 +4,45 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F6D2D2"
+    android:orientation="vertical"
+    >
 
 <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".Ready2Activity"
     android:orientation="vertical"
     android:background="#F6D2D2"
     android:weightSum="1"
+    android:layout_gravity="center_vertical"
+    android:layout_marginBottom="10dp"
     >
 
     <TextView
-        android:background="@drawable/border_layout"
         android:id="@+id/main_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/border_layout"
+        android:padding="25dp"
         android:text="예약 현황"
         android:textAlignment="center"
         android:textColor="#D6547F"
-        android:textSize="37dp"
-        android:textStyle="bold"
-        android:padding="5dp"
-        />
+        android:textSize="40sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/text_cover"
         android:layout_width="match_parent"
-        android:layout_height="488dp"
+        android:layout_height="414dp"
         android:layout_above="@id/button_wrap"
         android:layout_below="@id/main_text"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="-11dp"
-        android:background="@drawable/border_layout"></LinearLayout>
+        android:layout_marginBottom="-5dp"
+        android:background="@drawable/border_layout"
+        android:orientation="vertical"
+        android:padding="10dp"></LinearLayout>
 
 
     <TextView
@@ -49,11 +53,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="35dp"
         android:layout_marginLeft="55dp"
+        android:layout_marginBottom="25dp"
         android:background="@drawable/border_layout"
         android:gravity="center_horizontal"
         android:text="현재 역"
         android:textAlignment="center"
         android:textColor="#000000"
+        android:padding="23dp"
         android:textSize="50dp"
         android:textStyle="bold" />
 
@@ -62,15 +68,14 @@
         android:id="@+id/textView_current"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-
         android:layout_below="@+id/desti_large"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="30dp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="25dp"
         android:background="@drawable/text_box"
-        android:padding="15dp"
+        android:padding="25dp"
         android:text="출발: \n도착: \n열차칸: "
         android:textColor="@android:color/black"
         android:textSize="28dp"
@@ -116,9 +121,9 @@
             android:id="@+id/button_sit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
             android:background="@drawable/rounded_corner"
             android:text="도착"
+            android:padding="5dp"
             android:textAllCaps="false"
             android:textColor="#D6547F"
             android:textSize="35dp" />
@@ -132,7 +137,21 @@
             android:text="예약취소"
             android:textAllCaps="false"
             android:textColor="#D6547F"
+            android:padding="5dp"
             android:textSize="35dp" />
+
+        <Button
+            android:id="@+id/LED"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/rounded_corner"
+            android:text="LED"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:textColor="#D6547F"
+            android:padding="5dp"
+            android:textSize="35dp"
+            />
     </LinearLayout>
 
 </RelativeLayout>

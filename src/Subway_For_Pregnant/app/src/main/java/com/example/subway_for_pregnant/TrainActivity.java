@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
+import android.text.method.ScrollingMovementMethod;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -71,6 +74,8 @@ public class TrainActivity extends AppCompatActivity {
         Button bt_moreStations = findViewById(R.id.button_moreStations);
         final ListView listView = findViewById(R.id.listView);
 
+        tv_sample.setMovementMethod(new ScrollingMovementMethod());
+
         String laneInfo = "0";
         String driveInfo = "0";
 
@@ -85,11 +90,18 @@ public class TrainActivity extends AppCompatActivity {
         for (int i = 0; i < driveInfoLength; i++) {
             showResult1 += ("<" + driveInfoLaneName[i] + ">\n");
             showResult2 += ("<" + driveInfoLaneName[i] + ">\n");
-            showResult1 += (stationsStartName[count] + "\n");  //현재역
-            showResult2 += (stationsStartName[count] + "\n");  //현재역
-            showResult1 += (stationsEndName[driveInfoStationCount[i] + count - 1] + "\n");
+
+            //tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
+            showResult1 += ("● " + stationsStartName[count] + "\n" + "↓" + "\n");  //현재역
+            //tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
+            showResult2 += ("● " + stationsStartName[count] + "\n" + "↓" + "\n");  //현재역
+
+            //tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
+            showResult1 += ("● " + stationsEndName[driveInfoStationCount[i] + count - 1] + "\n");
+
             for (int j = count; j < driveInfoStationCount[i] + count; j++) {
-                showResult2 += (stationsEndName[j] + "(" + stationsTravelTime[j] + "분)\n");
+                //tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
+                showResult2 += ("● " + stationsEndName[j] + "(" + stationsTravelTime[j] + "분)\n" + "↓" + "\n");
                 //다음역 (현 구간 소요 시간)
             }
 
@@ -97,8 +109,8 @@ public class TrainActivity extends AppCompatActivity {
             showResult2 += (driveInfoStationCount[i] + "개 역 이동\n\n");
 
             if (driveInfoLength > 1 && i < driveInfoLength - 1) {
-                showResult1 += ("빠른 환승: " + exChangeInfoFastTrain[i] + "-" + exChangeInfoFastDoor[i] + "\n");
-                showResult2 += ("빠른 환승: " + exChangeInfoFastTrain[i] + "-" + exChangeInfoFastDoor[i] + "\n");
+                showResult1 += ("== " + "빠른 환승: " + exChangeInfoFastTrain[i] + "-" + exChangeInfoFastDoor[i] + " ==\n");
+                showResult2 += ("== " + "빠른 환승: " + exChangeInfoFastTrain[i] + "-" + exChangeInfoFastDoor[i] + " ==\n");
             }
 
             showResult1 += ("\n");
@@ -190,11 +202,15 @@ public class TrainActivity extends AppCompatActivity {
             switch (v.getId()) {
                 case R.id.button_moreStations:
                     if (buttonMode == 1) {
+
+                        //tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
                         tv_sample.setText(showResult2);
                         bt_moreSt.setText("간단히");
                         buttonMode = 2;
                     }
                     else {
+
+                        //tv_sample.setCompoundDrawablesWithIntrinsicBounds(R.drawable.node_icon,0,0,0);
                         tv_sample.setText(showResult1);
                         bt_moreSt.setText("자세히");
                         buttonMode = 1;

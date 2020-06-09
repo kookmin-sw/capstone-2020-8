@@ -37,6 +37,7 @@
             android:gravity="center|left"
             android:text="지하철 간편도"
             android:textSize="22sp"
+            android:scrollbars="vertical"
             />
 
     </LinearLayout>
@@ -57,7 +58,8 @@
         android:gravity="center|left"
         android:text="지하철 열차 현황"
         android:padding="25dp"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:scrollbars="vertical"/>
 
     <ListView
     android:id="@+id/listView"
