@@ -125,12 +125,12 @@ client.on("message", (topic, message) => {
   console.log(topic);
   console.log(obj);
 
-  if(topic === 'Pi1'){
-    if(obj.s1_isSit)
+  if (topic === 'Pi1') {
+    if (obj.s1_isSit)
       client.publish('LED601', '0');
   }
-  if(topic === 'Pi2'){
-    if(obj.s2_isSit)
+  if (topic === 'Pi2') {
+    if (obj.s2_isSit)
       client.publish('LED602', '0');
   }
 
@@ -154,37 +154,26 @@ function pubMinor() {
 
           isUser = 's' + seatNum + '_User';
 
-          if (doc.data().s2_User === '') {// 예약이 안되어 있는 경우
-            console.log('예약 안 한 산모 + 예약 안 된 자리')
-            client.publish('LED' + minor, '1')
-            minor = ""
-            return;
+          if (isReservation) { // 사용자가 예약을 한 경우
+            if (doc.data().s1_User === id) {// 현재 사용자가 예약한 자리인 경우
+              console.log(doc.id, '=>', doc.data());// 본인이 예약한 자리에 잘 찾아왔을 경우
+              console.log('예약한 산모 + <-가 예약한 자리')
+              client.publish('LED' + minor, '2')
+              
+            } else { // 사용자는 예약했는데 다른 자리에 찾아온 경우
+              console.log('예악한 산모 + <-가 예약 안 한 자리')
+            }
+          } else { // 사용자가 예약하지 않은 경우
+            if (doc.data().s1_User === '') { // 예약하지 않은 사용자 + 예약 안된 자리
+              console.log('예약 안 한 산모 + 예약 안 된 자리')
+              client.publish('LED' + minor, '1')
+             
+            } else { // 예약하지 않은 사용자 + 다른 사람이 예약한 자리
+              console.log('예약 안 한 산모 + 예약되어 있는 자리');
+            }
           }
-
-          db.collection('user').where('id', '==', isUser).get()
-            .then(snapshot => {
-              if (snapshot.empty) {
-                console.log(isReservation);
-                if (isReservation) {
-                  console.log('예악한 산모 + <-가 예약 안 한 자리')
-                  return;
-                }
-                // else 다른 사람이 예약되어 잇는 경우 패스
-
-                console.log('예약 안 한 산모 + 예약되어 있는 자리');
-                return;
-              }
-              snapshot.forEach(doc1 => { // 본인이 예약한 자리에 잘 찾아왔을 경우
-                console.log(doc1.id, '=>', doc1.data());
-
-                console.log('예약한 산모 + <-가 예약한 자리')
-                client.publish('LED' + minor, '2')
-                minor = ""
-              });
-            })
-            .catch(err => {
-              console.log('Error getting documents', err);
-            });
+          minor = ""
+          return;
         }
       })
       .catch(err => {
