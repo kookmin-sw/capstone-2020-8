@@ -154,6 +154,13 @@ function pubMinor() {
 
           isUser = 's' + seatNum + '_User';
 
+          //
+          if(doc.data().s1_isReservation = true) {
+            client.publish('LED' + minor, '3')
+          } else {
+            client.publish('LED' + minor, 'r')
+          }
+
           if (isReservation) { // 사용자가 예약을 한 경우
             if (doc.data().s1_User === id) {// 현재 사용자가 예약한 자리인 경우
               console.log(doc.id, '=>', doc.data());// 본인이 예약한 자리에 잘 찾아왔을 경우
