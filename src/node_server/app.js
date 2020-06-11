@@ -142,6 +142,7 @@ function pubMinor() {
   // 8호선 하행, 잠실, 814
   var db = firebase.firestore();
   var isUser;
+
   if (minor != "") {
     db.collection('Demo_subway').doc('line8').collection('Down').doc('8201').
       collection('car').doc(carNum).collection('section').doc('814').get()
@@ -151,15 +152,7 @@ function pubMinor() {
         } else {
           //console.log('Document data:', doc.data());
           console.log(`seatNum = ${seatNum}`);
-
           isUser = 's' + seatNum + '_User';
-
-          //
-          if(doc.data().s1_isReservation = true) {
-            client.publish('LED' + minor, '3')
-          } else {
-            client.publish('LED' + minor, 'r')
-          }
 
           if (isReservation) { // 사용자가 예약을 한 경우
             if (doc.data().s1_User === id) {// 현재 사용자가 예약한 자리인 경우
