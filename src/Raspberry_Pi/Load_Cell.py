@@ -4,7 +4,7 @@ import paho.mqtt.client as mqtt
 
 EMULATE_HX711=False
 
-referenceUnit = 22168 
+referenceUnit = 21500 # 21500
 
 if not EMULATE_HX711:
     import RPi.GPIO as GPIO
@@ -32,11 +32,13 @@ mqtt = mqtt.Client("Pi1") # MQTT Client Name
 mqtt.connect("192.168.137.1", 1883) # MQTT Broker Add
 
 isSit = "false"
+mqtt.publish("Pi1", "{\"s1_isSit\":false}") # initialization
 
 while True:
     try:
         val = hx.get_weight(5)
         print(val)
+        
         if val > 20: # load over 20Kg
             if isSit != "true":
                 mqtt.publish("Pi1", "{\"s1_isSit\":true}")
@@ -45,7 +47,7 @@ while True:
             if isSit != "false":
                 mqtt.publish("Pi1", "{\"s1_isSit\":false}")
                 isSit = "false"
-
+        
         hx.power_down()
         hx.power_up()
         time.sleep(1)
