@@ -142,7 +142,7 @@
             android:id="@+id/LED"
             android:layout_marginLeft="10dp"
             android:background="@drawable/rounded_corner"
-            android:text="LED"
+            android:text="좌석 검색"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAllCaps="false"

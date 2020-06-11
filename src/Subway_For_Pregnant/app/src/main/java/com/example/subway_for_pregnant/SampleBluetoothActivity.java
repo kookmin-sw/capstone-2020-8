@@ -179,7 +179,7 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
 
                 Log.d(TAG2, "마이너 설정");
 
-                if (major == 10) {
+                if (major == 30288) {
                     Log.d(TAG2, "메이너 진입");
                     //beacon 의 식별을 위하여 major값으로 확인
                     //이곳에 필요한 기능 구현
@@ -195,7 +195,7 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
                 if(Double.parseDouble((String.format("%.3f", beacon.getDistance())))<3) { // 거리가 1m이내일 경우만
 
                     Log.d(TAG2, "메이저 진입 전");
-                    if (major == 10) {
+                    if (major == 30288) {
                         Log.d(TAG2, "메이너 진입");
                         //beacon 의 식별을 위하여 major값으로 확인
                         //이곳에 필요한 기능 구현
@@ -208,7 +208,7 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
 
                         try {
                             Log.d(TAG2, "try문 진입");
-                            socket = IO.socket("http://7ea2a9bbfebc.ngrok.io");
+                            socket = IO.socket("http://ad5345db51b6.ngrok.io");
                             Log.d(TAG2, "소켓 생성");
                             socket.on(Socket.EVENT_CONNECT, onConnect);
                             Log.d(TAG2, "연결");
@@ -216,6 +216,7 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
                             socket.on("joinRoom", joinNewRoom);
                             socket.on("myMsg", onNewMessage);
                             Log.d(TAG2, "마이너 보냄 및 disconnect 보냄");
+                            Log.d(TAG2,""+minor_to);
 
                             socket.on("leaveRoom", leaveNewRoom);
 
@@ -239,7 +240,7 @@ public class SampleBluetoothActivity extends AppCompatActivity implements Beacon
 
                     } else {
                         //나머지 비콘검색
-                        textView.append("ID 2: " + beacon.getId2() + " / " + "Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())) + "m\n");
+                        //textView.append("ID 2: " + beacon.getId2() + " / " + "Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())) + "m\n");
                     }
                     handler.removeMessages(0);
                     on = true;
